@@ -60,7 +60,7 @@ class _ReturnEquipmentDialogState extends State<ReturnEquipmentDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: const Text('Hủy'),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop({

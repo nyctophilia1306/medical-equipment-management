@@ -8,7 +8,7 @@ class ErrorDialog extends StatelessWidget {
   const ErrorDialog({
     super.key,
     required this.errorMessage,
-    this.title = 'Error',
+    this.title = 'Lỗi',
     this.onRetry,
   });
 
@@ -25,14 +25,14 @@ class ErrorDialog extends StatelessWidget {
       ),
       actions: <Widget>[
         TextButton(
-          child: const Text('OK'),
+          child: const Text('Đồng ý'),
           onPressed: () {
             Navigator.of(context).pop();
           },
         ),
         if (onRetry != null)
           TextButton(
-            child: const Text('Try Again'),
+            child: const Text('Thử Lại'),
             onPressed: () {
               Navigator.of(context).pop();
               onRetry!();

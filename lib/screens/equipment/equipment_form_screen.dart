@@ -720,7 +720,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Cancel'),
+            child: const Text('Hủy'),
           ),
           TextButton(
             onPressed: () {

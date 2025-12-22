@@ -517,24 +517,24 @@ class _MainDashboardState extends State<MainDashboard> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Sign Out',
+          'Đăng Xuất',
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Text(
-          'Are you sure you want to sign out?',
+          'Bạn có chắc chắn muốn đăng xuất?',
           style: GoogleFonts.inter(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: const Text('Hủy'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorRed,
             ),
-            child: const Text('Sign Out'),
+            child: const Text('Đăng Xuất'),
           ),
         ],
       ),

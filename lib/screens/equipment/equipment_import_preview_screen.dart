@@ -495,7 +495,7 @@ class _EquipmentImportPreviewDialogState
       children: [
         TextButton(
           onPressed: _importing ? null : () => Navigator.of(context).pop(false),
-          child: const Text('Cancel'),
+          child: const Text('Hủy'),
         ),
         const SizedBox(width: 8),
         if (!_showQrCodes)

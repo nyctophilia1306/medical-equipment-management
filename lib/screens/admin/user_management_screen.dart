@@ -512,7 +512,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 if (!context.mounted) return;
                 Navigator.pop(context);
               },
-              child: Text(isEdit ? 'Update' : 'Create'),
+              child: Text(isEdit ? 'Cập Nhật' : 'Tạo Mới'),
             ),
           ],
         ),
@@ -590,17 +590,17 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete User'),
-        content: Text('Are you sure you want to delete ${user.userName}?'),
+        title: const Text('Xóa Người Dùng'),
+        content: Text('Bạn có chắc chắn muốn xóa ${user.userName}?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: const Text('Hủy'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed),
-            child: const Text('Delete'),
+            child: const Text('Xóa'),
           ),
         ],
       ),
@@ -612,12 +612,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         await _loadUsers();
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('User deleted successfully')),
+          const SnackBar(content: Text('Xóa người dùng thành công')),
         );
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete user: $e')),
+          SnackBar(content: Text('Không thể xóa người dùng: $e')),
         );
       }
     }

@@ -503,7 +503,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                   onPressed: () async {
                     if (nameController.text.trim().isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Category name is required')),
+                        const SnackBar(content: Text('Tên danh mục không được để trống')),
                       );
                       return;
                     }
@@ -513,7 +513,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryBlue,
                   ),
-                  child: Text(isEdit ? 'Update' : 'Add'),
+                  child: Text(isEdit ? 'Cập Nhật' : 'Thêm'),
                 ),
               ],
             );
@@ -606,19 +606,19 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Confirm Delete', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+        title: Text('Xác Nhận Xóa', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
         content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: const Text('Hủy'),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorRed,
             ),
-            child: const Text('Delete'),
+            child: const Text('Xóa'),
           ),
         ],
       ),

@@ -310,7 +310,7 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                             padding: const EdgeInsets.symmetric(vertical: 14),
                             side: const BorderSide(color: Colors.grey),
                           ),
-                          child: const Text('Cancel'),
+                          child: const Text('Hủy'),
                         ),
                       ),
                       const SizedBox(width: 12),
