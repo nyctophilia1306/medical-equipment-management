@@ -356,12 +356,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEdit ? 'Edit Equipment' : 'Add New Equipment'),
+        title: Text(_isEdit ? 'Sửa Thiết Bị' : 'Thêm Thiết Bị Mới'),
         actions: [
           TextButton.icon(
             onPressed: _isLoading ? null : _saveEquipment,
             icon: const Icon(Icons.save),
-            label: Text(_isLoading ? 'Saving...' : 'Save'),
+            label: Text(_isLoading ? 'Đang Lưu...' : 'Lưu'),
           ),
         ],
       ),
@@ -406,17 +406,17 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             
             // Basic Information Card
             _buildSectionCard(
-              title: 'Basic Information',
+              title: 'Thông Tin Cơ Bản',
               children: [
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
-                    labelText: 'Equipment Name *',
-                    hintText: 'Enter the equipment name',
+                    labelText: 'Tên Thiết Bị *',
+                    hintText: 'Nhập tên thiết bị',
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Equipment name is required';
+                      return 'Tên thiết bị là bắt buộc';
                     }
                     return null;
                   },
@@ -426,13 +426,13 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
-                    labelText: 'Description *',
-                    hintText: 'Enter the equipment description',
+                    labelText: 'Mô Tả *',
+                    hintText: 'Nhập mô tả thiết bị',
                   ),
                   maxLines: 3,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Description is required';
+                      return 'Mô tả là bắt buộc';
                     }
                     return null;
                   },
@@ -445,17 +445,17 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _quantityController,
                   decoration: const InputDecoration(
-                    labelText: 'Quantity *',
-                    hintText: 'Enter number of units',
+                    labelText: 'Số Lượng *',
+                    hintText: 'Nhập số lượng',
                   ),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Quantity is required';
+                      return 'Số lượng là bắt buộc';
                     }
                     if (int.tryParse(value) == null) {
-                      return 'Must be a valid number';
+                      return 'Phải là số hợp lệ';
                     }
                     return null;
                   },
@@ -467,7 +467,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 DropdownButtonFormField<String>(
                   initialValue: _statusController.text,
                   decoration: const InputDecoration(
-                    labelText: 'Status *',
+                    labelText: 'Trạng Thái *',
                   ),
                   items: _statuses.map((status) => DropdownMenuItem<String>(
                     value: status,
@@ -480,7 +480,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Status is required';
+                      return 'Trạng thái là bắt buộc';
                     }
                     return null;
                   },
@@ -490,13 +490,13 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             
             // Details Card
             _buildSectionCard(
-              title: 'Additional Details',
+              title: 'Thông Tin Bổ Sung',
               children: [
                 TextFormField(
                   controller: _serialNumberController,
                   decoration: const InputDecoration(
-                    labelText: 'Serial Number',
-                    hintText: 'Enter serial number (optional)',
+                    labelText: 'Số Serial',
+                    hintText: 'Nhập số serial (tùy chọn)',
                   ),
                   onChanged: (value) {
                     // Auto-sync QR code with serial number
@@ -508,8 +508,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _qrCodeController,
                   decoration: const InputDecoration(
-                    labelText: 'QR/Barcode',
-                    hintText: 'Same as Serial Number (auto-filled)',
+                    labelText: 'Mã QR/Barcode',
+                    hintText: 'Giống số serial (tự động điền)',
                     enabled: false,
                   ),
                   enabled: false,
@@ -527,7 +527,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                           });
                         },
                         icon: Icon(_showQrCode ? Icons.visibility_off : Icons.qr_code_2),
-                        label: Text(_showQrCode ? 'Hide QR Code' : 'Show QR Code'),
+                        label: Text(_showQrCode ? 'Ẩn Mã QR' : 'Hiện Mã QR'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryBlue,
                           foregroundColor: AppColors.textOnPrimary,
@@ -538,7 +538,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                         ElevatedButton.icon(
                           onPressed: _downloadQrCode,
                           icon: const Icon(Icons.download),
-                          label: const Text('Download PNG'),
+                          label: const Text('Tải Xuống PNG'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.successGreen,
                             foregroundColor: AppColors.textOnPrimary,
@@ -565,8 +565,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                       child: TextFormField(
                         controller: _manufacturerController,
                         decoration: const InputDecoration(
-                          labelText: 'Manufacturer',
-                          hintText: 'Enter manufacturer name',
+                          labelText: 'Nhà Sản Xuất',
+                          hintText: 'Nhập tên nhà sản xuất',
                         ),
                       ),
                     ),
@@ -575,8 +575,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                       child: TextFormField(
                         controller: _modelController,
                         decoration: const InputDecoration(
-                          labelText: 'Model',
-                          hintText: 'Enter model number',
+                          labelText: 'Mẫu Mã',
+                          hintText: 'Nhập mã mẫu',
                         ),
                       ),
                     ),
@@ -587,8 +587,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _imageUrlController,
                   decoration: const InputDecoration(
-                    labelText: 'Image URL',
-                    hintText: 'Enter URL to equipment image',
+                    labelText: 'Đường Dẫn Hình Ảnh',
+                    hintText: 'Nhập URL hình ảnh thiết bị',
                   ),
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
@@ -596,8 +596,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _notesController,
                   decoration: const InputDecoration(
-                    labelText: 'Notes',
-                    hintText: 'Enter any additional notes',
+                    labelText: 'Ghi Chú',
+                    hintText: 'Nhập ghi chú bổ sung',
                   ),
                   maxLines: 3,
                 ),

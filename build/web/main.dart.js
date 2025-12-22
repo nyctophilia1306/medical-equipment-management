@@ -109904,9 +109904,9 @@ case 2:n=b
 if(n!=null){q.M(new A.aLh(q,n))
 q.uZ()}return A.t(null,r)}})
 return A.u($async$FK,r)},
-L(a){var s=this,r=null,q="MMM dd, yyyy",p=t.p,o=A.Ey(A.b([A.dE(r,r,r,B.kD,r,r,s.gavh(),r,r,r,r,r)],p),r,r,r,0,r,r,r,B.awa),n=s.e,m=s.x,l=A.a0(m).h("a5<1,dS<h>>")
+L(a){var s=this,r=null,q="MMM dd, yyyy",p=t.p,o=A.Ey(A.b([A.dE(r,r,r,B.kD,r,r,s.gavh(),r,r,r,r,r)],p),r,r,r,0,r,r,r,B.aw8),n=s.e,m=s.x,l=A.a0(m).h("a5<1,dS<h>>")
 m=A.a4(new A.a5(m,new A.aLj(),l),l.h("az.E"))
-n=A.b6(r,A.aW(A.b([A.nf(B.a2D,r,24,n,!0,m,r,new A.aLk(s),r,r,t.N),B.a5,A.b6q(B.w8,A.O(A.qT(q,r).hm(s.f)+" - "+A.qT(q,r).hm(s.r),r,r,r,r,r,r,r,r),s.gaA4(),A.aA0(r,r,r,r,r,r,r,r,r,r,r,B.apD,r,r,r,r,r,r,r,r))],p),B.n,B.j,B.k),B.p,B.h,r,r,r,r,r,r,B.aN,r,r,r)
+n=A.b6(r,A.aW(A.b([A.nf(B.a2E,r,24,n,!0,m,r,new A.aLk(s),r,r,t.N),B.a5,A.b6q(B.w8,A.O(A.qT(q,r).hm(s.f)+" - "+A.qT(q,r).hm(s.r),r,r,r,r,r,r,r,r),s.gaA4(),A.aA0(r,r,r,r,r,r,r,r,r,r,r,B.apD,r,r,r,r,r,r,r,r))],p),B.n,B.j,B.k),B.p,B.h,r,r,r,r,r,r,B.aN,r,r,r)
 return A.mo(o,B.cY,A.aW(A.b([n,A.bd(s.w?B.cG:A.le(s.akJ(),r,B.R,B.c0,r,B.al),1)],p),B.n,B.j,B.k),r)},
 akJ(){var s=this,r="Equipment Status Distribution",q=null
 switch(s.e){case"Equipment Usage Over Time":return s.akg()
@@ -110054,7 +110054,7 @@ else if(B.c.n(a,"update")||B.c.n(a,"change"))return B.bF
 else if(B.c.n(a,"delete"))return B.aj
 else if(a==="equipment_status_change")return B.TA
 return B.ej},
-L(a){var s=this,r=null,q=t.p,p=A.Ey(A.b([A.dE(r,r,r,B.kD,r,r,new A.aM6(s),r,r,r,r,r)],q),r,r,r,0,r,r,r,B.awl),o=A.O("Filter by Category",r,r,r,r,A.ad().$3$color$fontSize$fontWeight(B.ac,14,B.G),r,r,r),n=s.as,m=A.a0(n).h("a5<1,b9>")
+L(a){var s=this,r=null,q=t.p,p=A.Ey(A.b([A.dE(r,r,r,B.kD,r,r,new A.aM6(s),r,r,r,r,r)],q),r,r,r,0,r,r,r,B.awk),o=A.O("Filter by Category",r,r,r,r,A.ad().$3$color$fontSize$fontWeight(B.ac,14,B.G),r,r,r),n=s.as,m=A.a0(n).h("a5<1,b9>")
 n=A.a4(new A.a5(n,new A.aM7(s),m),m.h("az.E"))
 o=A.b6(r,A.aW(A.b([o,B.aJ,A.le(A.b3(n,B.n,B.j,B.k,0),r,B.R,r,r,B.bi)],q),B.V,B.j,B.k),B.p,B.h,r,r,r,r,r,r,B.aN,r,r,r)
 if(s.w&&J.eg(s.f))n=B.cG
@@ -110124,7 +110124,7 @@ $0(){return this.a.F4()},
 $S:8}
 A.aM8.prototype={
 $2(a,b){var s,r,q,p,o,n,m,l,k,j,i,h,g=null,f=this.a
-if(b===J.b5(f.f))return new A.b9(B.o5,A.dn(f.w?B.jJ:A.kM(B.a1R,B.awh,new A.aM4(f),g),g,g),g)
+if(b===J.b5(f.f))return new A.b9(B.o5,A.dn(f.w?B.jJ:A.kM(B.a1R,B.awg,new A.aM4(f),g),g,g),g)
 s=J.a9(f.f,b)
 r=f.r.i(0,s.b)
 if(r==null)r="Unknown User"
@@ -110218,7 +110218,7 @@ r=s.a.a.length!==0?A.dE(p,p,p,B.kF,p,p,new A.aOP(q),p,p,p,p,p):p
 r=A.b6(p,A.hn(p,B.bc,!1,p,!0,B.u,p,A.hV(),s,p,p,p,p,p,2,A.fU(p,new A.d2(4,A.aV(8),B.bY),p,p,p,p,p,p,!0,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,p,"Search categories...",p,p,p,p,p,p,p,p,p,!0,!0,p,B.iE,p,p,p,p,p,p,r,p,p,p,p,p),B.R,!0,p,!0,p,!1,p,B.b7,p,p,p,p,p,p,p,p,1,p,p,!1,"\u2022",p,new A.aOQ(q),p,p,p,!1,p,p,!1,p,!0,p,B.bn,p,p,p,p,p,p,p,p,p,p,p,p,!0,B.af,p,B.bC,p,p,p,p),B.p,B.h,p,p,p,p,p,p,B.aN,p,p,p)
 if(q.y)n=B.cG
 else n=J.eg(q.w)?A.dn(A.aW(A.b([A.cA(B.iC,B.K,p,64),B.a5,A.O("No categories found",p,p,p,p,A.ad().$3$color$fontSize$fontWeight(B.ac,18,B.G),p,p,p),B.aJ,A.O("Add a new category to get started",p,p,p,p,A.ad().$2$color$fontSize(B.K,14),p,p,p)],m),B.n,B.bN,B.k),p,p):A.aCv(A.b6a(q.ak4(),B.aN,p,!1),n)
-return A.mo(o,B.cY,A.aW(A.b([r,A.bd(n,1)],m),B.n,B.j,B.k),A.bbt(B.v,B.wc,B.awf,new A.aOR(q)))},
+return A.mo(o,B.cY,A.aW(A.b([r,A.bd(n,1)],m),B.n,B.j,B.k),A.bbt(B.v,B.wc,B.awd,new A.aOR(q)))},
 ak4(){var s,r,q,p,o=this,n=o.apH(),m=A.b([],t.p)
 for(s=n.length,r=0;r<n.length;n.length===s||(0,A.R)(n),++r){q=n[r]
 p=o.ap8(q.a)
@@ -110287,7 +110287,7 @@ case 12:k=a5
 s=k?13:14
 break
 case 13:b=o.c
-if(b!=null)b.Z(t.q).f.d4(B.aq1)
+if(b!=null)b.Z(t.q).f.d4(B.aq0)
 s=15
 return A.n(o.od(),$async$mg)
 case 15:case 14:s=10
@@ -110791,18 +110791,18 @@ $2(a,b){var s,r,q,p,o,n,m,l,k,j=this,i=null,h="\u2022",g=j.c,f=g?"Edit User":"Cr
 f=A.O(f,i,i,i,i,A.ad().$1$fontWeight(B.G),i,i,i)
 s=t.p
 r=A.b([],s)
-if(!g)B.b.R(r,A.b([A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),j.d,i,i,i,i,i,2,B.a2G,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i),B.cy,A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),j.e,i,i,i,i,i,2,B.a2u,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!0,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i),B.cy],s))
+if(!g)B.b.R(r,A.b([A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),j.d,i,i,i,i,i,2,B.a2G,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i),B.cy,A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),j.e,i,i,i,i,i,2,B.a2w,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!0,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i),B.cy],s))
 q=j.f
-r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),q,i,i,i,i,i,2,B.a2o,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
+r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),q,i,i,i,i,i,2,B.a2q,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
 r.push(B.cy)
 p=j.r
-r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),p,i,i,i,i,i,2,B.a2l,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
+r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),p,i,i,i,i,i,2,B.a2n,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
 r.push(B.cy)
 o=j.w
 r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),o,i,i,i,i,i,2,B.a2F,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
 r.push(B.cy)
 n=j.x
-r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),n,i,i,i,i,i,2,B.a2m,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
+r.push(A.hn(i,B.bc,!1,i,!0,B.u,i,A.hV(),n,i,i,i,i,i,2,B.a2o,B.R,!0,i,!0,i,!1,i,B.b7,i,i,i,i,i,i,i,i,1,i,i,!1,h,i,i,i,i,i,!1,i,i,!1,i,!0,i,B.bn,i,i,i,i,i,i,i,i,i,i,i,i,!0,B.af,i,B.bC,i,i,i,i))
 r.push(B.cy)
 m=j.a
 if(m.a==null)l="Select Date of Birth"
@@ -110815,7 +110815,7 @@ r.push(B.cy)
 r.push(A.O("Role *",i,i,i,i,A.ad().$1$fontWeight(B.G),i,i,i))
 l=m.b
 k=t.S
-r.push(new A.Jb(new A.wu(i,new A.by(B.v,t.rc),i,i,i,i,i),A.aW(A.b([A.iw(!1,i,i,i,!0,i,i,!0,i,A.aBO(i,!1,i,i,i,i,l,i,i,i,new A.b0Q(m,b),i,i,i,!1,0,k),i,i,new A.b0R(m,b),!1,i,i,i,i,i,B.aw9,i,i,i),A.iw(!1,i,i,i,!0,i,i,!0,i,A.aBO(i,!1,i,i,i,i,l,i,i,i,new A.b0S(m,b),i,i,i,!1,1,k),i,i,new A.b0T(m,b),!1,i,i,i,i,i,B.awx,i,i,i),A.iw(!1,i,i,i,!0,i,i,!0,i,A.aBO(i,!1,i,i,i,i,l,i,i,i,new A.b0U(m,b),i,i,i,!1,2,k),i,i,new A.b0V(m,b),!1,i,i,i,i,i,B.awg,i,i,i)],s),B.n,B.j,B.k),i))
+r.push(new A.Jb(new A.wu(i,new A.by(B.v,t.rc),i,i,i,i,i),A.aW(A.b([A.iw(!1,i,i,i,!0,i,i,!0,i,A.aBO(i,!1,i,i,i,i,l,i,i,i,new A.b0Q(m,b),i,i,i,!1,0,k),i,i,new A.b0R(m,b),!1,i,i,i,i,i,B.aw7,i,i,i),A.iw(!1,i,i,i,!0,i,i,!0,i,A.aBO(i,!1,i,i,i,i,l,i,i,i,new A.b0S(m,b),i,i,i,!1,1,k),i,i,new A.b0T(m,b),!1,i,i,i,i,i,B.awx,i,i,i),A.iw(!1,i,i,i,!0,i,i,!0,i,A.aBO(i,!1,i,i,i,i,l,i,i,i,new A.b0U(m,b),i,i,i,!1,2,k),i,i,new A.b0V(m,b),!1,i,i,i,i,i,B.awf,i,i,i)],s),B.n,B.j,B.k),i))
 r=A.le(A.aW(r,B.n,B.j,B.ap),i,B.R,i,i,B.al)
 k=A.eC(!1,B.No,i,i,i,i,i,i,new A.b0W(a),i,i)
 return A.lF(A.b([k,A.lX(!1,A.O(g?"C\u1eadp Nh\u1eadt":"T\u1ea1o M\u1edbi",i,i,i,i,i,i,i,i),i,i,i,i,i,i,new A.b0X(m,j.b,g,j.y,q,p,o,n,j.d,j.e,a),i,i)],s),r,f)},
@@ -111032,7 +111032,7 @@ A.aZG.prototype={
 $0(){this.a.w=!1},
 $S:0}
 A.aZD.prototype={
-$1(a){var s=null,r=A.O("Reset Password",s,s,s,s,A.ad().$1$fontWeight(B.G),s,s,s),q=this.b,p=t.p,o=A.aW(A.b([A.O("Enter your email address and we'll send you a link to reset your password.",s,s,s,s,A.ad().$1$fontSize(14),s,s,s),B.a5,A.iF(!1,q,B.a2n,s,s,s,B.qE,1,!1,s,s,s,s)],p),B.n,B.j,B.ap)
+$1(a){var s=null,r=A.O("Reset Password",s,s,s,s,A.ad().$1$fontWeight(B.G),s,s,s),q=this.b,p=t.p,o=A.aW(A.b([A.O("Enter your email address and we'll send you a link to reset your password.",s,s,s,s,A.ad().$1$fontSize(14),s,s,s),B.a5,A.iF(!1,q,B.a2p,s,s,s,B.qE,1,!1,s,s,s,s)],p),B.n,B.j,B.ap)
 return A.lF(A.b([A.eC(!1,B.fA,s,s,s,s,s,s,new A.aZB(a),s,s),A.lX(!1,B.awv,s,s,s,s,s,s,new A.aZC(this.a,q,a),s,s)],p),o,r)},
 $S:49}
 A.aZB.prototype={
@@ -111047,7 +111047,7 @@ r.r.Jr(s).ck(new A.aZA(r),t.P)}},
 $S:0}
 A.aZA.prototype={
 $1(a){var s=this.a.c
-if(s!=null)s.Z(t.q).f.d4(B.aq2)},
+if(s!=null)s.Z(t.q).f.d4(B.aq1)},
 $S:636}
 A.aZz.prototype={
 $1(a){var s=null,r=A.O("Sign In Failed",s,s,s,s,A.ad().$1$fontWeight(B.G),s,s,s),q=A.O(this.a,s,s,s,s,A.ad().$1$fontSize(14),s,s,s)
@@ -111182,7 +111182,7 @@ default:return"Search..."}},
 ak6(){var s,r,q,p=this,o=null
 if(p.f)return B.cG
 s=p.r
-if(s!=null)return A.dn(A.aW(A.b([B.a1t,B.a5,A.O(s,o,o,o,o,B.Nl,B.cP,o,o),B.a5,A.lX(!1,B.aw4,o,o,o,o,o,o,p.ga_G(),o,o)],t.p),B.n,B.bN,B.k),o,o)
+if(s!=null)return A.dn(A.aW(A.b([B.a1t,B.a5,A.O(s,o,o,o,o,B.Nl,B.cP,o,o),B.a5,A.lX(!1,B.aw3,o,o,o,o,o,o,p.ga_G(),o,o)],t.p),B.n,B.bN,B.k),o,o)
 r=p.apq()
 s=r.length
 if(s===0){s=A.cA(B.a0H,B.ic,o,64)
@@ -111490,14 +111490,14 @@ p.M(new A.aNo(p,a0,a))
 if(a0)p.M(new A.aNp(p))
 case 1:return A.t(q,r)}})
 return A.u($async$zc,r)},
-akB(){var s,r,q=this,p=null,o=A.iF(!1,q.w,B.a2C,p,p,p,p,1,!1,p,p,p,p),n=A.iF(!1,q.x,B.a2v,p,p,p,B.Nd,1,!1,p,p,p,p)
+akB(){var s,r,q=this,p=null,o=A.iF(!1,q.w,B.a2C,p,p,p,p,1,!1,p,p,p,p),n=A.iF(!1,q.x,B.a2x,p,p,p,B.Nd,1,!1,p,p,p,p)
 if(q.as==null)s="Select date"
 else{s=A.qT("yyyy-MM-dd",p)
 r=q.as
 r.toString
 r=s.hm(r)
 s=r}r=t.p
-return A.aW(A.b([o,B.aJ,n,B.aJ,A.k8(!1,p,!0,A.b60(p,A.b3(A.b([A.O(s,p,p,p,p,p,p,p,p),B.kE],r),B.n,B.hp,B.k,0),B.a2s,!1,!1,!1,!1,p,p),p,!0,p,p,p,p,p,p,p,p,p,p,new A.aN5(q),p,p,p,p,p,p,p),B.aJ,A.nf(B.a2z,p,24,q.at,!0,B.adx,p,new A.aN6(q),p,p,t.N)],r),B.n,B.j,B.k)},
+return A.aW(A.b([o,B.aJ,n,B.aJ,A.k8(!1,p,!0,A.b60(p,A.b3(A.b([A.O(s,p,p,p,p,p,p,p,p),B.kE],r),B.n,B.hp,B.k,0),B.a2u,!1,!1,!1,!1,p,p),p,!0,p,p,p,p,p,p,p,p,p,p,new A.aN5(q),p,p,p,p,p,p,p),B.aJ,A.nf(B.a2z,p,24,q.at,!0,B.adx,p,new A.aN6(q),p,p,t.N)],r),B.n,B.j,B.k)},
 akh(){var s=null,r=A.b([A.hn(s,B.bc,!1,s,!0,B.u,s,A.hV(),s,s,s,s,s,s,2,B.a2H,B.R,!0,s,!0,s,!1,s,B.b7,s,s,s,s,s,s,s,s,1,s,s,!1,"\u2022",s,s,s,new A.aN2(this),s,!1,s,s,!1,s,!0,s,B.bn,s,s,s,s,s,s,s,s,s,s,s,s,!0,B.af,s,B.bC,s,s,s,s)],t.p),q=this.z
 if(q!=null)r.push(new A.b9(B.Vn,A.O("Selected: "+q,s,s,s,s,s,s,s,s),s))
 return A.aW(r,B.n,B.j,B.k)},
@@ -111507,7 +111507,7 @@ s=A.eC(!1,B.Nq,p,p,p,p,p,p,new A.aN_(q),p,p)
 r=q.ay
 return A.b3(A.b([o,s,B.aV,A.bd(A.O("Return date: "+(r==null?"-":A.Wz(p).hm(r)),p,p,p,p,p,p,p,p),1),A.eC(!1,B.Nq,p,p,p,p,p,p,new A.aN0(q),p,p)],t.p),B.n,B.j,B.k,0)},
 akH(){var s,r=this,q=null,p=t.p
-p=A.b([A.b3(A.b([A.bd(A.kO(!1,q,A.hn(q,B.bc,!1,q,!0,B.u,q,A.hV(),r.r,q,q,q,q,q,2,B.a2A,B.R,!0,q,!0,q,!1,q,B.b7,q,q,q,q,q,q,q,q,1,q,q,!1,"\u2022",q,new A.aNc(r),q,q,q,!1,q,q,!1,q,!0,q,B.bn,q,q,q,q,q,q,q,q,q,q,q,q,!0,B.af,q,B.bC,q,q,q,q),q,q,q,q,!0,q,q,q,new A.aNd(r),q,q),1),B.bQ,A.cr(A.kM(B.a1L,B.awq,r.gaB2(),A.fE(q,q,B.aU,q,q,q,q,q,q,B.h,q,q,B.di,q,q,q,q,q,B.Nk,q)),40,q),B.aV,A.cr(A.lX(!1,B.Nt,q,q,q,q,q,q,r.gaju(),q,A.fE(q,q,q,q,q,q,q,q,q,q,q,q,B.di,q,q,q,q,q,B.Nk,q)),40,q)],p),B.n,B.j,B.k,0)],p)
+p=A.b([A.b3(A.b([A.bd(A.kO(!1,q,A.hn(q,B.bc,!1,q,!0,B.u,q,A.hV(),r.r,q,q,q,q,q,2,B.a2A,B.R,!0,q,!0,q,!1,q,B.b7,q,q,q,q,q,q,q,q,1,q,q,!1,"\u2022",q,new A.aNc(r),q,q,q,!1,q,q,!1,q,!0,q,B.bn,q,q,q,q,q,q,q,q,q,q,q,q,!0,B.af,q,B.bC,q,q,q,q),q,q,q,q,!0,q,q,q,new A.aNd(r),q,q),1),B.bQ,A.cr(A.kM(B.a1L,B.awp,r.gaB2(),A.fE(q,q,B.aU,q,q,q,q,q,q,B.h,q,q,B.di,q,q,q,q,q,B.Nk,q)),40,q),B.aV,A.cr(A.lX(!1,B.Nt,q,q,q,q,q,q,r.gaju(),q,A.fE(q,q,q,q,q,q,q,q,q,q,q,q,B.di,q,q,q,q,q,B.Nk,q)),40,q)],p),B.n,B.j,B.k,0)],p)
 s=r.cx
 if(s.a===0)p.push(B.alY)
 p.push(B.a5)
@@ -112307,8 +112307,8 @@ s.push(A.O(m.c,n,n,n,n,n,n,n,n))
 m=m.as
 if(m!=null&&m.length!==0)B.b.R(s,A.b([B.a5,A.O("Notes:",n,n,n,n,A.e1(n,n,n,n,n,n,n,n,n,n,n,n,n,n,B.a4,n,n,!0,n,n,n,n,n,n,n,n),n,n,n),B.ci,A.O(m,n,n,n,n,n,n,n,n)],r))
 s.push(B.a5)
-m=q?"N/A":k
-s.push(A.O("Serial Number: "+m,n,n,n,n,A.e1(n,n,B.K,n,n,n,n,n,n,n,n,12,n,n,n,n,n,!0,n,n,n,n,n,n,n,n),n,n,n))
+m=q?"Kh\xf4ng c\xf3":k
+s.push(A.O("S\u1ed1 Serial: "+m,n,n,n,n,A.e1(n,n,B.K,n,n,n,n,n,n,n,n,12,n,n,n,n,n,!0,n,n,n,n,n,n,n,n),n,n,n))
 s=A.le(A.aW(s,B.V,B.j,B.ap),n,B.R,n,n,B.al)
 m=A.b([],r)
 if($.hW().q0())B.b.R(m,A.b([A.Lp(B.wb,B.Np,new A.aRj(o,a),n),A.Lp(B.a1c,B.Nn,new A.aRk(o,a),A.kn(n,n,n,n,n,n,n,n,n,B.aj,n,n,n,n,n,n,n,n,n,n,n))],r))
@@ -112589,7 +112589,7 @@ A.dW("Equipment form - Calling safeUpdateEquipment with ID: "+A.i(b))
 s=11
 return A.n(a4.pk(m.fx,k,b,g,e,d,l,c,i,f,h),$async$vc)
 case 11:a4=m.c
-if(a4!=null){a4.Z(t.q).f.d4(B.aq0)
+if(a4!=null){a4.Z(t.q).f.d4(B.aq_)
 a4=m.c
 a4.toString
 A.c7(a4,!1).fa(!0)}s=8
@@ -112606,7 +112606,7 @@ a1=A.bbh(null,j,m.fx,j,new A.bi(b1,0,!1),k,"",g,e,d,l,c,a4,i,a4,h,null)
 s=12
 return A.n(m.e.q7(a1),$async$vc)
 case 12:a4=m.c
-if(a4!=null){a4.Z(t.q).f.d4(B.aq5)
+if(a4!=null){a4.Z(t.q).f.d4(B.aq4)
 a4=m.c
 a4.toString
 A.c7(a4,!1).fa(!0)}case 8:n.push(6)
@@ -112642,12 +112642,12 @@ s=7
 return A.n(i.u3(m),$async$yo)
 case 7:l=b
 if(l==null){i=n.c
-if(i!=null)i.Z(t.q).f.d4(B.aq3)
+if(i!=null)i.Z(t.q).f.d4(B.aq2)
 s=1
 break}s=8
 return A.n(i.Hk(l,"QR_"+A.i(m)),$async$yo)
 case 8:i=n.c
-if(i!=null)i.Z(t.q).f.d4(B.aq4)
+if(i!=null)i.Z(t.q).f.d4(B.aq3)
 p=2
 s=6
 break
@@ -112663,8 +112663,8 @@ break
 case 6:case 1:return A.t(q,r)
 case 2:return A.r(o.at(-1),r)}})
 return A.u($async$yo,r)},
-L(a){var s=this,r=null,q=A.O(s.x?"Edit Equipment":"Add New Equipment",r,r,r,r,r,r,r,r),p=s.w,o=p?r:s.gazw()
-return A.mo(A.Ey(A.b([A.Lp(B.w6,A.O(p?"Saving...":"Save",r,r,r,r,r,r,r,r),o,r)],t.p),r,r,r,r,r,r,r,q),r,s.akl(),r)},
+L(a){var s=this,r=null,q=A.O(s.x?"S\u1eeda Thi\u1ebft B\u1ecb":"Th\xeam Thi\u1ebft B\u1ecb M\u1edbi",r,r,r,r,r,r,r,r),p=s.w,o=p?r:s.gazw()
+return A.mo(A.Ey(A.b([A.Lp(B.w6,A.O(p?"\u0110ang L\u01b0u...":"L\u01b0u",r,r,r,r,r,r,r,r),o,r)],t.p),r,r,r,r,r,r,r,q),r,s.akl(),r)},
 akl(){var s,r,q,p,o,n,m,l,k,j=this,i=null
 if(j.w&&!j.x)return B.cG
 s=t.p
@@ -112674,54 +112674,54 @@ p=A.aV(8)
 o=A.fB(A.a2(B.d.am(76.5),B.aj.q()>>>16&255,B.aj.q()>>>8&255,B.aj.q()&255),1)
 r.push(A.b6(i,A.b3(A.b([B.a1a,B.bR,A.bd(A.O(j.y,i,i,i,i,A.ad().$1$color(B.aj),i,i,i),1)],s),B.n,B.j,B.k,0),B.p,i,i,new A.b7(q,i,o,p,i,i,B.D),i,i,i,B.h2,B.aN,i,i,i))}q=j.Q
 q===$&&A.a()
-q=A.iF(!1,q,B.a2t,i,i,i,i,1,!1,i,i,i,new A.aSc())
+q=A.iF(!1,q,B.a2h,i,i,i,i,1,!1,i,i,i,new A.aSc())
 p=j.as
 p===$&&A.a()
-p=A.iF(!1,p,B.a2E,i,i,i,i,3,!1,i,i,i,new A.aSd())
+p=A.iF(!1,p,B.a2i,i,i,i,i,3,!1,i,i,i,new A.aSd())
 o=j.ak3()
 n=j.ax
 n===$&&A.a()
-n=A.iF(!1,n,B.a2y,i,i,A.b([$.biv()],t.VS),B.ard,1,!1,i,i,i,new A.aSe())
+n=A.iF(!1,n,B.a2t,i,i,A.b([$.biv()],t.VS),B.ard,1,!1,i,i,i,new A.aSe())
 m=j.ay
 m===$&&A.a()
 m=m.a.a
 l=j.fy
 k=A.a0(l).h("a5<1,dS<h>>")
 l=A.a4(new A.a5(l,new A.aSf(),k),k.h("az.E"))
-r.push(j.WE(A.b([q,B.a5,p,B.a5,o,B.a5,n,B.a5,B.a5,A.nf(B.a2B,i,24,m,!0,l,i,new A.aSg(j),i,new A.aSh(),t.N)],s),"Basic Information"))
+r.push(j.WE(A.b([q,B.a5,p,B.a5,o,B.a5,n,B.a5,B.a5,A.nf(B.a2r,i,24,m,!0,l,i,new A.aSg(j),i,new A.aSh(),t.N)],s),"Th\xf4ng Tin C\u01a1 B\u1ea3n"))
 q=j.cx
 q===$&&A.a()
-q=A.iF(!1,q,B.a2r,i,i,i,i,1,!1,new A.aSi(j),i,i,i)
+q=A.iF(!1,q,B.a2m,i,i,i,i,1,!1,new A.aSi(j),i,i,i)
 p=j.CW
 p===$&&A.a()
-p=A.b([q,B.a5,A.iF(!1,p,B.a2j,!1,i,i,i,1,!1,i,i,i,i),B.a5],s)
+p=A.b([q,B.a5,A.iF(!1,p,B.a2s,!1,i,i,i,1,!1,i,i,i,i),B.a5],s)
 if(j.cx.a.a.length!==0){q=j.z
 o=A.cA(q?B.vX:B.vT,i,i,i)
-o=A.b([A.kM(o,A.O(q?"Hide QR Code":"Show QR Code",i,i,i,i,i,i,i,i),new A.aSj(j),A.fE(i,i,B.v,i,i,i,i,i,i,B.h,i,i,i,i,i,i,i,i,i,i)),B.bR],s)
-if(j.z)o.push(A.kM(B.a1N,B.aw7,j.ganJ(),A.fE(i,i,B.br,i,i,i,i,i,i,B.h,i,i,i,i,i,i,i,i,i,i)))
+o=A.b([A.kM(o,A.O(q?"\u1ea8n M\xe3 QR":"Hi\u1ec7n M\xe3 QR",i,i,i,i,i,i,i,i),new A.aSj(j),A.fE(i,i,B.v,i,i,i,i,i,i,B.h,i,i,i,i,i,i,i,i,i,i)),B.bR],s)
+if(j.z)o.push(A.kM(B.a1N,B.awq,j.ganJ(),A.fE(i,i,B.br,i,i,i,i,i,i,B.h,i,i,i,i,i,i,i,i,i,i)))
 q=A.b([A.b3(o,B.n,B.j,B.k,0)],s)
 if(j.z)B.b.R(q,A.b([B.a5,A.dn(j.r.a4F(j.cx.a.a,!0,200),i,i)],s))
 q.push(B.a5)
 B.b.R(p,q)}q=j.cy
 q===$&&A.a()
-q=A.bd(A.iF(!1,q,B.a2x,i,i,i,i,1,!1,i,i,i,i),1)
+q=A.bd(A.iF(!1,q,B.a2D,i,i,i,i,1,!1,i,i,i,i),1)
 o=j.db
 o===$&&A.a()
-p.push(A.b3(A.b([q,B.bR,A.bd(A.iF(!1,o,B.a2w,i,i,i,i,1,!1,i,i,i,i),1)],s),B.n,B.j,B.k,0))
+p.push(A.b3(A.b([q,B.bR,A.bd(A.iF(!1,o,B.a2y,i,i,i,i,1,!1,i,i,i,i),1)],s),B.n,B.j,B.k,0))
 p.push(B.a5)
 s=j.ch
 s===$&&A.a()
-p.push(A.iF(!1,s,B.a2h,i,i,i,i,1,!1,i,i,i,i))
+p.push(A.iF(!1,s,B.a2v,i,i,i,i,1,!1,i,i,i,i))
 p.push(B.a5)
 s=j.dx
 s===$&&A.a()
-p.push(A.iF(!1,s,B.a2q,i,i,i,i,3,!1,i,i,i,i))
-r.push(j.WE(p,"Additional Details"))
+p.push(A.iF(!1,s,B.a2j,i,i,i,i,3,!1,i,i,i,i))
+r.push(j.WE(p,"Th\xf4ng Tin B\u1ed5 Sung"))
 return A.b5N(i,A.le(A.aW(r,B.V,B.j,B.k),i,B.R,B.c0,i,B.al),j.d)},
 ak3(){var s,r,q,p=this,o=null
 if(J.eg(p.dy)){s=p.at
 s===$&&A.a()
-return A.iF(!1,s,B.a2i,o,o,o,o,1,!1,o,o,o,new A.aS6())}s=p.fx
+return A.iF(!1,s,B.a2k,o,o,o,o,1,!1,o,o,o,new A.aS6())}s=p.fx
 r=p.fr.length===0?"Enter category":"Select or enter category"
 r=A.fU(o,o,o,o,o,o,o,o,!0,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,o,r,o,o,o,o,o,o,o,o,"Category *",!0,!0,o,o,o,o,o,o,o,o,A.dE(o,o,o,B.kF,o,o,new A.aS7(p),o,o,o,o,o),o,o,o,o,o)
 q=t.kZ
@@ -112793,7 +112793,7 @@ A.ii(s,s,!0,s,new A.aSp(this.b),r,s,!0,!0,t.z)},
 $S:0}
 A.aSp.prototype={
 $1(a){var s=null,r=A.le(A.O(this.a,s,s,s,s,s,s,s,s),s,B.R,s,s,B.al)
-return A.lF(A.b([A.eC(!1,B.qJ,s,s,s,s,s,s,new A.aSo(a),s,s)],t.p),r,B.aw3)},
+return A.lF(A.b([A.eC(!1,B.qJ,s,s,s,s,s,s,new A.aSo(a),s,s)],t.p),r,B.aw2)},
 $S:49}
 A.aSo.prototype={
 $0(){return A.c7(this.a,!1).ei()},
@@ -112802,16 +112802,16 @@ A.aSw.prototype={
 $0(){this.a.w=!1},
 $S:0}
 A.aSc.prototype={
-$1(a){if(a==null||a.length===0)return"Equipment name is required"
+$1(a){if(a==null||a.length===0)return"T\xean thi\u1ebft b\u1ecb l\xe0 b\u1eaft bu\u1ed9c"
 return null},
 $S:55}
 A.aSd.prototype={
-$1(a){if(a==null||a.length===0)return"Description is required"
+$1(a){if(a==null||a.length===0)return"M\xf4 t\u1ea3 l\xe0 b\u1eaft bu\u1ed9c"
 return null},
 $S:55}
 A.aSe.prototype={
-$1(a){if(a==null||a.length===0)return"Quantity is required"
-if(A.fc(a,null)==null)return"Must be a valid number"
+$1(a){if(a==null||a.length===0)return"S\u1ed1 l\u01b0\u1ee3ng l\xe0 b\u1eaft bu\u1ed9c"
+if(A.fc(a,null)==null)return"Ph\u1ea3i l\xe0 s\u1ed1 h\u1ee3p l\u1ec7"
 return null},
 $S:55}
 A.aSf.prototype={
@@ -112825,7 +112825,7 @@ s===$&&A.a()
 s.sdl(0,a)}},
 $S:32}
 A.aSh.prototype={
-$1(a){if(a==null||a.length===0)return"Status is required"
+$1(a){if(a==null||a.length===0)return"Tr\u1ea1ng th\xe1i l\xe0 b\u1eaft bu\u1ed9c"
 return null},
 $S:55}
 A.aSi.prototype={
@@ -113000,7 +113000,7 @@ throw A.c(e)}case 1:return A.t(q,r)}})
 return A.u($async$NE,r)},
 yB(){var s=0,r=A.v(t.H),q,p=2,o=[],n=this,m,l,k,j,i,h,g,f
 var $async$yB=A.q(function(a,b){if(a===1){o.push(b)
-s=p}while(true)switch(s){case 0:if(!J.h7(n.r,new A.aSJ()).gaj(0)){n.c.Z(t.q).f.d4(B.aq_)
+s=p}while(true)switch(s){case 0:if(!J.h7(n.r,new A.aSJ()).gaj(0)){n.c.Z(t.q).f.d4(B.aq5)
 s=1
 break}n.M(new A.aSK(n))
 p=4
@@ -113137,7 +113137,7 @@ if(!q.Q){o=a.e
 s=A.ad().$1$fontSize(12)
 r=J.f5(q.w,new A.aSF(),t.kZ)
 r=A.a4(r,r.$ti.h("az.E"))
-n.push(A.nf(B.a2p,p,24,o,!0,r,p,new A.aSG(q,a),s,p,t.S))}else{o=A.b([],o)
+n.push(A.nf(B.a2B,p,24,o,!0,r,p,new A.aSG(q,a),s,p,t.S))}else{o=A.b([],o)
 s=a.r
 if(s!=null)o.push(q.e.a4F(s,!1,200))
 o.push(B.mq)
@@ -113152,7 +113152,7 @@ if(!p.Q){s=p.y?o:p.gaoZ()
 n.push(A.kM(B.a1U,B.avH,s,A.fE(o,o,B.v,o,o,o,o,o,o,B.h,o,o,o,o,o,o,o,o,o,o)))}else{s=p.z
 r=s?o:p.gazv()
 q=s?B.apI:B.w6
-n.push(A.kM(q,A.O(s?"Saving...":"Save All",o,o,o,o,o,o,o,o),r,A.fE(o,o,B.aU,o,o,o,o,o,o,B.h,o,o,o,o,o,o,o,o,o,o)))}return A.b3(n,B.n,B.ho,B.k,0)}}
+n.push(A.kM(q,A.O(s?"\u0110ang L\u01b0u...":"L\u01b0u T\u1ea5t C\u1ea3",o,o,o,o,o,o,o,o),r,A.fE(o,o,B.aU,o,o,o,o,o,o,B.h,o,o,o,o,o,o,o,o,o,o)))}return A.b3(n,B.n,B.ho,B.k,0)}}
 A.aSN.prototype={
 $0(){var s=this.a
 s.x=!0
@@ -115672,7 +115672,7 @@ s=A.O("Category: "+(s==null?"General":s),l,l,l,l,B.atV,l,l,l)
 r=t.kZ
 q=J.je(h,r)
 for(p=0;p<h;p=o){o=p+1
-q[p]=new A.dS(o,A.O(""+o,l,l,l,l,B.qH,l,l,l),B.cT,l,r)}h=A.b([A.bd(A.b3(A.b([B.avU,B.aV,A.bd(A.nf(B.a2k,B.a0W,18,m.d,!0,q,200,new A.aqs(m),B.qH,l,t.S),1)],j),B.n,B.j,B.k,0),1),B.bQ],j)
+q[p]=new A.dS(o,A.O(""+o,l,l,l,l,B.qH,l,l,l),B.cT,l,r)}h=A.b([A.bd(A.b3(A.b([B.avU,B.aV,A.bd(A.nf(B.a2l,B.a0W,18,m.d,!0,q,200,new A.aqs(m),B.qH,l,t.S),1)],j),B.n,B.j,B.k,0),1),B.bQ],j)
 k=k.y
 if(k!=null&&k.length!==0){r=A.fB(B.b8,1)
 n=A.aV(4)
@@ -115715,7 +115715,7 @@ return A.yx(A.k8(!1,k,!0,new A.b9(B.aN,A.aW(j,B.V,B.j,B.k),n),n,!0,n,n,n,n,n,n,n
 Wx(a,b,c,d){var s=null,r=A.cA(b,c?B.bd:B.d5,s,14),q=A.O(d,s,s,s,s,A.e1(s,s,B.bL,s,s,s,s,s,s,s,s,10,s,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s,s),p=B.c.e1(B.e.j(A.bH(a)),2,"0"),o=B.c.e1(B.e.j(A.b2(a)),2,"0"),n=t.p
 return A.b3(A.b([r,B.dE,A.bd(A.aW(A.b([q,A.O(p+"/"+o+"/"+A.aL(a),s,s,s,s,A.e1(s,s,c?B.bd:B.aq,s,s,s,s,s,s,s,s,12,s,s,B.Y,s,s,!0,s,s,s,s,s,s,s,s),s,s,s)],n),B.V,B.j,B.k),1)],n),B.n,B.j,B.k,0)},
 ak9(a,b,c){return this.Wx(a,b,!1,c)},
-akf(){var s=A.b([B.awb,B.aJ],t.p)
+akf(){var s=A.b([B.aw9,B.aJ],t.p)
 B.b.R(s,J.f5(this.a.d,new A.aTT(this),t.l7))
 return A.aW(s,B.V,B.j,B.k)}}
 A.aTV.prototype={
@@ -115777,7 +115777,7 @@ p=!0
 break}}}if(!p&&m.c!=null)m.c.Z(t.q).f.d4(A.ep(l,l,l,B.hr,l,B.u,l,A.O("Equipment not found in this request: "+s,l,l,l,l,l,l,l,l),l,B.dT,l,l,l,l,l,l,l,l,l))},
 gze(){var s=this.d,r=A.l(s).h("bX<2>")
 return new A.aX(new A.bX(s,r),new A.aWV(),r.h("aX<p.E>")).gA(0)},
-L(a){var s,r,q,p,o=this,n=null,m=A.aV(16),l=t.p,k=A.b([A.b6(n,A.b3(A.b([B.a0X,B.bQ,A.bd(A.aW(A.b([B.awd,A.O("Request #"+o.a.c,n,n,n,n,B.Ng,n,n,n)],l),B.V,B.j,B.k),1),A.dE(n,n,n,B.a17,n,n,new A.aX0(a),n,n,n,n,n)],l),B.n,B.j,B.k,0),B.p,n,n,new A.b7(B.v,n,n,B.OX,n,n,B.D),n,n,n,n,B.bn,n,n,n)],l)
+L(a){var s,r,q,p,o=this,n=null,m=A.aV(16),l=t.p,k=A.b([A.b6(n,A.b3(A.b([B.a0X,B.bQ,A.bd(A.aW(A.b([B.awb,A.O("Request #"+o.a.c,n,n,n,n,B.Ng,n,n,n)],l),B.V,B.j,B.k),1),A.dE(n,n,n,B.a17,n,n,new A.aX0(a),n,n,n,n,n)],l),B.n,B.j,B.k,0),B.p,n,n,new A.b7(B.v,n,n,B.OX,n,n,B.D),n,n,n,n,B.bn,n,n,n)],l)
 if(o.f){s=A.aV(12)
 r=A.fB(B.v,2)
 k.push(A.b6(n,A.jv(B.c4,A.b([A.bcF(o.e,o.gaqc()),A.dn(A.b6(n,n,B.p,n,n,new A.b7(n,n,A.fB(B.aU,3),A.aV(12),n,n,B.D),n,200,n,n,n,n,n,200),n,n),A.l6(16,A.dn(A.kM(B.a1e,B.aws,o.gaBh(),A.fE(n,n,B.bd,n,n,n,n,n,n,B.h,n,n,B.kc,n,n,n,n,n,n,n)),n,n),n,n,0,0,n,n)],l),B.u,B.bS,n),B.cn,n,n,new A.b7(n,n,r,s,n,n,B.D),n,250,n,B.aN,n,n,n,n))}s=B.v.eb(0.1)
@@ -115789,7 +115789,7 @@ r=A.b([A.b6(n,A.b3(A.b([A.cA(p,B.v,n,n),B.bQ,A.O("Selected: "+o.gze()+" / "+q.a+
 B.b.R(r,J.f5(o.a.d,new A.aX1(o),t.l7))
 k.push(A.bd(A.b6a(r,B.aN,n,!1),1))
 r=A.b([],l)
-if(!o.f)r.push(A.cr(A.kM(B.a1D,B.awn,o.gaBa(),A.fE(n,n,B.v,n,n,n,n,n,n,B.h,n,n,B.ka,n,n,n,n,n,B.qI,n)),n,1/0))
+if(!o.f)r.push(A.cr(A.kM(B.a1D,B.awm,o.gaBa(),A.fE(n,n,B.v,n,n,n,n,n,n,B.h,n,n,B.ka,n,n,n,n,n,B.qI,n)),n,1/0))
 r.push(B.cy)
 s=A.bd(A.b6p(!1,B.fA,n,n,n,n,n,n,new A.aX2(a),n,A.aA0(n,n,n,n,n,n,n,n,n,n,n,n,B.ka,n,n,B.P1,n,n,n,n)),1)
 q=o.gze()>0?new A.aX3(o,a):n
@@ -133533,15 +133533,15 @@ B.l=new A.j(0,0)
 B.aop=new A.ld(B.q,B.l,8)
 B.aaz=s([B.aop],t.kO)
 B.at3=new A.z(!0,B.h,null,null,null,null,14,B.G,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.aaz,null,null,null)
-B.awo=new A.bu("Position QR code here",null,B.at3,null,null,null,null,null,null,null,null)
-B.RY=new A.ha(B.a1,null,null,B.awo,null)
+B.awn=new A.bu("Position QR code here",null,B.at3,null,null,null,null,null,null,null,null)
+B.RY=new A.ha(B.a1,null,null,B.awn,null)
 B.aC8=new A.aKP(0,"material")
 B.jJ=new A.n7(null,null,null,null,null,null,null,null,null,null)
 B.cG=new A.ha(B.a1,null,null,B.jJ,null)
-B.awe=new A.bu("Screen not found",null,null,null,null,null,null,null,null,null,null)
-B.S_=new A.ha(B.a1,null,null,B.awe,null)
-B.awm=new A.bu("Chart not available",null,null,null,null,null,null,null,null,null,null)
-B.S0=new A.ha(B.a1,null,null,B.awm,null)
+B.awc=new A.bu("Screen not found",null,null,null,null,null,null,null,null,null,null)
+B.S_=new A.ha(B.a1,null,null,B.awc,null)
+B.awl=new A.bu("Chart not available",null,null,null,null,null,null,null,null,null,null)
+B.S0=new A.ha(B.a1,null,null,B.awl,null)
 B.S1=new A.qM(1,"error")
 B.tG=new A.qM(5,"heartbeat")
 B.tH=new A.qM(6,"accessToken")
@@ -133671,11 +133671,11 @@ B.cj=new A.aJH(1,"down")
 B.a4=new A.it(6,700)
 B.asL=new A.z(!0,B.h,null,null,null,null,18,B.a4,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.cP=new A.pS(2,"center")
-B.awp=new A.bu("Continuous Scan Mode",null,B.asL,B.cP,null,null,null,null,null,null,null)
+B.awo=new A.bu("Continuous Scan Mode",null,B.asL,B.cP,null,null,null,null,null,null,null)
 B.ci=new A.e_(null,4,null,null)
 B.Ng=new A.z(!0,B.ar,null,null,null,null,14,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
 B.avV=new A.bu("Scan multiple equipment - stops when you click Stop",null,B.Ng,B.cP,null,null,null,null,null,null,null)
-B.afk=s([B.awp,B.ci,B.avV],t.p)
+B.afk=s([B.awo,B.ci,B.avV],t.p)
 B.TV=new A.uy(B.al,B.j,B.k,B.n,null,B.cj,null,0,B.afk,null)
 B.TW=new A.qQ(!1)
 B.de=new A.qQ(!0)
@@ -134674,41 +134674,41 @@ B.kG=new A.nt(B.we,!0,2,"animatedGif")
 B.bo=s([],t.oU)
 B.a2f=new A.pa("\ufffc",null,null,null,!0,!0,B.bo)
 B.a2g=new A.rf(null,null,null,null,null,null,null,null,null,B.oO,B.nn,!1,null,!1,null,null,null,null,null,null,null,null,!1,null,null,null,null,null,null,null,null,null,null,null,!1,null,null)
-B.a2h=new A.dw(null,null,null,"Image URL",null,null,null,null,null,null,"Enter URL to equipment image",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2i=new A.dw(null,null,null,"Category *",null,null,null,null,null,null,"Enter equipment category",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2j=new A.dw(null,null,null,"QR/Barcode",null,null,null,null,null,null,"Same as Serial Number (auto-filled)",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!1,null,null,null,null)
+B.a2h=new A.dw(null,null,null,"T\xean Thi\u1ebft B\u1ecb *",null,null,null,null,null,null,"Nh\u1eadp t\xean thi\u1ebft b\u1ecb",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2i=new A.dw(null,null,null,"M\xf4 T\u1ea3 *",null,null,null,null,null,null,"Nh\u1eadp m\xf4 t\u1ea3 thi\u1ebft b\u1ecb",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2j=new A.dw(null,null,null,"Ghi Ch\xfa",null,null,null,null,null,null,"Nh\u1eadp ghi ch\xfa b\u1ed5 sung",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2k=new A.dw(null,null,null,"Category *",null,null,null,null,null,null,"Enter equipment category",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.hA=new A.d2(4,B.i2,B.bY)
 B.PC=new A.aa(0,1/0,0,28)
-B.a2k=new A.dw(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,!0,B.f3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,B.PC,null)
+B.a2l=new A.dw(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,!0,B.f3,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,B.PC,null)
+B.a2m=new A.dw(null,null,null,"S\u1ed1 Serial",null,null,null,null,null,null,"Nh\u1eadp s\u1ed1 serial (t\xf9y ch\u1ecdn)",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a0_=new A.aQ(57544,"MaterialIcons",!1)
 B.a1r=new A.bg(B.a0_,null,null,null,null)
-B.a2l=new A.dw(null,null,null,"Full Name",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1r,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2n=new A.dw(null,null,null,"Full Name",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1r,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a0z=new A.aQ(59100,"MaterialIcons",!1)
 B.a1l=new A.bg(B.a0z,null,null,null,null)
-B.a2m=new A.dw(null,null,null,"Gender",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1l,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2n=new A.dw(null,null,null,"Email Address",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,null,null)
+B.a2o=new A.dw(null,null,null,"Gender",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1l,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2p=new A.dw(null,null,null,"Email Address",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,null,null)
 B.a1I=new A.bg(B.oX,null,null,null,null)
-B.a2o=new A.dw(null,null,null,"Username *",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1I,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2p=new A.dw(null,null,null,"Category",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,!0,B.dj,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,null,null)
-B.a2q=new A.dw(null,null,null,"Notes",null,null,null,null,null,null,"Enter any additional notes",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2r=new A.dw(null,null,null,"Serial Number",null,null,null,null,null,null,"Enter serial number (optional)",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2s=new A.dw(null,null,null,"Date of Birth *",null,null,null,null,null,null,"Select your date of birth",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2t=new A.dw(null,null,null,"Equipment Name *",null,null,null,null,null,null,"Enter the equipment name",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2q=new A.dw(null,null,null,"Username *",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1I,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2r=new A.dw(null,null,null,"Tr\u1ea1ng Th\xe1i *",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2s=new A.dw(null,null,null,"M\xe3 QR/Barcode",null,null,null,null,null,null,"Gi\u1ed1ng s\u1ed1 serial (t\u1ef1 \u0111\u1ed9ng \u0111i\u1ec1n)",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!1,null,null,null,null)
+B.a2t=new A.dw(null,null,null,"S\u1ed1 L\u01b0\u1ee3ng *",null,null,null,null,null,null,"Nh\u1eadp s\u1ed1 l\u01b0\u1ee3ng",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2u=new A.dw(null,null,null,"Date of Birth *",null,null,null,null,null,null,"Select your date of birth",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2v=new A.dw(null,null,null,"\u0110\u01b0\u1eddng D\u1eabn H\xecnh \u1ea2nh",null,null,null,null,null,null,"Nh\u1eadp URL h\xecnh \u1ea3nh thi\u1ebft b\u1ecb",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a0i=new A.aQ(58286,"MaterialIcons",!1)
 B.a11=new A.bg(B.a0i,null,null,null,null)
-B.a2u=new A.dw(null,null,null,"Password *",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a11,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2v=new A.dw(null,null,null,"Phone",null,null,null,null,null,null,"Enter phone number",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2w=new A.dw(null,null,null,"Model",null,null,null,null,null,null,"Enter model number",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2x=new A.dw(null,null,null,"Manufacturer",null,null,null,null,null,null,"Enter manufacturer name",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2y=new A.dw(null,null,null,"Quantity *",null,null,null,null,null,null,"Enter number of units",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2w=new A.dw(null,null,null,"Password *",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a11,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2x=new A.dw(null,null,null,"Phone",null,null,null,null,null,null,"Enter phone number",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2y=new A.dw(null,null,null,"M\u1eabu M\xe3",null,null,null,null,null,null,"Nh\u1eadp m\xe3 m\u1eabu",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a2z=new A.dw(null,null,null,"Gender *",null,null,null,null,null,null,"Select your gender",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a2A=new A.dw(null,null,null,null,null,null,null,null,null,null,"Enter serial number",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,B.uW,null,B.wb,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,null,null)
-B.a2B=new A.dw(null,null,null,"Status *",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2B=new A.dw(null,null,null,"Danh M\u1ee5c",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,!0,B.dj,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,B.hA,!0,null,null,null,null)
 B.aBW=new A.dw(null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a2C=new A.dw(null,null,null,"Full Name *",null,null,null,null,null,null,"Enter your full name",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2D=new A.dw(null,null,null,"Nh\xe0 S\u1ea3n Xu\u1ea5t",null,null,null,null,null,null,"Nh\u1eadp t\xean nh\xe0 s\u1ea3n xu\u1ea5t",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a1H=new A.bg(B.vZ,null,null,null,null)
-B.a2D=new A.dw(null,null,null,"Select Chart Type",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1H,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
-B.a2E=new A.dw(null,null,null,"Description *",null,null,null,null,null,null,"Enter the equipment description",null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
+B.a2E=new A.dw(null,null,null,"Select Chart Type",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1H,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
 B.a0p=new A.aQ(58530,"MaterialIcons",!1)
 B.a1S=new A.bg(B.a0p,null,null,null,null)
 B.a2F=new A.dw(null,null,null,"Phone",null,null,null,null,null,null,null,null,null,null,null,null,!0,!0,null,null,null,null,null,null,null,null,null,B.a1S,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,!0,null,null,null,null)
@@ -135868,8 +135868,8 @@ B.adu=s(["dop.","odp."],t.s)
 B.adw=s(["y-'\u0436'., d-MMMM, EEEE","y-'\u0436'., d-MMMM","y-'\u0436'., d-MMM","d/M/yy"],t.s)
 B.Av=s(["I","Ch","M","E","M","M","G","A","M","H","T","Rh"],t.s)
 B.Aw=s(["\u044f","\u0444","\u043c","\u0430","\u043c","\u044e","\u044e","\u0430","\u0441","\u043e","\u043d","\u0434"],t.s)
-B.awk=new A.bu("Male",null,null,null,null,null,null,null,null,null,null)
-B.UP=new A.dS("male",B.awk,B.cT,null,t.b7)
+B.awj=new A.bu("Male",null,null,null,null,null,null,null,null,null,null)
+B.UP=new A.dS("male",B.awj,B.cT,null,t.b7)
 B.avT=new A.bu("Female",null,null,null,null,null,null,null,null,null,null)
 B.UO=new A.dS("female",B.avT,B.cT,null,t.b7)
 B.awu=new A.bu("Other",null,null,null,null,null,null,null,null,null,null)
@@ -137797,16 +137797,16 @@ B.apP=new A.mp(3,"hide")
 B.aC6=new A.mp(4,"remove")
 B.MK=new A.mp(5,"timeout")
 B.apQ=new A.Bu(null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.awc=new A.bu("T\xean danh m\u1ee5c kh\xf4ng \u0111\u01b0\u1ee3c \u0111\u1ec3 tr\u1ed1ng",null,null,null,null,null,null,null,null,null,null)
-B.apR=new A.eY(B.awc,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.awa=new A.bu("T\xean danh m\u1ee5c kh\xf4ng \u0111\u01b0\u1ee3c \u0111\u1ec3 tr\u1ed1ng",null,null,null,null,null,null,null,null,null,null)
+B.apR=new A.eY(B.awa,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.aww=new A.bu("User updated successfully",null,null,null,null,null,null,null,null,null,null)
 B.apS=new A.eY(B.aww,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
-B.awj=new A.bu("User created successfully",null,null,null,null,null,null,null,null,null,null)
-B.apT=new A.eY(B.awj,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
-B.aw6=new A.bu("Category created successfully",null,null,null,null,null,null,null,null,null,null)
-B.apU=new A.eY(B.aw6,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
-B.awi=new A.bu("Error: Could not read file",null,null,null,null,null,null,null,null,null,null)
-B.apV=new A.eY(B.awi,B.bd,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.awi=new A.bu("User created successfully",null,null,null,null,null,null,null,null,null,null)
+B.apT=new A.eY(B.awi,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aw5=new A.bu("Category created successfully",null,null,null,null,null,null,null,null,null,null)
+B.apU=new A.eY(B.aw5,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.awh=new A.bu("Error: Could not read file",null,null,null,null,null,null,null,null,null,null)
+B.apV=new A.eY(B.awh,B.bd,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.awB=new A.bu("X\xf3a ng\u01b0\u1eddi d\xf9ng th\xe0nh c\xf4ng",null,null,null,null,null,null,null,null,null,null)
 B.apW=new A.eY(B.awB,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.aw0=new A.bu("Please enter a serial number first",null,null,null,null,null,null,null,null,null,null)
@@ -137815,20 +137815,20 @@ B.awr=new A.bu("QR code downloaded",null,null,null,null,null,null,null,null,null
 B.apY=new A.eY(B.awr,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.avM=new A.bu("Failed to return some equipment",null,null,null,null,null,null,null,null,null,null)
 B.apZ=new A.eY(B.avM,B.hr,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
-B.aw2=new A.bu("Please select category for all equipment",null,null,null,null,null,null,null,null,null,null)
-B.aq_=new A.eY(B.aw2,B.bd,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.avJ=new A.bu("Equipment updated successfully",null,null,null,null,null,null,null,null,null,null)
-B.aq0=new A.eY(B.avJ,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aq_=new A.eY(B.avJ,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.awA=new A.bu("Category updated successfully",null,null,null,null,null,null,null,null,null,null)
-B.aq1=new A.eY(B.awA,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
-B.aw8=new A.bu("Password reset link sent to your email",null,null,null,null,null,null,null,null,null,null)
-B.aq2=new A.eY(B.aw8,B.br,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
-B.aw5=new A.bu("Failed to generate QR code",null,null,null,null,null,null,null,null,null,null)
-B.aq3=new A.eY(B.aw5,B.bd,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aq0=new A.eY(B.awA,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aw6=new A.bu("Password reset link sent to your email",null,null,null,null,null,null,null,null,null,null)
+B.aq1=new A.eY(B.aw6,B.br,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aw4=new A.bu("Failed to generate QR code",null,null,null,null,null,null,null,null,null,null)
+B.aq2=new A.eY(B.aw4,B.bd,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.aw_=new A.bu("QR code downloaded successfully",null,null,null,null,null,null,null,null,null,null)
-B.aq4=new A.eY(B.aw_,B.aU,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aq3=new A.eY(B.aw_,B.aU,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.avI=new A.bu("Equipment created successfully",null,null,null,null,null,null,null,null,null,null)
-B.aq5=new A.eY(B.avI,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.aq4=new A.eY(B.avI,null,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
+B.awe=new A.bu("Vui l\xf2ng ch\u1ecdn danh m\u1ee5c cho t\u1ea5t c\u1ea3 thi\u1ebft b\u1ecb",null,null,null,null,null,null,null,null,null,null)
+B.aq5=new A.eY(B.awe,B.bd,null,null,null,null,null,null,null,null,null,null,null,B.am,null,null,null,B.u,null)
 B.ML=new A.KU(0,"permissive")
 B.aq6=new A.KU(1,"normal")
 B.aq7=new A.KU(2,"forced")
@@ -138237,23 +138237,23 @@ B.avY=new A.bu("Return",null,null,null,null,null,null,null,null,null,null)
 B.avZ=new A.bu("Add User",null,null,null,null,null,null,null,null,null,null)
 B.aw1=new A.bu("1.0.0",null,null,null,null,null,null,null,null,null,null)
 B.qJ=new A.bu("OK",null,null,null,null,null,null,null,null,null,null)
-B.aw3=new A.bu("Error Details",null,null,null,null,null,null,null,null,null,null)
-B.aw4=new A.bu("Retry",null,null,null,null,null,null,null,null,null,null)
-B.aw7=new A.bu("Download PNG",null,null,null,null,null,null,null,null,null,null)
-B.aw9=new A.bu("Admin",null,null,null,null,null,null,null,null,null,null)
-B.awa=new A.bu("Analytics Dashboard",null,null,null,null,null,null,null,null,null,null)
+B.aw2=new A.bu("Error Details",null,null,null,null,null,null,null,null,null,null)
+B.aw3=new A.bu("Retry",null,null,null,null,null,null,null,null,null,null)
+B.aw7=new A.bu("Admin",null,null,null,null,null,null,null,null,null,null)
+B.aw8=new A.bu("Analytics Dashboard",null,null,null,null,null,null,null,null,null,null)
 B.av8=new A.z(!0,B.aq,null,null,null,null,14,B.G,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.awb=new A.bu("Equipment List:",null,B.av8,null,null,null,null,null,null,null,null)
+B.aw9=new A.bu("Equipment List:",null,B.av8,null,null,null,null,null,null,null,null)
 B.at4=new A.z(!0,B.h,null,null,null,null,20,B.a4,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null)
-B.awd=new A.bu("Return Equipment",null,B.at4,null,null,null,null,null,null,null,null)
+B.awb=new A.bu("Return Equipment",null,B.at4,null,null,null,null,null,null,null,null)
 B.Nq=new A.bu("Pick",null,null,null,null,null,null,null,null,null,null)
-B.awf=new A.bu("Add Category",null,null,null,null,null,null,null,null,null,null)
+B.awd=new A.bu("Add Category",null,null,null,null,null,null,null,null,null,null)
 B.Nr=new A.bu("X\xf3a",null,null,null,null,null,null,null,null,null,null)
-B.awg=new A.bu("User",null,null,null,null,null,null,null,null,null,null)
-B.awh=new A.bu("Load More",null,null,null,null,null,null,null,null,null,null)
-B.awl=new A.bu("Audit Logs",null,null,null,null,null,null,null,null,null,null)
-B.awn=new A.bu("Scan QR Code",null,null,null,null,null,null,null,null,null,null)
-B.awq=new A.bu("Scan",null,null,null,null,null,null,null,null,null,null)
+B.awf=new A.bu("User",null,null,null,null,null,null,null,null,null,null)
+B.awg=new A.bu("Load More",null,null,null,null,null,null,null,null,null,null)
+B.awk=new A.bu("Audit Logs",null,null,null,null,null,null,null,null,null,null)
+B.awm=new A.bu("Scan QR Code",null,null,null,null,null,null,null,null,null,null)
+B.awp=new A.bu("Scan",null,null,null,null,null,null,null,null,null,null)
+B.awq=new A.bu("T\u1ea3i Xu\u1ed1ng PNG",null,null,null,null,null,null,null,null,null,null)
 B.Ns=new A.bu("",null,null,null,null,null,null,null,null,null,null)
 B.aws=new A.bu("Stop Scanning",null,null,null,null,null,null,null,null,null,null)
 B.awt=new A.bu("\ud83c\uddec\ud83c\udde7",null,B.mz,null,null,null,null,null,null,null,null)

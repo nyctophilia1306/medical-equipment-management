@@ -746,7 +746,7 @@ class _EquipmentCard extends StatelessWidget {
 
             const SizedBox(height: 16),
             Text(
-              'Serial Number: ${item.serialNumber ?? "N/A"}',
+              'Số Serial: ${item.serialNumber ?? "Không có"}',
               style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
             ),
           ],

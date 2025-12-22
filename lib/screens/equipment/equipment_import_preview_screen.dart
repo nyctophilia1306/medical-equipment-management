@@ -154,7 +154,7 @@ class _EquipmentImportPreviewDialogState
     if (missingCategory.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please select category for all equipment'),
+          content: Text('Vui lòng chọn danh mục cho tất cả thiết bị'),
           backgroundColor: Colors.red,
         ),
       );
@@ -421,7 +421,7 @@ class _EquipmentImportPreviewDialogState
               DropdownButtonFormField<int>(
                 initialValue: row.categoryId,
                 decoration: const InputDecoration(
-                  labelText: 'Category',
+                  labelText: 'Danh Mục',
                   border: OutlineInputBorder(),
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(
@@ -521,7 +521,7 @@ class _EquipmentImportPreviewDialogState
                     ),
                   )
                 : const Icon(Icons.save),
-            label: Text(_importing ? 'Saving...' : 'Save All'),
+            label: Text(_importing ? 'Đang Lưu...' : 'Lưu Tất Cả'),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
