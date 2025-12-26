@@ -137,8 +137,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   Future<void> _saveEquipment() async {
     if (!_formKey.currentState!.validate()) {
       return;
-    }
-    
+    }   
     setState(() {
       _isLoading = true;
       _errorMessage = '';
