@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/borrow_request.dart';
 import '../../services/borrow_service.dart';
+import '../../services/auth_service.dart';
 import '../../widgets/grouped_borrow_request_card.dart';
 import '../../widgets/qr_scan_return_dialog.dart';
 import '../../constants/app_colors.dart';
@@ -15,6 +16,7 @@ class BorrowListTab extends StatefulWidget {
 
 class _BorrowListTabState extends State<BorrowListTab> {
   final BorrowService _borrowService = BorrowService();
+  final AuthService _authService = AuthService();
   final TextEditingController _searchController = TextEditingController();
 
   bool _loading = false;
@@ -22,11 +24,20 @@ class _BorrowListTabState extends State<BorrowListTab> {
   Map<String, List<BorrowRequest>> _groupedRequests = {};
   String _searchMode = 'serial'; // 'serial', 'user', or 'date'
   DateTime? _selectedDate;
+  bool _isAdmin = false; // Track if current user is admin
 
   @override
   void initState() {
     super.initState();
+    _checkUserRole();
     _loadBorrowRequests();
+  }
+
+  void _checkUserRole() {
+    final currentUser = _authService.currentUser;
+    setState(() {
+      _isAdmin = currentUser?.isAdmin ?? false;
+    });
   }
 
   @override
@@ -463,8 +474,13 @@ class _BorrowListTabState extends State<BorrowListTab> {
             requestSerial: requestSerial,
             requests: requests,
             onReturn: () => _handleReturn(requestSerial, requests),
-            onApprove: () => _handleApprove(requestSerial, requests),
-            onReject: () => _handleReject(requestSerial, requests),
+            // Only admins can approve/reject
+            onApprove: _isAdmin
+                ? () => _handleApprove(requestSerial, requests)
+                : null,
+            onReject: _isAdmin
+                ? () => _handleReject(requestSerial, requests)
+                : null,
           );
         },
       ),

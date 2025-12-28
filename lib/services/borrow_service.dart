@@ -205,6 +205,20 @@ class BorrowService {
     required String approvedBy,
   }) async {
     try {
+      // Validate that approver is an admin
+      final approverData = await _supabase
+          .from('users')
+          .select('role_id')
+          .eq('user_id', approvedBy)
+          .maybeSingle();
+
+      if (approverData == null || approverData['role_id'] != 0) {
+        Logger.error('Only admins can approve requests. User: $approvedBy');
+        throw Exception(
+          'Insufficient permissions. Only admins can approve requests.',
+        );
+      }
+
       // Fetch the request
       final req = await _supabase
           .from('borrow_request')
@@ -274,6 +288,27 @@ class BorrowService {
   // Reject a pending borrow request
   Future<bool> rejectBorrowRequest(String requestId, String reason) async {
     try {
+      // Get current user to validate they are admin
+      final currentUserId = _supabase.auth.currentUser?.id;
+      if (currentUserId == null) {
+        Logger.error('No authenticated user');
+        throw Exception('No authenticated user');
+      }
+
+      // Validate that rejector is an admin
+      final rejectorData = await _supabase
+          .from('users')
+          .select('role_id')
+          .eq('user_id', currentUserId)
+          .maybeSingle();
+
+      if (rejectorData == null || rejectorData['role_id'] != 0) {
+        Logger.error('Only admins can reject requests. User: $currentUserId');
+        throw Exception(
+          'Insufficient permissions. Only admins can reject requests.',
+        );
+      }
+
       await _supabase
           .from('borrow_request')
           .update({
