@@ -7,6 +7,7 @@ import '../../models/category.dart';
 import '../../services/metadata_service.dart';
 import '../../services/qr_code_service.dart';
 import '../../utils/serial_generator.dart';
+import '../../l10n/app_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ParsedEquipmentRow {
@@ -153,8 +154,8 @@ class _EquipmentImportPreviewDialogState
     final missingCategory = _equipmentRows.where((r) => r.categoryName == null);
     if (missingCategory.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Vui lòng chọn danh mục cho tất cả thiết bị'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleasSelectCategoryForAll),
           backgroundColor: Colors.red,
         ),
       );

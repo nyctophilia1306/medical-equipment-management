@@ -234,7 +234,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Danh Mục Thiết Bị',
+                  AppLocalizations.of(context)!.equipmentCatalogTitle,
                   style: GoogleFonts.inter(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
@@ -242,7 +242,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                   ),
                 ),
                 Text(
-                  'Duyệt và tìm kiếm thiết bị y tế',
+                  AppLocalizations.of(context)!.equipmentCatalogSubtitle,
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     color: AppColors.textSecondary,

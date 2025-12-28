@@ -501,4 +501,113 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get errorOpeningFile => 'Lỗi mở tệp';
+
+  @override
+  String get equipmentCatalogTitle => 'Danh Mục Thiết Bị';
+
+  @override
+  String get equipmentCatalogSubtitle => 'Duyệt và tìm kiếm thiết bị y tế';
+
+  @override
+  String get fullNameRequired => 'Họ Và Tên *';
+
+  @override
+  String get enterFullName => 'Nhập họ và tên';
+
+  @override
+  String get enterPhone => 'Nhập số điện thoại';
+
+  @override
+  String get dateOfBirthRequired => 'Ngày Sinh *';
+
+  @override
+  String get selectDateOfBirth => 'Chọn ngày sinh';
+
+  @override
+  String get selectDate => 'Chọn ngày';
+
+  @override
+  String get genderRequired => 'Giới Tính *';
+
+  @override
+  String get selectGender => 'Chọn giới tính';
+
+  @override
+  String get scannedEquipment => 'Thiết bị đã quét (theo QR/serial)';
+
+  @override
+  String get enterSerial => 'Nhập số serial';
+
+  @override
+  String get addButton => 'Thêm';
+
+  @override
+  String get noEquipmentScanned => 'Chưa có thiết bị nào được quét';
+
+  @override
+  String get saveRequest => 'Lưu Yêu Cầu';
+
+  @override
+  String get clear => 'Xóa';
+
+  @override
+  String get newUser => 'Mới';
+
+  @override
+  String get existingUser => 'Cũ';
+
+  @override
+  String get adminDashboardTitle => 'Bảng Điều Khiển Quản Trị';
+
+  @override
+  String get systemOverviewSubtitle => 'Tổng quan hệ thống và quản lý';
+
+  @override
+  String get systemStatistics => 'Thống Kê Hệ Thống';
+
+  @override
+  String get adminsLabel => 'Quản Trị';
+
+  @override
+  String get managersLabel => 'Quản Lý';
+
+  @override
+  String get quantityLabel => 'Số Lượng';
+
+  @override
+  String get approvedLabel => 'Đã Duyệt';
+
+  @override
+  String get totalLabel => 'Tổng';
+
+  @override
+  String get pendingRequests => 'Yêu Cầu Chờ Duyệt';
+
+  @override
+  String get returned => 'Đã Trả';
+
+  @override
+  String get management => 'Quản Trị';
+
+  @override
+  String get userManagementSubtitle => 'Quản lý người dùng & vai trò';
+
+  @override
+  String get equipmentManagementSubtitle => 'Quản lý thiết bị';
+
+  @override
+  String get categoryManagementSubtitle => 'Quản lý danh mục';
+
+  @override
+  String get analyticsSubtitle => 'Thống kê chi tiết';
+
+  @override
+  String get auditLogsSubtitle => 'Theo dõi hoạt động';
+
+  @override
+  String get categoryNameRequired => 'Tên danh mục không được để trống';
+
+  @override
+  String get pleasSelectCategoryForAll =>
+      'Vui lòng chọn danh mục cho tất cả thiết bị';
 }

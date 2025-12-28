@@ -5,6 +5,7 @@ import '../../constants/constants.dart';
 import '../../services/metadata_service.dart';
 import '../../services/data_service.dart';
 import '../../models/category.dart';
+import '../../l10n/app_localizations.dart';
 
 class CategoryManagementScreen extends StatefulWidget {
   static const String routeName = '/category-management';
@@ -503,7 +504,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                   onPressed: () async {
                     if (nameController.text.trim().isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Tên danh mục không được để trống')),
+                        SnackBar(content: Text(AppLocalizations.of(context)!.categoryNameRequired)),
                       );
                       return;
                     }
@@ -513,7 +514,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryBlue,
                   ),
-                  child: Text(isEdit ? 'Cập Nhật' : 'Thêm'),
+                  child: Text(isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.add),
                 ),
               ],
             );

@@ -501,4 +501,113 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorOpeningFile => 'Error opening file';
+
+  @override
+  String get equipmentCatalogTitle => 'Medical Equipment Catalog';
+
+  @override
+  String get equipmentCatalogSubtitle => 'Browse and search medical equipment';
+
+  @override
+  String get fullNameRequired => 'Full Name *';
+
+  @override
+  String get enterFullName => 'Enter full name';
+
+  @override
+  String get enterPhone => 'Enter phone number';
+
+  @override
+  String get dateOfBirthRequired => 'Date of Birth *';
+
+  @override
+  String get selectDateOfBirth => 'Select date of birth';
+
+  @override
+  String get selectDate => 'Select date';
+
+  @override
+  String get genderRequired => 'Gender *';
+
+  @override
+  String get selectGender => 'Select gender';
+
+  @override
+  String get scannedEquipment => 'Scanned Equipment (by QR/serial)';
+
+  @override
+  String get enterSerial => 'Enter serial number';
+
+  @override
+  String get addButton => 'Add';
+
+  @override
+  String get noEquipmentScanned => 'No equipment scanned yet';
+
+  @override
+  String get saveRequest => 'Save Request';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get newUser => 'New';
+
+  @override
+  String get existingUser => 'Existing';
+
+  @override
+  String get adminDashboardTitle => 'Admin Control Panel';
+
+  @override
+  String get systemOverviewSubtitle => 'System overview and management';
+
+  @override
+  String get systemStatistics => 'System Statistics';
+
+  @override
+  String get adminsLabel => 'Admins';
+
+  @override
+  String get managersLabel => 'Managers';
+
+  @override
+  String get quantityLabel => 'Quantity';
+
+  @override
+  String get approvedLabel => 'Approved';
+
+  @override
+  String get totalLabel => 'Total';
+
+  @override
+  String get pendingRequests => 'Pending Requests';
+
+  @override
+  String get returned => 'Returned';
+
+  @override
+  String get management => 'Management';
+
+  @override
+  String get userManagementSubtitle => 'Manage users & roles';
+
+  @override
+  String get equipmentManagementSubtitle => 'Manage equipment';
+
+  @override
+  String get categoryManagementSubtitle => 'Manage categories';
+
+  @override
+  String get analyticsSubtitle => 'Detailed statistics';
+
+  @override
+  String get auditLogsSubtitle => 'Track activities';
+
+  @override
+  String get categoryNameRequired => 'Category name cannot be empty';
+
+  @override
+  String get pleasSelectCategoryForAll =>
+      'Please select a category for all equipment';
 }

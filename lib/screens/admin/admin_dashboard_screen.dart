@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/constants.dart';
 import '../../services/statistics_service.dart';
+import '../../l10n/app_localizations.dart';
 import '../equipment/equipment_catalog_screen.dart';
 import 'user_management_screen.dart';
 import 'category_management_screen.dart';
@@ -68,7 +69,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Bảng Điều Khiển Quản Trị',
+                          AppLocalizations.of(context)!.adminDashboardTitle,
                           style: GoogleFonts.inter(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -76,7 +77,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                           ),
                         ),
                         Text(
-                          'Tổng quan hệ thống và quản lý',
+                          AppLocalizations.of(context)!.systemOverviewSubtitle,
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             color: AppColors.textSecondary,
@@ -129,7 +130,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Thống Kê Hệ Thống',
+          AppLocalizations.of(context)!.systemStatistics,
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -143,21 +144,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           children: [
             Expanded(
               child: _buildStatCard(
-                title: 'Tổng Người Dùng',
+                title: AppLocalizations.of(context)!.totalUsers,
                 value: '${userStats['total'] ?? 0}',
                 icon: Icons.people,
                 color: AppColors.primaryBlue,
-                subtitle: 'Quản Trị: ${userStats['admins'] ?? 0} | Quản Lý: ${userStats['managers'] ?? 0}',
+                subtitle: '${AppLocalizations.of(context)!.adminsLabel}: ${userStats['admins'] ?? 0} | ${AppLocalizations.of(context)!.managersLabel}: ${userStats['managers'] ?? 0}',
               ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
             Expanded(
               child: _buildStatCard(
-                title: 'Tổng Thiết Bị',
+                title: AppLocalizations.of(context)!.totalEquipment,
                 value: '${equipmentStats['totalItems'] ?? 0}',
                 icon: Icons.inventory_2,
                 color: AppColors.successGreen,
-                subtitle: 'Số Lượng: ${equipmentStats['totalQuantity'] ?? 0} | Có Sẵn: ${equipmentStats['availableQuantity'] ?? 0}',
+                subtitle: '${AppLocalizations.of(context)!.quantityLabel}: ${equipmentStats['totalQuantity'] ?? 0} | ${AppLocalizations.of(context)!.availableQuantity}: ${equipmentStats['availableQuantity'] ?? 0}',
               ),
             ),
           ],
@@ -170,21 +171,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           children: [
             Expanded(
               child: _buildStatCard(
-                title: 'Yêu Cầu Chờ Duyệt',
+                title: AppLocalizations.of(context)!.pendingRequests,
                 value: '${borrowStats['pending'] ?? 0}',
                 icon: Icons.pending_actions,
                 color: AppColors.warningYellow,
-                subtitle: 'Đã Duyệt: ${borrowStats['approved'] ?? 0}',
+                subtitle: '${AppLocalizations.of(context)!.approvedLabel}: ${borrowStats['approved'] ?? 0}',
               ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
             Expanded(
               child: _buildStatCard(
-                title: 'Đã Trả',
+                title: AppLocalizations.of(context)!.returned,
                 value: '${borrowStats['returned'] ?? 0}',
                 icon: Icons.check_circle,
                 color: AppColors.primaryBlue,
-                subtitle: 'Tổng: ${borrowStats['total'] ?? 0}',
+                subtitle: '${AppLocalizations.of(context)!.totalLabel}: ${borrowStats['total'] ?? 0}',
               ),
             ),
           ],
@@ -266,7 +267,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Quản Trị',
+          AppLocalizations.of(context)!.management,
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -296,8 +297,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               childAspectRatio: 1.4,
               children: [
                 _buildFunctionCard(
-                  title: 'Quản Lý Người Dùng',
-                  subtitle: 'Quản lý người dùng & vai trò',
+                  title: AppLocalizations.of(context)!.userManagement,
+                  subtitle: AppLocalizations.of(context)!.userManagementSubtitle,
                   icon: Icons.people_outlined,
                   color: AppColors.primaryBlue,
                   onTap: () => Navigator.push(
@@ -306,8 +307,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Thiết Bị',
-                  subtitle: 'Quản lý thiết bị',
+                  title: AppLocalizations.of(context)!.equipment,
+                  subtitle: AppLocalizations.of(context)!.equipmentManagementSubtitle,
                   icon: Icons.medical_services_outlined,
                   color: AppColors.successGreen,
                   onTap: () => Navigator.push(
@@ -316,8 +317,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Danh Mục',
-                  subtitle: 'Quản lý danh mục',
+                  title: AppLocalizations.of(context)!.categories,
+                  subtitle: AppLocalizations.of(context)!.categoryManagementSubtitle,
                   icon: Icons.category_outlined,
                   color: AppColors.warningYellow,
                   onTap: () => Navigator.push(
@@ -326,8 +327,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Phân Tích',
-                  subtitle: 'Thống kê chi tiết',
+                  title: AppLocalizations.of(context)!.analytics,
+                  subtitle: AppLocalizations.of(context)!.analyticsSubtitle,
                   icon: Icons.analytics_outlined,
                   color: AppColors.softTeal,
                   onTap: () => Navigator.push(
@@ -336,8 +337,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Nhật Ký Kiểm Toán',
-                  subtitle: 'Theo dõi hoạt động',
+                  title: AppLocalizations.of(context)!.auditLogs,
+                  subtitle: AppLocalizations.of(context)!.auditLogsSubtitle,
                   icon: Icons.history_outlined,
                   color: AppColors.grayNeutral600,
                   onTap: () => Navigator.push(

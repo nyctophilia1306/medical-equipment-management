@@ -10,6 +10,7 @@ import '../../services/borrow_service.dart';
 import '../../services/data_service.dart';
 import '../../widgets/equipment_card.dart';
 import '../../widgets/continuous_scan_popup.dart';
+import '../../l10n/app_localizations.dart';
 import 'borrow_list_tab.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -495,17 +496,17 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       children: [
         TextFormField(
           controller: _fullNameController,
-          decoration: const InputDecoration(
-            labelText: 'Họ Và Tên *',
-            hintText: 'Nhập họ và tên',
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.fullNameRequired,
+            hintText: AppLocalizations.of(context)!.enterFullName,
           ),
         ),
         const SizedBox(height: 8),
         TextFormField(
           controller: _phoneController,
-          decoration: const InputDecoration(
-            labelText: 'Phone',
-            hintText: 'Nhập số điện thoại',
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.phone,
+            hintText: AppLocalizations.of(context)!.enterPhone,
           ),
           keyboardType: TextInputType.phone,
         ),
@@ -523,16 +524,16 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             }
           },
           child: InputDecorator(
-            decoration: const InputDecoration(
-              labelText: 'Ngày Sinh *',
-              hintText: 'Chọn ngày sinh',
+            decoration: InputDecoration(
+              labelText: AppLocalizations.of(context)!.dateOfBirthRequired,
+              hintText: AppLocalizations.of(context)!.selectDateOfBirth,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   _userDob == null
-                      ? 'Chọn ngày'
+                      ? AppLocalizations.of(context)!.selectDate
                       : DateFormat('yyyy-MM-dd').format(_userDob!),
                 ),
                 const Icon(Icons.calendar_today),
@@ -543,14 +544,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         const SizedBox(height: 8),
         DropdownButtonFormField<String>(
           initialValue: _selectedGender,
-          decoration: const InputDecoration(
-            labelText: 'Gender *',
-            hintText: 'Chọn giới tính',
+          decoration: InputDecoration(
+            labelText: AppLocalizations.of(context)!.genderRequired,
+            hintText: AppLocalizations.of(context)!.selectGender,
           ),
-          items: const [
-            DropdownMenuItem(value: 'male', child: Text('Nam')),
-            DropdownMenuItem(value: 'female', child: Text('Nữ')),
-            DropdownMenuItem(value: 'other', child: Text('Khác')),
+          items: [
+            DropdownMenuItem(value: 'male', child: Text(AppLocalizations.of(context)!.male)),
+            DropdownMenuItem(value: 'female', child: Text(AppLocalizations.of(context)!.female)),
+            DropdownMenuItem(value: 'other', child: Text(AppLocalizations.of(context)!.other)),
           ],
           onChanged: (value) => setState(() => _selectedGender = value),
         ),
@@ -625,14 +626,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 },
                 child: TextField(
                   controller: _serialController,
-                  decoration: const InputDecoration(
-                    hintText: 'Nhập số serial',
-                    prefixIcon: Icon(Icons.edit),
-                    contentPadding: EdgeInsets.symmetric(
+                  decoration: InputDecoration(
+                    hintText: AppLocalizations.of(context)!.enterSerial,
+                    prefixIcon: const Icon(Icons.edit),
+                    contentPadding: const EdgeInsets.symmetric(
                       vertical: 0,
                       horizontal: 12,
                     ),
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                   ),
                   onChanged: (value) {
                     if (value.length > 8) {
@@ -652,7 +653,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
               child: ElevatedButton.icon(
                 onPressed: _startContinuousScan,
                 icon: const Icon(Icons.qr_code_scanner, size: 18),
-                label: const Text('Scan'),
+                label: Text(AppLocalizations.of(context)!.scanQRCode),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   textStyle: const TextStyle(fontSize: 14),
@@ -670,15 +671,15 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   textStyle: const TextStyle(fontSize: 14),
                 ),
-                child: const Text('Thêm'),
+                child: Text(AppLocalizations.of(context)!.addButton),
               ),
             ),
           ],
         ),
         if (_scannedEquipment.isEmpty)
-          const Padding(
-            padding: EdgeInsets.only(top: 16),
-            child: Text('Chưa có thiết bị nào được quét'),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Text(AppLocalizations.of(context)!.noEquipmentScanned),
           ),
         const SizedBox(height: 16),
         _scannedEquipment.isNotEmpty
@@ -727,7 +728,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             children: [
               Expanded(
                 child: Text(
-                  'Người Mượn',
+                  AppLocalizations.of(context)!.borrower,
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -738,7 +739,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 value: _isNewUser,
                 onChanged: (v) => setState(() => _isNewUser = v),
               ),
-              Text(_isNewUser ? 'Mới' : 'Cũ'),
+              Text(_isNewUser ? AppLocalizations.of(context)!.newUser : AppLocalizations.of(context)!.existingUser),
             ],
           ),
           const SizedBox(height: 8),
@@ -747,7 +748,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           _buildDatePickers(),
           const Divider(),
           Text(
-            'Thiết bị đã quét (theo QR/serial)',
+            AppLocalizations.of(context)!.scannedEquipment,
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
@@ -764,7 +765,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 onPressed: _loading ? null : _saveRequest,
                 child: _loading
                     ? const CircularProgressIndicator()
-                    : const Text('Lưu Yêu Cầu'),
+                    : Text(AppLocalizations.of(context)!.saveRequest),
               ),
               const SizedBox(width: 12),
               OutlinedButton(
@@ -773,7 +774,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   _borrowQuantities.clear();
                   _message = null;
                 }),
-                child: const Text('Xóa'),
+                child: Text(AppLocalizations.of(context)!.clear),
               ),
             ],
           ),

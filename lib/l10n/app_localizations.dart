@@ -1081,6 +1081,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error opening file'**
   String get errorOpeningFile;
+
+  /// No description provided for @equipmentCatalogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Equipment Catalog'**
+  String get equipmentCatalogTitle;
+
+  /// No description provided for @equipmentCatalogSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse and search medical equipment'**
+  String get equipmentCatalogSubtitle;
+
+  /// No description provided for @fullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name *'**
+  String get fullNameRequired;
+
+  /// No description provided for @enterFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter full name'**
+  String get enterFullName;
+
+  /// No description provided for @enterPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter phone number'**
+  String get enterPhone;
+
+  /// No description provided for @dateOfBirthRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth *'**
+  String get dateOfBirthRequired;
+
+  /// No description provided for @selectDateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date of birth'**
+  String get selectDateOfBirth;
+
+  /// No description provided for @selectDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select date'**
+  String get selectDate;
+
+  /// No description provided for @genderRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender *'**
+  String get genderRequired;
+
+  /// No description provided for @selectGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Select gender'**
+  String get selectGender;
+
+  /// No description provided for @scannedEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned Equipment (by QR/serial)'**
+  String get scannedEquipment;
+
+  /// No description provided for @enterSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter serial number'**
+  String get enterSerial;
+
+  /// No description provided for @addButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get addButton;
+
+  /// No description provided for @noEquipmentScanned.
+  ///
+  /// In en, this message translates to:
+  /// **'No equipment scanned yet'**
+  String get noEquipmentScanned;
+
+  /// No description provided for @saveRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Request'**
+  String get saveRequest;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// No description provided for @newUser.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get newUser;
+
+  /// No description provided for @existingUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Existing'**
+  String get existingUser;
+
+  /// No description provided for @adminDashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Control Panel'**
+  String get adminDashboardTitle;
+
+  /// No description provided for @systemOverviewSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'System overview and management'**
+  String get systemOverviewSubtitle;
+
+  /// No description provided for @systemStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'System Statistics'**
+  String get systemStatistics;
+
+  /// No description provided for @adminsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Admins'**
+  String get adminsLabel;
+
+  /// No description provided for @managersLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Managers'**
+  String get managersLabel;
+
+  /// No description provided for @quantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantityLabel;
+
+  /// No description provided for @approvedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved'**
+  String get approvedLabel;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get totalLabel;
+
+  /// No description provided for @pendingRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Requests'**
+  String get pendingRequests;
+
+  /// No description provided for @returned.
+  ///
+  /// In en, this message translates to:
+  /// **'Returned'**
+  String get returned;
+
+  /// No description provided for @management.
+  ///
+  /// In en, this message translates to:
+  /// **'Management'**
+  String get management;
+
+  /// No description provided for @userManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage users & roles'**
+  String get userManagementSubtitle;
+
+  /// No description provided for @equipmentManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage equipment'**
+  String get equipmentManagementSubtitle;
+
+  /// No description provided for @categoryManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage categories'**
+  String get categoryManagementSubtitle;
+
+  /// No description provided for @analyticsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed statistics'**
+  String get analyticsSubtitle;
+
+  /// No description provided for @auditLogsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track activities'**
+  String get auditLogsSubtitle;
+
+  /// No description provided for @categoryNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Category name cannot be empty'**
+  String get categoryNameRequired;
+
+  /// No description provided for @pleasSelectCategoryForAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a category for all equipment'**
+  String get pleasSelectCategoryForAll;
 }
 
 class _AppLocalizationsDelegate
