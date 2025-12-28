@@ -235,7 +235,7 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
                               ),
                             ),
                             title: Text(
-                              equipment.name,
+                              equipment.getLocalizedName(context),
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,

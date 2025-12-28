@@ -32,7 +32,7 @@ class EquipmentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        equipment.name,
+                        equipment.getLocalizedName(context),
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

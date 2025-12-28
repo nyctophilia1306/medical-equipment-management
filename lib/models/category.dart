@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import '../utils/logger.dart';
+import '../constants/database_translations.dart';
 
 class Category {
   final int id;
@@ -84,4 +86,12 @@ class Category {
 
   @override
   String toString() => 'Category(id: $id, name: $name)';
+
+  /// Get localized category name based on current locale
+  /// Returns English translation if available and locale is English,
+  /// otherwise returns original Vietnamese name
+  String getLocalizedName(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    return DatabaseTranslations.getCategoryName(name, locale.languageCode);
+  }
 }

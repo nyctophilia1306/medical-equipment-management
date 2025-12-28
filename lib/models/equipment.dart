@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import '../constants/database_translations.dart';
 
 class Equipment {
   final String id; // equipment_id in DB
@@ -301,4 +303,22 @@ class Equipment {
       }
     }
   }
+
+  /// Get localized equipment name based on current locale
+  /// Returns English translation if available and locale is English,
+  /// otherwise returns original Vietnamese name
+  String getLocalizedName(BuildContext context) {
+    final locale = Localizations.localeOf(context);
+    return DatabaseTranslations.getEquipmentName(name, locale.languageCode);
+  }
+
+  /// Get localized category name based on current locale
+  /// Returns English translation if available and locale is English,
+  /// otherwise returns original Vietnamese categoryName
+  String? getLocalizedCategoryName(BuildContext context) {
+    if (categoryName == null) return null;
+    final locale = Localizations.localeOf(context);
+    return DatabaseTranslations.getCategoryName(categoryName!, locale.languageCode);
+  }
 }
+

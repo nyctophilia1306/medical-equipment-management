@@ -185,7 +185,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 children: [
                   const Icon(Icons.block, color: Colors.white, size: 20),
                   const SizedBox(width: 8),
-                  Expanded(child: Text('${equipment.name} is not available')),
+                  Expanded(child: Text('${equipment.getLocalizedName(context)} is not available')),
                 ],
               ),
               duration: const Duration(seconds: 2),
@@ -227,7 +227,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          '${equipment.name} quantity: $currentQty → ${currentQty + 1}',
+                          '${equipment.getLocalizedName(context)} quantity: $currentQty → ${currentQty + 1}',
                         ),
                       ),
                     ],
@@ -255,7 +255,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
-                          'Maximum quantity reached for ${equipment.name}',
+                          'Maximum quantity reached for ${equipment.getLocalizedName(context)}',
                         ),
                       ),
                     ],
@@ -289,7 +289,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       size: 20,
                     ),
                     const SizedBox(width: 8),
-                    Expanded(child: Text('✓ ${equipment.name} added')),
+                    Expanded(child: Text('✓ ${equipment.getLocalizedName(context)} added')),
                   ],
                 ),
                 duration: const Duration(milliseconds: 800),
@@ -359,7 +359,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       if (equipment.availableQty <= 0) {
         setState(
           () => _message =
-              'Equipment ${equipment.name} is not available for borrowing',
+              'Equipment ${equipment.getLocalizedName(context)} is not available for borrowing',
         );
         return;
       }
@@ -398,7 +398,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       final borrowQty = _borrowQuantities[entry.key] ?? 0;
       if (borrowQty <= 0 || borrowQty > equipment.availableQty) {
         setState(
-          () => _message = 'Invalid borrow quantity for ${equipment.name}',
+          () => _message = 'Invalid borrow quantity for ${equipment.getLocalizedName(context)}',
         );
         return;
       }

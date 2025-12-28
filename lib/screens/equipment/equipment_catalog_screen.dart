@@ -375,7 +375,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                           ..._categories.map(
                             (c) => DropdownMenuItem(
                               value: c.name,
-                              child: Text(c.name),
+                              child: Text(c.getLocalizedName(context)),
                             ),
                           ),
                         ],
@@ -497,7 +497,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                         ..._categories.map(
                           (c) => DropdownMenuItem(
                             value: c.name,
-                            child: Text(c.name),
+                            child: Text(c.getLocalizedName(context)),
                           ),
                         ),
                       ],
