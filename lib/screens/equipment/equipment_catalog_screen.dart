@@ -756,7 +756,7 @@ class _EquipmentCard extends StatelessWidget {
         if (AuthService().canManageEquipment()) ...[
           TextButton.icon(
             icon: const Icon(Icons.edit),
-            label: const Text('Edit'),
+            label: const Text('Sửa'),
             onPressed: () {
               Navigator.of(context).pop();
               onEdit(item);
@@ -764,7 +764,7 @@ class _EquipmentCard extends StatelessWidget {
           ),
           TextButton.icon(
             icon: const Icon(Icons.delete, color: AppColors.errorRed),
-            label: const Text('Delete'),
+            label: const Text('Xóa'),
             style: TextButton.styleFrom(foregroundColor: AppColors.errorRed),
             onPressed: () {
               Navigator.of(context).pop();
@@ -773,7 +773,7 @@ class _EquipmentCard extends StatelessWidget {
           ),
         ],
         TextButton(
-          child: const Text('Close'),
+          child: const Text('Đóng'),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],

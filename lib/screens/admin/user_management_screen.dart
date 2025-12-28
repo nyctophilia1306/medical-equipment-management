@@ -121,10 +121,10 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _buildFilterChip('All', null),
-                      _buildFilterChip('Admins', 0),
-                      _buildFilterChip('Managers', 1),
-                      _buildFilterChip('Users', 2),
+                      _buildFilterChip('Tất Cả', null),
+                      _buildFilterChip('Quản Trị Viên', 0),
+                      _buildFilterChip('Quản Lý', 1),
+                      _buildFilterChip('Người Dùng', 2),
                     ],
                   ),
                 ),
@@ -381,7 +381,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                     controller: passwordController,
                     obscureText: true,
                     decoration: const InputDecoration(
-                      labelText: 'Password *',
+                      labelText: 'Mật Khẩu *',
                       prefixIcon: Icon(Icons.lock),
                     ),
                   ),
@@ -483,7 +483,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel'),
+              child: const Text('Hủy'),
             ),
             ElevatedButton(
               onPressed: () async {

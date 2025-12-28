@@ -474,7 +474,7 @@ class _EquipmentImportPreviewDialogState
                       child: ElevatedButton.icon(
                         onPressed: () => _downloadQrCode(row),
                         icon: const Icon(Icons.download, size: 16),
-                        label: const Text('Download', style: TextStyle(fontSize: 12)),
+                        label: const Text('Tải Xuống', style: TextStyle(fontSize: 12)),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
                         ),

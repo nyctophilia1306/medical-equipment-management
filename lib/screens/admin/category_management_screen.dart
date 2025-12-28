@@ -589,7 +589,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('OK'),
+              child: const Text('Đồng Ý'),
             ),
           ],
         ),

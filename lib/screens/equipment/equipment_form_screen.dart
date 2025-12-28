@@ -283,7 +283,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                     ),
                     actions: [
                       TextButton(
-                        child: const Text('OK'),
+                        child: const Text('Đồng Ý'),
                         onPressed: () => Navigator.of(ctx).pop(),
                       ),
                     ],
@@ -736,7 +736,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 }
               }
             },
-            child: const Text('Add'),
+            child: const Text('Thêm'),
           ),
         ],
       ),

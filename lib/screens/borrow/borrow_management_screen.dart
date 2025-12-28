@@ -637,7 +637,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   textStyle: const TextStyle(fontSize: 14),
                 ),
-                child: const Text('Add'),
+                child: const Text('Thêm'),
               ),
             ),
           ],
@@ -645,7 +645,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         if (_scannedEquipment.isEmpty)
           const Padding(
             padding: EdgeInsets.only(top: 16),
-            child: Text('No equipment scanned yet'),
+            child: Text('Chưa có thiết bị nào được quét'),
           ),
         const SizedBox(height: 16),
         _scannedEquipment.isNotEmpty

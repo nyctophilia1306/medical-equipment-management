@@ -27,12 +27,12 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
   bool _hasMore = true;
 
   final List<String> _categories = [
-    'All',
-    'Authentication',
-    'Equipment',
-    'Borrow Request',
-    'Category',
-    'User',
+    'Tất Cả',
+    'Xác Thực',
+    'Thiết Bị',
+    'Yêu Cầu Mượn',
+    'Danh Mục',
+    'Người Dùng',
   ];
 
   @override
