@@ -348,7 +348,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     const Icon(Icons.verified_user, size: 16, color: AppColors.primaryBlue),
                     const SizedBox(width: 6),
                     Text(
-                      'Signed in as ${currentUser!.userName} · ${_getRoleDisplayName(currentUser!.roleId)}',
+                      'Đã đăng nhập với tên ${currentUser!.userName} · ${_getRoleDisplayName(currentUser!.roleId)}',
                       style: GoogleFonts.inter(fontSize: 12, color: AppColors.primaryBlue, fontWeight: FontWeight.w600),
                     ),
                   ],

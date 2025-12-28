@@ -314,7 +314,7 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
   String _getSearchHint() {
     switch (_searchMode) {
       case 'serial':
-        return 'Search by request serial (e.g., 15012501)';
+        return 'Tìm theo số serial yêu cầu (ví dụ: 15012501)';
       case 'user':
         return 'Search by user name';
       case 'date':

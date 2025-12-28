@@ -68,7 +68,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Admin Dashboard',
+                          'Bảng Điều Khiển Quản Trị',
                           style: GoogleFonts.inter(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -76,7 +76,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                           ),
                         ),
                         Text(
-                          'System overview and administrative controls',
+                          'Tổng quan hệ thống và quản lý',
                           style: GoogleFonts.inter(
                             fontSize: 14,
                             color: AppColors.textSecondary,
@@ -129,7 +129,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'System Statistics',
+          'Thống Kê Hệ Thống',
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -143,21 +143,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           children: [
             Expanded(
               child: _buildStatCard(
-                title: 'Total Users',
+                title: 'Tổng Người Dùng',
                 value: '${userStats['total'] ?? 0}',
                 icon: Icons.people,
                 color: AppColors.primaryBlue,
-                subtitle: 'Admins: ${userStats['admins'] ?? 0} | Managers: ${userStats['managers'] ?? 0}',
+                subtitle: 'Quản Trị: ${userStats['admins'] ?? 0} | Quản Lý: ${userStats['managers'] ?? 0}',
               ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
             Expanded(
               child: _buildStatCard(
-                title: 'Total Equipment',
+                title: 'Tổng Thiết Bị',
                 value: '${equipmentStats['totalItems'] ?? 0}',
                 icon: Icons.inventory_2,
                 color: AppColors.successGreen,
-                subtitle: 'Qty: ${equipmentStats['totalQuantity'] ?? 0} | Available: ${equipmentStats['availableQuantity'] ?? 0}',
+                subtitle: 'Số Lượng: ${equipmentStats['totalQuantity'] ?? 0} | Có Sẵn: ${equipmentStats['availableQuantity'] ?? 0}',
               ),
             ),
           ],
@@ -170,21 +170,21 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           children: [
             Expanded(
               child: _buildStatCard(
-                title: 'Pending Requests',
+                title: 'Yêu Cầu Chờ Duyệt',
                 value: '${borrowStats['pending'] ?? 0}',
                 icon: Icons.pending_actions,
                 color: AppColors.warningYellow,
-                subtitle: 'Approved: ${borrowStats['approved'] ?? 0}',
+                subtitle: 'Đã Duyệt: ${borrowStats['approved'] ?? 0}',
               ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
             Expanded(
               child: _buildStatCard(
-                title: 'Returned',
+                title: 'Đã Trả',
                 value: '${borrowStats['returned'] ?? 0}',
                 icon: Icons.check_circle,
                 color: AppColors.primaryBlue,
-                subtitle: 'Total: ${borrowStats['total'] ?? 0}',
+                subtitle: 'Tổng: ${borrowStats['total'] ?? 0}',
               ),
             ),
           ],
@@ -266,7 +266,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Administration',
+          'Quản Trị',
           style: GoogleFonts.inter(
             fontSize: 18,
             fontWeight: FontWeight.w600,
@@ -296,8 +296,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               childAspectRatio: 1.4,
               children: [
                 _buildFunctionCard(
-                  title: 'User Management',
-                  subtitle: 'Manage users & roles',
+                  title: 'Quản Lý Người Dùng',
+                  subtitle: 'Quản lý người dùng & vai trò',
                   icon: Icons.people_outlined,
                   color: AppColors.primaryBlue,
                   onTap: () => Navigator.push(
@@ -306,8 +306,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Equipment',
-                  subtitle: 'CRUD operations',
+                  title: 'Thiết Bị',
+                  subtitle: 'Quản lý thiết bị',
                   icon: Icons.medical_services_outlined,
                   color: AppColors.successGreen,
                   onTap: () => Navigator.push(
@@ -316,8 +316,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Categories',
-                  subtitle: 'Manage categories',
+                  title: 'Danh Mục',
+                  subtitle: 'Quản lý danh mục',
                   icon: Icons.category_outlined,
                   color: AppColors.warningYellow,
                   onTap: () => Navigator.push(
@@ -326,8 +326,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Analytics',
-                  subtitle: 'Detailed insights',
+                  title: 'Phân Tích',
+                  subtitle: 'Thống kê chi tiết',
                   icon: Icons.analytics_outlined,
                   color: AppColors.softTeal,
                   onTap: () => Navigator.push(
@@ -336,8 +336,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   ),
                 ),
                 _buildFunctionCard(
-                  title: 'Audit Logs',
-                  subtitle: 'Activity tracking',
+                  title: 'Nhật Ký Kiểm Toán',
+                  subtitle: 'Theo dõi hoạt động',
                   icon: Icons.history_outlined,
                   color: AppColors.grayNeutral600,
                   onTap: () => Navigator.push(

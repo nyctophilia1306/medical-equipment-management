@@ -366,7 +366,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
   String _getSearchHint() {
     switch (_searchMode) {
       case 'serial':
-        return 'Search by request serial (e.g., 15012501)';
+        return 'Tìm theo số serial yêu cầu (ví dụ: 15012501)';
       case 'user':
         return 'Search by user name';
       case 'date':
@@ -415,7 +415,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
             Text(
               _searchController.text.isNotEmpty || _selectedDate != null
                   ? 'No requests match your search'
-                  : 'No active borrow requests',
+                  : 'Không có yêu cầu mượn hoạt động',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],

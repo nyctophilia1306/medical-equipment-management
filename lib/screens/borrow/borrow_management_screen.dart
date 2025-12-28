@@ -457,8 +457,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         TextFormField(
           controller: _fullNameController,
           decoration: const InputDecoration(
-            labelText: 'Full Name *',
-            hintText: 'Enter your full name',
+            labelText: 'Họ Và Tên *',
+            hintText: 'Nhập họ và tên',
           ),
         ),
         const SizedBox(height: 8),
@@ -466,7 +466,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           controller: _phoneController,
           decoration: const InputDecoration(
             labelText: 'Phone',
-            hintText: 'Enter phone number',
+            hintText: 'Nhập số điện thoại',
           ),
           keyboardType: TextInputType.phone,
         ),
@@ -485,15 +485,15 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           },
           child: InputDecorator(
             decoration: const InputDecoration(
-              labelText: 'Date of Birth *',
-              hintText: 'Select your date of birth',
+              labelText: 'Ngày Sinh *',
+              hintText: 'Chọn ngày sinh',
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   _userDob == null
-                      ? 'Select date'
+                      ? 'Chọn ngày'
                       : DateFormat('yyyy-MM-dd').format(_userDob!),
                 ),
                 const Icon(Icons.calendar_today),
@@ -506,12 +506,12 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           initialValue: _selectedGender,
           decoration: const InputDecoration(
             labelText: 'Gender *',
-            hintText: 'Select your gender',
+            hintText: 'Chọn giới tính',
           ),
           items: const [
-            DropdownMenuItem(value: 'male', child: Text('Male')),
-            DropdownMenuItem(value: 'female', child: Text('Female')),
-            DropdownMenuItem(value: 'other', child: Text('Other')),
+            DropdownMenuItem(value: 'male', child: Text('Nam')),
+            DropdownMenuItem(value: 'female', child: Text('Nữ')),
+            DropdownMenuItem(value: 'other', child: Text('Khác')),
           ],
           onChanged: (value) => setState(() => _selectedGender = value),
         ),
@@ -556,19 +556,19 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     return Row(
       children: [
         Expanded(
-          child: Text('Borrow date: ${_formatDate(_borrowDate)}'),
+          child: Text('Ngày mượn: ${_formatDate(_borrowDate)}'),
         ),
         TextButton(
           onPressed: () => _pickDate(context, true),
-          child: const Text('Pick'),
+          child: const Text('Chọn'),
         ),
         const SizedBox(width: 8),
         Expanded(
-          child: Text('Return date: ${_formatDate(_returnDate)}'),
+          child: Text('Ngày trả: ${_formatDate(_returnDate)}'),
         ),
         TextButton(
           onPressed: () => _pickDate(context, false),
-          child: const Text('Pick'),
+          child: const Text('Chọn'),
         ),
       ],
     );
@@ -593,7 +593,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 child: TextField(
                   controller: _serialController,
                   decoration: const InputDecoration(
-                    hintText: 'Enter serial number',
+                    hintText: 'Nhập số serial',
                     prefixIcon: Icon(Icons.edit),
                     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 12),
                     border: OutlineInputBorder(),
@@ -694,7 +694,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             children: [
               Expanded(
                 child: Text(
-                  'Borrower',
+                  'Người Mượn',
                   style: GoogleFonts.inter(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
@@ -705,7 +705,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 value: _isNewUser,
                 onChanged: (v) => setState(() => _isNewUser = v),
               ),
-              Text(_isNewUser ? 'New' : 'Existing'),
+              Text(_isNewUser ? 'Mới' : 'Cũ'),
             ],
           ),
           const SizedBox(height: 8),
@@ -714,7 +714,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           _buildDatePickers(),
           const Divider(),
           Text(
-            'Scanned equipment (by QR/serial)',
+            'Thiết bị đã quét (theo QR/serial)',
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 8),
@@ -734,7 +734,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 onPressed: _loading ? null : _saveRequest,
                 child: _loading
                     ? const CircularProgressIndicator()
-                    : const Text('Save Request'),
+                    : const Text('Lưu Yêu Cầu'),
               ),
               const SizedBox(width: 12),
               OutlinedButton(
@@ -743,7 +743,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   _borrowQuantities.clear();
                   _message = null;
                 }),
-                child: const Text('Clear'),
+                child: const Text('Xóa'),
               ),
             ],
           ),
@@ -984,8 +984,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white70,
                   tabs: const [
-                    Tab(text: 'Create Request',),
-                    Tab(text: 'Manage Requests',),
+                    Tab(text: 'Tạo Yêu Cầu',),
+                    Tab(text: 'Quản Lý Yêu Cầu',),
                   ],
                 ),
               ),
