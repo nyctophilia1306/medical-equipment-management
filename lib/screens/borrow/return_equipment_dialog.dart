@@ -50,7 +50,7 @@ class _ReturnEquipmentDialogState extends State<ReturnEquipmentDialog> {
               controller: _notesController,
               maxLines: 3,
               decoration: const InputDecoration(
-                labelText: 'Notes',
+                labelText: 'Ghi Chú',
                 hintText: 'Any additional notes about the return',
               ),
             ),

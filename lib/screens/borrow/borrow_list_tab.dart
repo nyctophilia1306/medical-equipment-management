@@ -246,9 +246,9 @@ class _BorrowListTabState extends State<BorrowListTab> {
                 children: [
                   _buildSearchModeChip('Serial', 'serial'),
                   const SizedBox(width: 8),
-                  _buildSearchModeChip('User', 'user'),
+                  _buildSearchModeChip('Người Dùng', 'user'),
                   const SizedBox(width: 8),
-                  _buildSearchModeChip('Date', 'date'),
+                  _buildSearchModeChip('Ngày', 'date'),
                   const Spacer(),
                   
                   // Date Filter Button

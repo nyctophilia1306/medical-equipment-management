@@ -173,7 +173,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: _passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                labelText: 'Password',
+                labelText: 'Mật Khẩu',
                 prefixIcon: Icon(
                   Icons.lock_outlined,
                   color: AppColors.textSecondary,
@@ -195,10 +195,10 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your password';
+                  return 'Vui lòng nhập mật khẩu';
                 }
                 if (value.length < AppConstants.minPasswordLength) {
-                  return 'Password must be at least ${AppConstants.minPasswordLength} characters';
+                  return 'Mật khẩu phải có ít nhất ${AppConstants.minPasswordLength} ký tự';
                 }
                 return null;
               },
@@ -212,7 +212,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: TextButton(
                 onPressed: _isLoading ? null : _showForgotPasswordDialog,
                 child: Text(
-                  'Forgot Password?',
+                  'Quên Mật Khẩu?',
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     color: AppColors.primaryBlue,
@@ -246,7 +246,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       )
                     : Text(
-                        'Sign In',
+                        'Đăng Nhập',
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -288,7 +288,7 @@ class _SignInScreenState extends State<SignInScreen> {
           
           const SizedBox(height: AppConstants.paddingSmall),
           
-          _buildDemoAccount('Admin', 'admin@medequip.com', 'password123'),
+          _buildDemoAccount('Quản Trị Viên', 'admin@medequip.com', 'password123'),
           _buildDemoAccount('Manager', 'manager@demo.test', 'Password1!'),
         ],
       ),
@@ -421,14 +421,14 @@ class _SignInScreenState extends State<SignInScreen> {
       context: currentContext,
       builder: (dialogContext) => AlertDialog(
         title: Text(
-          'Reset Password',
+          'Đặt Lại Mật Khẩu',
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Enter your email address and we\'ll send you a link to reset your password.',
+              'Nhập địa chỉ email của bạn và chúng tôi sẽ gửi liên kết để đặt lại mật khẩu.',
               style: GoogleFonts.inter(fontSize: 14),
             ),
             const SizedBox(height: AppConstants.paddingMedium),
@@ -436,7 +436,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
-                labelText: 'Email Address',
+                labelText: 'Địa Chỉ Email',
                 border: OutlineInputBorder(),
               ),
             ),
@@ -461,7 +461,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Password reset link sent to your email'),
+                        content: Text('Liên kết đặt lại mật khẩu đã được gửi đến email của bạn'),
                         backgroundColor: AppColors.successGreen,
                       ),
                     );
@@ -469,7 +469,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 });
               }
             },
-            child: const Text('Send Link'),
+            child: const Text('Gửi Liên Kết'),
           ),
         ],
       ),
@@ -485,7 +485,7 @@ class _SignInScreenState extends State<SignInScreen> {
       context: currentContext,
       builder: (dialogContext) => AlertDialog(
         title: Text(
-          'Sign In Failed',
+          'Đăng Nhập Thất Bại',
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Text(
@@ -495,7 +495,7 @@ class _SignInScreenState extends State<SignInScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('OK'),
+            child: const Text('Đồng Ý'),
           ),
         ],
       ),
