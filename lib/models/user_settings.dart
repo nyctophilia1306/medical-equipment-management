@@ -28,7 +28,7 @@ class UserSettings {
     return UserSettings(
       userId: json['user_id'] as String,
       themeMode: json['theme_mode'] as String? ?? themeModeLight,
-      language: json['language'] as String? ?? languageEnglish,
+      language: json['language'] as String? ?? languageVietnamese,
       emailNotifications: json['email_notifications'] as bool? ?? true,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
@@ -51,7 +51,7 @@ class UserSettings {
     return UserSettings(
       userId: userId,
       themeMode: themeModeLight,
-      language: languageEnglish,
+      language: languageVietnamese,
       emailNotifications: true,
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),

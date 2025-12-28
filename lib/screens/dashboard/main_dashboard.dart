@@ -9,7 +9,6 @@ import '../equipment/equipment_catalog_screen.dart';
 import '../borrow/borrow_management_screen.dart';
 import '../admin/admin_dashboard_screen.dart';
 import '../auth/sign_in_screen.dart';
-import '../settings/settings_screen.dart';
 
 class MainDashboard extends StatefulWidget {
   const MainDashboard({super.key});
@@ -408,11 +407,6 @@ class _MainDashboardState extends State<MainDashboard> {
       );
     }
 
-    // Settings (Available to all roles)
-    items.add(
-      NavigationItem(icon: Icons.settings_outlined, title: l10n.settings),
-    );
-
     return items;
   }
 
@@ -431,9 +425,6 @@ class _MainDashboardState extends State<MainDashboard> {
     if (currentUser?.canManageUsers == true) {
       screens.add(const AdminDashboardScreen());
     }
-
-    // Settings (Available to all roles)
-    screens.add(const SettingsScreen());
 
     return screens;
   }
