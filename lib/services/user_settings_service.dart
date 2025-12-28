@@ -33,7 +33,7 @@ class UserSettingsService {
   Future<UserSettings> createDefaultSettings(String userId) async {
     try {
       final defaultSettings = UserSettings.defaultSettings(userId);
-      
+
       await _supabase.from('user_settings').insert({
         'user_id': userId,
         'theme_mode': defaultSettings.themeMode,
@@ -59,10 +59,11 @@ class UserSettingsService {
   }) async {
     try {
       final updates = <String, dynamic>{};
-      
+
       if (themeMode != null) updates['theme_mode'] = themeMode;
       if (language != null) updates['language'] = language;
-      if (emailNotifications != null) updates['email_notifications'] = emailNotifications;
+      if (emailNotifications != null)
+        updates['email_notifications'] = emailNotifications;
 
       if (updates.isEmpty) {
         Logger.info('No settings to update for user $userId');
@@ -143,10 +144,7 @@ class UserSettingsService {
   /// Delete user settings (used when deleting a user)
   Future<bool> deleteSettings(String userId) async {
     try {
-      await _supabase
-          .from('user_settings')
-          .delete()
-          .eq('user_id', userId);
+      await _supabase.from('user_settings').delete().eq('user_id', userId);
 
       Logger.info('Deleted settings for user $userId');
       return true;

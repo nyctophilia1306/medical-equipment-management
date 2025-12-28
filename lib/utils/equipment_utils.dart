@@ -3,7 +3,7 @@ import 'dart:math';
 class EquipmentUtils {
   static final RegExp _serialNumberFormat = RegExp(r'^[A-Z]{2}\d{6}$');
   static final RegExp _qrCodeFormat = RegExp(r'^[A-Z]{3}-[A-Z0-9]{6}$');
-  
+
   /// Generates a serial number in format XXYYYYYY where:
   /// - XX is first 2 letters of category name
   /// - YYYYYY is 6 random digits
@@ -53,6 +53,9 @@ class EquipmentUtils {
   static String _generateRandomAlphanumeric(int length) {
     final random = Random();
     const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    return List.generate(length, (_) => chars[random.nextInt(chars.length)]).join();
+    return List.generate(
+      length,
+      (_) => chars[random.nextInt(chars.length)],
+    ).join();
   }
 }

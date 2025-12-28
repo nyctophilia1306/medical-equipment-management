@@ -9,7 +9,9 @@ class AppColors {
   static const Color primaryBlueLight = Color(0xFF3B82F6);
 
   // Medical Context Accents
-  static const Color softTeal = Color(0xFF14B8A6); // Soft teal for medical context
+  static const Color softTeal = Color(
+    0xFF14B8A6,
+  ); // Soft teal for medical context
   static const Color softTealLight = Color(0xFF5EEAD4);
   static const Color softTealDark = Color(0xFF0F766E);
 
@@ -31,11 +33,15 @@ class AppColors {
   static const Color backgroundCard = Color(0xFFFFFFFF);
 
   // Status Colors
-  static const Color successGreen = Color(0xFF10B981); // Available stock/success
+  static const Color successGreen = Color(
+    0xFF10B981,
+  ); // Available stock/success
   static const Color successGreenLight = Color(0xFF34D399);
   static const Color successGreenDark = Color(0xFF059669);
 
-  static const Color errorRed = Color(0xFFEF4444); // Errors/missing items/overdue
+  static const Color errorRed = Color(
+    0xFFEF4444,
+  ); // Errors/missing items/overdue
   static const Color errorRedLight = Color(0xFFF87171);
   static const Color errorRedDark = Color(0xFFDC2626);
 
@@ -52,7 +58,7 @@ class AppColors {
   // Shadow Colors
   static const Color shadowLight = Color(0x1A000000);
   static const Color shadowMedium = Color(0x26000000);
-  
+
   // Gradient Colors
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [primaryBlue, primaryBlueDark],

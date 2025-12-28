@@ -15,7 +15,7 @@ class AnalyticsScreen extends StatefulWidget {
 
 class _AnalyticsScreenState extends State<AnalyticsScreen> {
   final StatisticsService _statsService = StatisticsService();
-  
+
   String _selectedChart = 'Equipment Usage Over Time';
   DateTime _startDate = DateTime.now().subtract(const Duration(days: 30));
   DateTime _endDate = DateTime.now();
@@ -83,10 +83,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         title: const Text('Analytics Dashboard'),
         elevation: 0,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadData,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
         ],
       ),
       body: Column(
@@ -114,7 +111,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   },
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 // Date Range Selector
                 OutlinedButton.icon(
                   onPressed: _selectDateRange,
@@ -129,7 +126,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               ],
             ),
           ),
-          
+
           // Chart Display
           Expanded(
             child: _isLoading
@@ -187,7 +184,15 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+                    final days = [
+                      'Mon',
+                      'Tue',
+                      'Wed',
+                      'Thu',
+                      'Fri',
+                      'Sat',
+                      'Sun',
+                    ];
                     return Text(
                       days[value.toInt() % 7],
                       style: const TextStyle(fontSize: 10),
@@ -195,8 +200,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   },
                 ),
               ),
-              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
             ),
             borderData: FlBorderData(show: true),
             lineBarsData: [
@@ -246,7 +255,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    const categories = ['Cat A', 'Cat B', 'Cat C', 'Cat D', 'Cat E'];
+                    const categories = [
+                      'Cat A',
+                      'Cat B',
+                      'Cat C',
+                      'Cat D',
+                      'Cat E',
+                    ];
                     if (value.toInt() < categories.length) {
                       return Text(
                         categories[value.toInt()],
@@ -257,16 +272,43 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   },
                 ),
               ),
-              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
             ),
             borderData: FlBorderData(show: true),
             barGroups: [
-              BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 8, color: AppColors.primaryBlue)]),
-              BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 10, color: AppColors.successGreen)]),
-              BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 6, color: AppColors.warningYellow)]),
-              BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 12, color: AppColors.softTeal)]),
-              BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 5, color: AppColors.grayNeutral600)]),
+              BarChartGroupData(
+                x: 0,
+                barRods: [
+                  BarChartRodData(toY: 8, color: AppColors.primaryBlue),
+                ],
+              ),
+              BarChartGroupData(
+                x: 1,
+                barRods: [
+                  BarChartRodData(toY: 10, color: AppColors.successGreen),
+                ],
+              ),
+              BarChartGroupData(
+                x: 2,
+                barRods: [
+                  BarChartRodData(toY: 6, color: AppColors.warningYellow),
+                ],
+              ),
+              BarChartGroupData(
+                x: 3,
+                barRods: [BarChartRodData(toY: 12, color: AppColors.softTeal)],
+              ),
+              BarChartGroupData(
+                x: 4,
+                barRods: [
+                  BarChartRodData(toY: 5, color: AppColors.grayNeutral600),
+                ],
+              ),
             ],
           ),
         ),
@@ -365,8 +407,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   ),
                 ),
               ),
-              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
             ),
             borderData: FlBorderData(show: true),
             lineBarsData: [
@@ -416,7 +462,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
+                    const items = [
+                      'Item 1',
+                      'Item 2',
+                      'Item 3',
+                      'Item 4',
+                      'Item 5',
+                    ];
                     if (value.toInt() < items.length) {
                       return Text(
                         items[value.toInt()],
@@ -427,16 +479,45 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   },
                 ),
               ),
-              rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              rightTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
+              topTitles: const AxisTitles(
+                sideTitles: SideTitles(showTitles: false),
+              ),
             ),
             borderData: FlBorderData(show: true),
             barGroups: [
-              BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 25, color: AppColors.primaryBlue)]),
-              BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 20, color: AppColors.primaryBlue)]),
-              BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 18, color: AppColors.primaryBlue)]),
-              BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 15, color: AppColors.primaryBlue)]),
-              BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 12, color: AppColors.primaryBlue)]),
+              BarChartGroupData(
+                x: 0,
+                barRods: [
+                  BarChartRodData(toY: 25, color: AppColors.primaryBlue),
+                ],
+              ),
+              BarChartGroupData(
+                x: 1,
+                barRods: [
+                  BarChartRodData(toY: 20, color: AppColors.primaryBlue),
+                ],
+              ),
+              BarChartGroupData(
+                x: 2,
+                barRods: [
+                  BarChartRodData(toY: 18, color: AppColors.primaryBlue),
+                ],
+              ),
+              BarChartGroupData(
+                x: 3,
+                barRods: [
+                  BarChartRodData(toY: 15, color: AppColors.primaryBlue),
+                ],
+              ),
+              BarChartGroupData(
+                x: 4,
+                barRods: [
+                  BarChartRodData(toY: 12, color: AppColors.primaryBlue),
+                ],
+              ),
             ],
           ),
         ),

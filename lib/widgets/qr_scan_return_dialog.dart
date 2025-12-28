@@ -87,13 +87,13 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
 
       // Extract serial from QR (format: XXYYYY where XX is category, YYYY is number)
       final equipmentSerial = _extractSerialFromEquipment(request);
-      
+
       if (equipmentSerial == scannedSerial) {
         setState(() {
           _selectedEquipment[request.id] = true;
         });
         found = true;
-        
+
         // Show success feedback
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -146,11 +146,17 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: AppColors.primaryBlue,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.assignment_return, color: Colors.white, size: 28),
+                  const Icon(
+                    Icons.assignment_return,
+                    color: Colors.white,
+                    size: 28,
+                  ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: Column(
@@ -222,7 +228,10 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.red,
                             foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
                           ),
                         ),
                       ),
@@ -249,8 +258,8 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                           _selectedCount == _totalCount
                               ? Icons.check_circle
                               : _selectedCount > 0
-                                  ? Icons.check_circle_outline
-                                  : Icons.radio_button_unchecked,
+                              ? Icons.check_circle_outline
+                              : Icons.radio_button_unchecked,
                           color: AppColors.primaryBlue,
                         ),
                         const SizedBox(width: 12),
@@ -268,7 +277,9 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                   const SizedBox(height: 16),
 
                   // Equipment Items
-                  ...widget.requests.map((request) => _buildEquipmentItem(request)),
+                  ...widget.requests.map(
+                    (request) => _buildEquipmentItem(request),
+                  ),
                 ],
               ),
             ),
@@ -278,7 +289,9 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.grey[100],
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(16)),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(16),
+                ),
               ),
               child: Column(
                 children: [
@@ -294,7 +307,10 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                           backgroundColor: AppColors.primaryBlue,
                           foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 14),
-                          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                          textStyle: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -332,7 +348,10 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                             backgroundColor: Colors.green,
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 14),
-                            textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                            textStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
                       ),
@@ -377,10 +396,7 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
                   ),
                   Text(
                     'Qty: ${request.quantity} - Already Returned',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
                 ],
               ),
@@ -395,7 +411,9 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primaryBlue.withValues(alpha: 0.05) : Colors.white,
+        color: isSelected
+            ? AppColors.primaryBlue.withValues(alpha: 0.05)
+            : Colors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
           color: isSelected ? AppColors.primaryBlue : Colors.grey[300]!,
@@ -407,17 +425,11 @@ class _QRScanReturnDialogState extends State<QRScanReturnDialog> {
         onChanged: (value) => _toggleSelection(request.id),
         title: Text(
           request.equipmentName,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
           'Quantity: ${request.quantity}',
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[600],
-          ),
+          style: TextStyle(fontSize: 12, color: Colors.grey[600]),
         ),
         secondary: Container(
           width: 40,

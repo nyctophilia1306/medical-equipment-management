@@ -14,14 +14,14 @@ class DataService {
 
   final SupabaseClient _supabase = Supabase.instance.client;
   final AuthService _authService = AuthService();
-  
+
   // Expose the Supabase client for diagnostic tools
   SupabaseClient get supabaseClient => _supabase;
 
   // Equipment CRUD operations
   Future<List<Equipment>> getEquipment({
     String? searchQuery,
-    String? category,   
+    String? category,
     String? status,
     int? limit,
     int? offset,
@@ -45,15 +45,17 @@ class DataService {
       }
 
       // Filter by category ID instead - first find the category ID for the given name
-      if (category != null && category.isNotEmpty && category.toLowerCase() != 'all') {
+      if (category != null &&
+          category.isNotEmpty &&
+          category.toLowerCase() != 'all') {
         try {
           // First get the category ID for the given name
           final categoryResponse = await _supabase
-            .from('equipment_categories')
-            .select('category_id')
-            .eq('category_name', category)
-            .maybeSingle();
-            
+              .from('equipment_categories')
+              .select('category_id')
+              .eq('category_name', category)
+              .maybeSingle();
+
           if (categoryResponse != null) {
             int categoryId = categoryResponse['category_id'];
             queryBuilder = queryBuilder.eq('category_id', categoryId);
@@ -64,26 +66,29 @@ class DataService {
         }
       }
 
-      if (status != null && status.isNotEmpty && status.toLowerCase() != 'all') {
+      if (status != null &&
+          status.isNotEmpty &&
+          status.toLowerCase() != 'all') {
         queryBuilder = queryBuilder.eq('status', status);
       }
 
       final response = await queryBuilder
-          .order('equipment_name')  // Use equipment_name for DB
+          .order('equipment_name') // Use equipment_name for DB
           .range(offset ?? 0, (offset ?? 0) + (limit ?? 1000) - 1);
-      
+
       // Transform and validate each equipment item
       List<Equipment> equipmentList = [];
       for (var json in response) {
         try {
           // Create a new JSON object with joined data
           final equipmentJson = Map<String, dynamic>.from(json);
-          
+
           // Add category_name from joined data
           if (json['equipment_categories'] != null) {
-            equipmentJson['category_name'] = json['equipment_categories']['category_name'];
+            equipmentJson['category_name'] =
+                json['equipment_categories']['category_name'];
           }
-          
+
           final equipment = Equipment.fromJson(equipmentJson);
           equipmentList.add(equipment);
         } catch (itemError) {
@@ -91,40 +96,49 @@ class DataService {
           Logger.error('Error parsing equipment item: $itemError', itemError);
         }
       }
-      
+
       return equipmentList;
     } catch (e) {
       Logger.error('Failed to fetch equipment: $e', e);
       throw Exception('Failed to fetch equipment: $e');
     }
-  }  Future<Equipment?> getEquipmentById(String id) async {
+  }
+
+  Future<Equipment?> getEquipmentById(String id) async {
     try {
       Logger.debug('Fetching equipment with ID: "$id"');
-      
+
       if (id.isEmpty) {
         Logger.warn('Empty equipment ID provided to getEquipmentById');
         return null;
       }
-      
+
       // First check if the table exists and has the right columns
       try {
         // Log raw query for diagnostic purposes
-        Logger.debug('Running query: SELECT * FROM equipment WHERE equipment_id = \'$id\'');
-        
+        Logger.debug(
+          'Running query: SELECT * FROM equipment WHERE equipment_id = \'$id\'',
+        );
+
         final response = await _supabase
             .from('equipment')
             .select()
-            .eq('equipment_id', id)  // Using equipment_id to match the database field
-            .maybeSingle();  // Use maybeSingle instead of single to handle not found case
+            .eq(
+              'equipment_id',
+              id,
+            ) // Using equipment_id to match the database field
+            .maybeSingle(); // Use maybeSingle instead of single to handle not found case
 
         if (response == null) {
           Logger.warn('No equipment found with ID: "$id"');
           return null;
         }
-        
+
         // Log the found record's details for diagnosis
         Logger.debug('Found equipment record: ${response.toString()}');
-        Logger.debug('Found equipment name: ${response['equipment_name']}, ID: ${response['equipment_id']}');
+        Logger.debug(
+          'Found equipment name: ${response['equipment_name']}, ID: ${response['equipment_id']}',
+        );
         return Equipment.fromJson(response);
       } catch (queryError) {
         Logger.error('Database query error: $queryError');
@@ -184,12 +198,12 @@ class DataService {
           .from('equipment_categories')
           .select('category_name')
           .order('category_name');
-          
+
       final list = response
           .map<String>((json) => json['category_name'].toString())
           .where((name) => name.isNotEmpty)
           .toList();
-          
+
       Logger.debug('Fetched ${list.length} categories for dropdown');
       return list;
     } catch (e) {
@@ -217,13 +231,14 @@ class DataService {
           ''')
           .eq('qr_code', qrCode)
           .maybeSingle();
-      
+
       if (response == null) return null;
 
       // Transform the response to include category name
       final equipmentJson = Map<String, dynamic>.from(response);
       if (response['equipment_categories'] != null) {
-        equipmentJson['category_name'] = response['equipment_categories']['category_name'];
+        equipmentJson['category_name'] =
+            response['equipment_categories']['category_name'];
       }
 
       return Equipment.fromJson(equipmentJson);
@@ -246,13 +261,14 @@ class DataService {
           ''')
           .eq('serial_number', serialNumber)
           .maybeSingle();
-      
+
       if (response == null) return null;
 
       // Transform the response to include category name
       final equipmentJson = Map<String, dynamic>.from(response);
       if (response['equipment_categories'] != null) {
-        equipmentJson['category_name'] = response['equipment_categories']['category_name'];
+        equipmentJson['category_name'] =
+            response['equipment_categories']['category_name'];
       }
 
       return Equipment.fromJson(equipmentJson);
@@ -293,21 +309,25 @@ class DataService {
   Future<String> generateUniqueSerialNumber(String categoryName) async {
     int attempts = 0;
     const maxAttempts = 10;
-    
+
     while (attempts < maxAttempts) {
-      final serialNumber = EquipmentIdentifiers.generateSerialNumber(categoryName);
+      final serialNumber = EquipmentIdentifiers.generateSerialNumber(
+        categoryName,
+      );
       if (!await serialNumberExists(serialNumber)) {
         return serialNumber;
       }
       attempts++;
     }
-    throw Exception('Could not generate unique serial number after $maxAttempts attempts');
+    throw Exception(
+      'Could not generate unique serial number after $maxAttempts attempts',
+    );
   }
 
   Future<String> generateUniqueQrCode(String categoryName) async {
     int attempts = 0;
     const maxAttempts = 10;
-    
+
     while (attempts < maxAttempts) {
       final qrCode = EquipmentIdentifiers.generateQrCode(categoryName);
       if (!await qrCodeExists(qrCode)) {
@@ -315,7 +335,9 @@ class DataService {
       }
       attempts++;
     }
-    throw Exception('Could not generate unique QR code after $maxAttempts attempts');
+    throw Exception(
+      'Could not generate unique QR code after $maxAttempts attempts',
+    );
   }
 
   Future<bool> serialNumberExists(String serialNumber) async {
@@ -349,34 +371,43 @@ class DataService {
         final categoryResponse = await _supabase
             .from('equipment_categories')
             .select('category_name')
-            .eq('category_id', equipment.categoryId ?? 1) // Default to General category (ID: 1) if null
+            .eq(
+              'category_id',
+              equipment.categoryId ?? 1,
+            ) // Default to General category (ID: 1) if null
             .single();
         categoryName = categoryResponse['category_name'] as String;
       }
-      
+
       // Generate serial number and QR code if not provided
-      final serialNumber = equipment.serialNumber ?? 
-          await generateUniqueSerial(categoryName);
-      final qrCode = equipment.qrCode ?? 
-          await generateUniqueQrCode(categoryName);
+      final serialNumber =
+          equipment.serialNumber ?? await generateUniqueSerial(categoryName);
+      final qrCode =
+          equipment.qrCode ?? await generateUniqueQrCode(categoryName);
 
       // Validate formats
       if (!EquipmentIdentifiers.isValidSerialNumber(serialNumber)) {
-        throw Exception('Invalid serial number format. Expected: XXYYYY (e.g., DI5678)');
+        throw Exception(
+          'Invalid serial number format. Expected: XXYYYY (e.g., DI5678)',
+        );
       }
       if (!EquipmentIdentifiers.isValidQrCode(qrCode)) {
-        throw Exception('Invalid QR code format. Expected: XXYYYY (same as serial)');
+        throw Exception(
+          'Invalid QR code format. Expected: XXYYYY (same as serial)',
+        );
       }
-      
+
       // Create equipment data with generated fields
       final equipmentData = {
         ...equipment.toJson(),
         'serial_number': serialNumber,
         'qr_code': qrCode,
+        'available_qty': equipment
+            .quantity, // Set available_qty equal to qty for new equipment
       };
-      
+
       Logger.debug('Creating equipment with data: ${equipmentData.toString()}');
-      
+
       final response = await _supabase
           .from('equipment')
           .insert(equipmentData)
@@ -415,42 +446,47 @@ class DataService {
     try {
       // Validate equipment ID with enhanced checks
       final equipmentId = equipment.id.trim();
-      Logger.debug('Validating equipment ID for update', {'raw_id': equipment.id, 'trimmed_id': equipmentId});
-      
+      Logger.debug('Validating equipment ID for update', {
+        'raw_id': equipment.id,
+        'trimmed_id': equipmentId,
+      });
+
       if (equipmentId.isEmpty) {
         Logger.error('Empty equipment ID after trimming');
         throw Exception('Equipment ID cannot be empty');
       }
-      
+
       // Check if equipment exists first with better diagnostics
       Logger.debug('Checking if equipment exists', {'id': equipmentId});
       final existing = await getEquipmentById(equipmentId);
-      
+
       if (existing == null) {
         Logger.error('Equipment not found for update', {'id': equipmentId});
         throw Exception('Equipment not found with ID: $equipmentId');
       }
-      
+
       Logger.debug('Found existing equipment', {
         'name': existing.name,
-        'id': existing.id
+        'id': existing.id,
       });
-      
+
       // Prepare update data with proper field mapping for the database
       final updateData = equipment.toJson();
-      
+
       // Include updated timestamp
       updateData['updated_at'] = DateTime.now().toIso8601String();
-      
+
       // Log the update operation details
-      Logger.debug('Updating equipment: ID=${equipment.id}, Name=${equipment.name}');
+      Logger.debug(
+        'Updating equipment: ID=${equipment.id}, Name=${equipment.name}',
+      );
       Logger.debug('Update data: ${updateData.toString()}');
-      
+
       // Check if the equipment ID is valid
       if (equipment.id.isEmpty) {
         throw Exception('Cannot update equipment with empty ID');
       }
-      
+
       // Perform the update with more robust error handling
       final response = await _supabase
           .from('equipment')
@@ -458,20 +494,24 @@ class DataService {
           .eq('equipment_id', equipment.id)
           .select()
           .maybeSingle(); // Use maybeSingle instead of single to handle no rows returned
-      
+
       // If no records were returned, re-fetch the equipment to ensure we have the latest data
       if (response == null) {
-        Logger.warn('No equipment returned from update, fetching latest version');
+        Logger.warn(
+          'No equipment returned from update, fetching latest version',
+        );
         final latestEquipment = await getEquipmentById(equipment.id);
         if (latestEquipment == null) {
           throw Exception('Equipment not found after update: ${equipment.id}');
         }
         return latestEquipment;
       }
-      
-      Logger.debug('Equipment updated successfully: ${response['equipment_name']}');
+
+      Logger.debug(
+        'Equipment updated successfully: ${response['equipment_name']}',
+      );
       final updatedEquipment = Equipment.fromJson(response);
-    
+
       // Log quantity changes if they occurred
       if (existing.quantity != updatedEquipment.quantity) {
         try {
@@ -495,10 +535,10 @@ class DataService {
       throw Exception('Failed to update equipment: $e');
     }
   }
-  
+
   /// Updates equipment with only specific fields to avoid schema issues
   Future<Equipment> safeUpdateEquipment({
-    required String equipmentId, 
+    required String equipmentId,
     String? name,
     String? description,
     String? category, // This is now just for display purposes
@@ -519,28 +559,30 @@ class DataService {
     try {
       // Validate equipment ID with verbose logging
       Logger.debug('SafeUpdateEquipment called with ID: "$equipmentId"');
-      
+
       if (equipmentId.isEmpty) {
         Logger.error('Equipment ID is empty in safeUpdateEquipment');
         throw Exception('Equipment ID cannot be empty');
       }
-      
+
       // Check if equipment exists first with verbose logging
       Logger.debug('Verifying equipment exists with ID: $equipmentId');
       final existing = await getEquipmentById(equipmentId);
-      
+
       if (existing == null) {
         Logger.error('Equipment not found with ID: $equipmentId');
         throw Exception('Equipment not found with ID: $equipmentId');
       }
-      
-      Logger.debug('Found existing equipment: ${existing.name} (ID: ${existing.id})');
-      
+
+      Logger.debug(
+        'Found existing equipment: ${existing.name} (ID: ${existing.id})',
+      );
+
       // Create minimal update data with only specified fields
       final Map<String, dynamic> updateData = {
-        'updated_at': DateTime.now().toIso8601String()
+        'updated_at': DateTime.now().toIso8601String(),
       };
-      
+
       // Only add fields that are provided (not null) and exist in the database
       // Make sure we use the exact field names as they appear in the database
       if (name != null) updateData['equipment_name'] = name;
@@ -548,36 +590,46 @@ class DataService {
       // Do not update the 'category' field anymore - it doesn't exist in the database
       if (categoryId != null) updateData['category_id'] = categoryId;
       if (roomId != null) updateData['room_id'] = roomId;
-      if (quantity != null) updateData['qty'] = quantity; // Database field is 'qty' not 'quantity'
+      if (quantity != null) {
+        // Calculate proportional available_qty when updating quantity
+        final borrowedQty = existing.quantity - existing.availableQty;
+        final newAvailableQty = quantity - borrowedQty;
+        updateData['qty'] = quantity;
+        updateData['available_qty'] = newAvailableQty > 0 ? newAvailableQty : 0;
+      }
       if (status != null) updateData['status'] = status;
       if (notes != null) updateData['notes'] = notes;
       if (imageUrl != null) updateData['image_url'] = imageUrl;
       if (serialNumber != null) updateData['serial_number'] = serialNumber;
       if (manufacturer != null) updateData['manufacturer'] = manufacturer;
-      
+
       // Optional fields that might need ALTER TABLE first
       // The equipment_simplify.sql script adds these if needed
-      if (model != null) updateData['model'] = model; 
+      if (model != null) updateData['model'] = model;
       if (serialNumber != null) updateData['serial_number'] = serialNumber;
-      
+
       // Log safe update operation details with enhanced diagnostic info
       Logger.debug('Safe updating equipment: ID=$equipmentId');
       Logger.debug('Safe update data: ${updateData.toString()}');
-      
+
       // First verify if the record exists to help diagnose the problem
       final checkRecord = await _supabase
           .from('equipment')
           .select('equipment_id')
           .eq('equipment_id', equipmentId)
           .maybeSingle();
-          
+
       if (checkRecord == null) {
-        Logger.error('Critical error: Equipment ID $equipmentId not found in database before update');
+        Logger.error(
+          'Critical error: Equipment ID $equipmentId not found in database before update',
+        );
         throw Exception('Equipment ID not found in database: $equipmentId');
       } else {
-        Logger.debug('Record found in database check: ${checkRecord['equipment_id']}');
+        Logger.debug(
+          'Record found in database check: ${checkRecord['equipment_id']}',
+        );
       }
-      
+
       try {
         // Perform the update with more robust error handling and diagnostic output
         Logger.debug('Executing update operation...');
@@ -586,11 +638,11 @@ class DataService {
             .update(updateData)
             .eq('equipment_id', equipmentId)
             .select();
-            
+
         // Check if any rows were returned
         if (response.isEmpty) {
           Logger.warn('Update succeeded but no rows were returned');
-          
+
           // Re-fetch the equipment to ensure we have the latest data
           final latestEquipment = await getEquipmentById(equipmentId);
           if (latestEquipment == null) {
@@ -599,11 +651,14 @@ class DataService {
           Logger.debug('Successfully fetched updated equipment after update');
           return latestEquipment;
         } else {
-          Logger.debug('Update succeeded with ${response.length} rows returned');
+          Logger.debug(
+            'Update succeeded with ${response.length} rows returned',
+          );
           final updatedEquipment = Equipment.fromJson(response[0]);
-          
+
           // Log quantity changes if they occurred
-          if (quantity != null && existing.quantity != updatedEquipment.quantity) {
+          if (quantity != null &&
+              existing.quantity != updatedEquipment.quantity) {
             try {
               await _createInventoryLog(
                 equipmentId: equipmentId,
@@ -618,7 +673,7 @@ class DataService {
               Logger.warn('Failed to create inventory log: $logError');
             }
           }
-          
+
           return updatedEquipment;
         }
       } catch (updateError) {
@@ -665,10 +720,11 @@ class DataService {
       await _supabase
           .from('equipment')
           .update({
-            'qty': newQuantity,  // In the database, this field is 'qty' not 'quantity'
+            'qty':
+                newQuantity, // In the database, this field is 'qty' not 'quantity'
             'updated_at': DateTime.now().toIso8601String(),
           })
-          .eq('equipment_id', equipmentId);  // Updated to use equipment_id
+          .eq('equipment_id', equipmentId); // Updated to use equipment_id
 
       // Log the inventory adjustment
       await _createInventoryLog(
@@ -719,8 +775,10 @@ class DataService {
       final response = await queryBuilder
           .order('created_at', ascending: false)
           .range(offset ?? 0, (offset ?? 0) + (limit ?? 1000) - 1);
-      
-      return response.map<BorrowRequest>((json) => BorrowRequest.fromJson(json)).toList();
+
+      return response
+          .map<BorrowRequest>((json) => BorrowRequest.fromJson(json))
+          .toList();
     } catch (e) {
       throw Exception('Failed to fetch borrow requests: $e');
     }
@@ -771,7 +829,8 @@ class DataService {
       };
 
       if (notes != null) updateData['notes'] = notes;
-      if (rejectionReason != null) updateData['rejection_reason'] = rejectionReason;
+      if (rejectionReason != null)
+        updateData['rejection_reason'] = rejectionReason;
 
       final response = await _supabase
           .from('borrow_requests')
@@ -867,8 +926,10 @@ class DataService {
       final response = await queryBuilder
           .order('created_at', ascending: false)
           .range(offset ?? 0, (offset ?? 0) + (limit ?? 1000) - 1);
-      
-      return response.map<InventoryLog>((json) => InventoryLog.fromJson(json)).toList();
+
+      return response
+          .map<InventoryLog>((json) => InventoryLog.fromJson(json))
+          .toList();
     } catch (e) {
       throw Exception('Failed to fetch inventory logs: $e');
     }
@@ -881,11 +942,9 @@ class DataService {
       // For now, we'll make multiple queries
       final equipmentStats = await _supabase
           .from('equipment')
-          .select('status, quantity');  // Updated field name
+          .select('status, quantity'); // Updated field name
 
-      final userStats = await _supabase
-          .from('users')
-          .select('id');
+      final userStats = await _supabase.from('users').select('id');
 
       final borrowRequestStats = await _supabase
           .from('borrow_requests')
@@ -901,7 +960,7 @@ class DataService {
 
       for (final item in equipmentStats) {
         final status = item['status'] as String;
-        final quantity = item['quantity'] as int;  // Updated field name
+        final quantity = item['quantity'] as int; // Updated field name
 
         if (status == 'available') availableEquipment++;
         if (status == 'borrowed') borrowedEquipment++;
@@ -940,27 +999,30 @@ class DataService {
   }
 
   // Private helper methods
-  Future<void> _updateEquipmentQuantityForBorrow(String equipmentId, int quantityChange) async {
+  Future<void> _updateEquipmentQuantityForBorrow(
+    String equipmentId,
+    int quantityChange,
+  ) async {
     try {
       final equipment = await getEquipmentById(equipmentId);
       if (equipment == null) {
         Logger.warn('Equipment not found with ID: $equipmentId');
         return;
       }
-      
+
       // Ensure quantity doesn't go below zero
       final newQuantity = math.max(0, equipment.quantity + quantityChange);
-      
+
       await _supabase
           .from('equipment')
           .update({
-            'qty': newQuantity,  // Database field is 'qty' not 'quantity'
+            'qty': newQuantity, // Database field is 'qty' not 'quantity'
             'updated_at': DateTime.now().toIso8601String(),
             // Update status based on new quantity
             'status': newQuantity == 0 ? 'borrowed' : 'available',
           })
-          .eq('equipment_id', equipmentId);  // Using equipment_id to match DB
-          
+          .eq('equipment_id', equipmentId); // Using equipment_id to match DB
+
       // Log the quantity change
       try {
         await _createInventoryLog(
@@ -970,7 +1032,9 @@ class DataService {
           quantityChange: quantityChange.abs(),
           quantityBefore: equipment.quantity,
           quantityAfter: newQuantity,
-          reason: quantityChange > 0 ? 'Equipment returned' : 'Equipment borrowed',
+          reason: quantityChange > 0
+              ? 'Equipment returned'
+              : 'Equipment borrowed',
         );
       } catch (logError) {
         // Log failure shouldn't block the operation

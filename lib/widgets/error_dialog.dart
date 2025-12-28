@@ -17,11 +17,7 @@ class ErrorDialog extends StatelessWidget {
     return AlertDialog(
       title: Text(title),
       content: SingleChildScrollView(
-        child: ListBody(
-          children: <Widget>[
-            Text(errorMessage),
-          ],
-        ),
+        child: ListBody(children: <Widget>[Text(errorMessage)]),
       ),
       actions: <Widget>[
         TextButton(

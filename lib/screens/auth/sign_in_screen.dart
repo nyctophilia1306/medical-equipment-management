@@ -20,7 +20,7 @@ class _SignInScreenState extends State<SignInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final AuthService _authService = AuthService();
-  
+
   bool _isLoading = false;
   bool _obscurePassword = true;
 
@@ -96,9 +96,9 @@ class _SignInScreenState extends State<SignInScreen> {
             color: AppColors.textOnPrimary,
           ),
         ),
-        
+
         const SizedBox(height: AppConstants.paddingMedium),
-        
+
         Text(
           'Welcome Back',
           style: GoogleFonts.inter(
@@ -107,9 +107,9 @@ class _SignInScreenState extends State<SignInScreen> {
             color: AppColors.textPrimary,
           ),
         ),
-        
+
         const SizedBox(height: AppConstants.paddingSmall),
-        
+
         Text(
           'Sign in to your ${AppConstants.appName} account',
           style: GoogleFonts.inter(
@@ -152,22 +152,26 @@ class _SignInScreenState extends State<SignInScreen> {
                   color: AppColors.textSecondary,
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.borderRadiusMedium,
+                  ),
                 ),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter your email';
                 }
-                if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                if (!RegExp(
+                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                ).hasMatch(value)) {
                   return 'Please enter a valid email address';
                 }
                 return null;
               },
             ),
-            
+
             const SizedBox(height: AppConstants.paddingMedium),
-            
+
             // Password Field
             TextFormField(
               controller: _passwordController,
@@ -190,7 +194,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                 ),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.borderRadiusMedium,
+                  ),
                 ),
               ),
               validator: (value) {
@@ -203,9 +209,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 return null;
               },
             ),
-            
+
             const SizedBox(height: AppConstants.paddingSmall),
-            
+
             // Forgot Password Link
             Align(
               alignment: Alignment.centerRight,
@@ -220,9 +226,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: AppConstants.paddingLarge),
-            
+
             // Sign In Button
             SizedBox(
               height: 56,
@@ -232,7 +238,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   backgroundColor: AppColors.primaryBlue,
                   foregroundColor: AppColors.textOnPrimary,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                    borderRadius: BorderRadius.circular(
+                      AppConstants.borderRadiusMedium,
+                    ),
                   ),
                   elevation: 2,
                 ),
@@ -269,10 +277,7 @@ class _SignInScreenState extends State<SignInScreen> {
       decoration: BoxDecoration(
         color: AppColors.grayNeutral100,
         borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
-        border: Border.all(
-          color: AppColors.grayNeutral300,
-          width: 1,
-        ),
+        border: Border.all(color: AppColors.grayNeutral300, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,10 +290,14 @@ class _SignInScreenState extends State<SignInScreen> {
               color: AppColors.textPrimary,
             ),
           ),
-          
+
           const SizedBox(height: AppConstants.paddingSmall),
-          
-          _buildDemoAccount('Quản Trị Viên', 'admin@medequip.com', 'password123'),
+
+          _buildDemoAccount(
+            'Quản Trị Viên',
+            'admin@medequip.com',
+            'password123',
+          ),
           _buildDemoAccount('Manager', 'manager@demo.test', 'Password1!'),
         ],
       ),
@@ -333,10 +342,7 @@ class _SignInScreenState extends State<SignInScreen> {
               color: AppColors.textSecondary,
             ),
             tooltip: 'Use this account',
-            constraints: const BoxConstraints(
-              minWidth: 32,
-              minHeight: 32,
-            ),
+            constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
           ),
         ],
       ),
@@ -371,25 +377,25 @@ class _SignInScreenState extends State<SignInScreen> {
     });
 
     try {
-      Logger.info('Attempting to sign in with email: ${_emailController.text.trim()}');
-      
+      Logger.info(
+        'Attempting to sign in with email: ${_emailController.text.trim()}',
+      );
+
       // Capture form data before async operation
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-      
+
       final result = await _authService.signInWithEmail(
         email: email,
         password: password,
       );
-      
+
       // ignore: use_build_context_synchronously
       if (mounted) {
         if (result.isSuccess) {
           Logger.info('Sign in successful, navigating to dashboard');
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const MainDashboard(),
-            ),
+            MaterialPageRoute(builder: (context) => const MainDashboard()),
           );
         } else {
           Logger.warn('Sign in failed: ${result.errorMessage}');
@@ -412,11 +418,11 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   // No sign-up navigation; accounts are admin-provisioned.
-  
+
   void _showForgotPasswordDialog() {
     final emailController = TextEditingController();
-    final currentContext = context;  // Store context reference
-    
+    final currentContext = context; // Store context reference
+
     showDialog(
       context: currentContext,
       builder: (dialogContext) => AlertDialog(
@@ -452,16 +458,18 @@ class _SignInScreenState extends State<SignInScreen> {
               if (emailController.text.isNotEmpty) {
                 // Capture email before async operation
                 final email = emailController.text.trim();
-                
+
                 // Close dialog first before async operation
                 Navigator.of(dialogContext).pop();
-                
+
                 // Then perform async operation without BuildContext concern
                 _authService.resetPassword(email).then((_) {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Liên kết đặt lại mật khẩu đã được gửi đến email của bạn'),
+                        content: Text(
+                          'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn',
+                        ),
                         backgroundColor: AppColors.successGreen,
                       ),
                     );
@@ -480,7 +488,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void _showErrorDialog(String message) {
     // Use a local context reference that won't be used across async gaps
     final currentContext = context;
-    
+
     showDialog(
       context: currentContext,
       builder: (dialogContext) => AlertDialog(
@@ -488,10 +496,7 @@ class _SignInScreenState extends State<SignInScreen> {
           'Đăng Nhập Thất Bại',
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
-        content: Text(
-          message,
-          style: GoogleFonts.inter(fontSize: 14),
-        ),
+        content: Text(message, style: GoogleFonts.inter(fontSize: 14)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),

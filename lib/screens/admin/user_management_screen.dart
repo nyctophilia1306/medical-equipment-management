@@ -16,7 +16,7 @@ class UserManagementScreen extends StatefulWidget {
 class _UserManagementScreenState extends State<UserManagementScreen> {
   final UserService _userService = UserService();
   final TextEditingController _searchController = TextEditingController();
-  
+
   List<app_user.User> _allUsers = [];
   List<app_user.User> _filteredUsers = [];
   bool _isLoading = true;
@@ -40,32 +40,37 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load users: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load users: $e')));
       }
     }
   }
 
   void _applyFilters() {
     var filtered = _allUsers;
-    
+
     // Role filter
     if (_selectedRoleFilter != null) {
-      filtered = filtered.where((u) => u.roleId == _selectedRoleFilter).toList();
+      filtered = filtered
+          .where((u) => u.roleId == _selectedRoleFilter)
+          .toList();
     }
-    
+
     // Search filter
     final query = _searchController.text.toLowerCase();
     if (query.isNotEmpty) {
-      filtered = filtered.where((u) =>
-        u.userName.toLowerCase().contains(query) ||
-        (u.fullName?.toLowerCase().contains(query) ?? false) ||
-        (u.email?.toLowerCase().contains(query) ?? false) ||
-        (u.phone?.toLowerCase().contains(query) ?? false)
-      ).toList();
+      filtered = filtered
+          .where(
+            (u) =>
+                u.userName.toLowerCase().contains(query) ||
+                (u.fullName?.toLowerCase().contains(query) ?? false) ||
+                (u.email?.toLowerCase().contains(query) ?? false) ||
+                (u.phone?.toLowerCase().contains(query) ?? false),
+          )
+          .toList();
     }
-    
+
     setState(() => _filteredUsers = filtered);
   }
 
@@ -74,14 +79,14 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
-        title: Text('User Management', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+        title: Text(
+          'User Management',
+          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: AppColors.backgroundWhite,
         elevation: 2,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: _loadUsers,
-          ),
+          IconButton(icon: const Icon(Icons.refresh), onPressed: _loadUsers),
         ],
       ),
       body: Column(
@@ -109,13 +114,15 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           )
                         : null,
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                      borderRadius: BorderRadius.circular(
+                        AppConstants.borderRadiusMedium,
+                      ),
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: AppConstants.paddingSmall),
-                
+
                 // Role Filter Chips
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
@@ -131,18 +138,19 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
               ],
             ),
           ),
-          
+
           // Users List
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _filteredUsers.isEmpty
-                    ? _buildEmptyState()
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(AppConstants.paddingMedium),
-                        itemCount: _filteredUsers.length,
-                        itemBuilder: (context, index) => _buildUserCard(_filteredUsers[index]),
-                      ),
+                ? _buildEmptyState()
+                : ListView.builder(
+                    padding: const EdgeInsets.all(AppConstants.paddingMedium),
+                    itemCount: _filteredUsers.length,
+                    itemBuilder: (context, index) =>
+                        _buildUserCard(_filteredUsers[index]),
+                  ),
           ),
         ],
       ),
@@ -187,7 +195,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundColor: _getRoleColor(user.roleId).withAlpha((0.2 * 255).round()),
+                  backgroundColor: _getRoleColor(
+                    user.roleId,
+                  ).withAlpha((0.2 * 255).round()),
                   child: Text(
                     user.userName.substring(0, 1).toUpperCase(),
                     style: GoogleFonts.inter(
@@ -224,24 +234,30 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 _buildRoleBadge(user.roleId),
               ],
             ),
-            
+
             const SizedBox(height: AppConstants.paddingSmall),
             const Divider(),
             const SizedBox(height: AppConstants.paddingSmall),
-            
+
             // User Details
             if (user.email != null)
               _buildDetailRow(Icons.email_outlined, user.email!),
             if (user.phone != null)
               _buildDetailRow(Icons.phone_outlined, user.phone!),
             if (user.dob != null)
-              _buildDetailRow(Icons.cake_outlined, DateFormat('MMM dd, yyyy').format(user.dob!)),
+              _buildDetailRow(
+                Icons.cake_outlined,
+                DateFormat('MMM dd, yyyy').format(user.dob!),
+              ),
             if (user.gender != null)
               _buildDetailRow(Icons.person_outline, user.gender!),
-            _buildDetailRow(Icons.calendar_today_outlined, 'Joined ${DateFormat('MMM dd, yyyy').format(user.createdAt)}'),
-            
+            _buildDetailRow(
+              Icons.calendar_today_outlined,
+              'Joined ${DateFormat('MMM dd, yyyy').format(user.createdAt)}',
+            ),
+
             const SizedBox(height: AppConstants.paddingSmall),
-            
+
             // Actions
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -298,7 +314,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       decoration: BoxDecoration(
         color: roleData['color'].withAlpha((0.1 * 255).round()),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: roleData['color'].withAlpha((0.3 * 255).round())),
+        border: Border.all(
+          color: roleData['color'].withAlpha((0.3 * 255).round()),
+        ),
       ),
       child: Text(
         roleData['name'],
@@ -316,7 +334,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.people_outline, size: 64, color: AppColors.textSecondary.withAlpha((0.5 * 255).round())),
+          Icon(
+            Icons.people_outline,
+            size: 64,
+            color: AppColors.textSecondary.withAlpha((0.5 * 255).round()),
+          ),
           const SizedBox(height: AppConstants.paddingMedium),
           Text(
             'No users found',
@@ -421,9 +443,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 const SizedBox(height: 12),
                 ListTile(
                   leading: const Icon(Icons.cake),
-                  title: Text(selectedDob == null
-                      ? 'Select Date of Birth'
-                      : DateFormat('MMM dd, yyyy').format(selectedDob!)),
+                  title: Text(
+                    selectedDob == null
+                        ? 'Select Date of Birth'
+                        : DateFormat('MMM dd, yyyy').format(selectedDob!),
+                  ),
                   trailing: const Icon(Icons.calendar_today),
                   onTap: () async {
                     final date = await showDatePicker(
@@ -439,7 +463,10 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 ),
                 const SizedBox(height: 12),
                 // Role Selection
-                Text('Role *', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+                Text(
+                  'Role *',
+                  style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                ),
                 // ignore: deprecated_member_use
                 RadioTheme(
                   data: RadioThemeData(
@@ -450,8 +477,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                       ListTile(
                         leading: Radio<int>(
                           value: 0,
-                          groupValue: selectedRole, // ignore: deprecated_member_use
-                          onChanged: (val) => setDialogState(() => selectedRole = val ?? 0), // ignore: deprecated_member_use
+                          groupValue:
+                              selectedRole, // ignore: deprecated_member_use
+                          onChanged: (val) => setDialogState(
+                            () => selectedRole = val ?? 0,
+                          ), // ignore: deprecated_member_use
                         ),
                         title: const Text('Admin'),
                         onTap: () => setDialogState(() => selectedRole = 0),
@@ -459,8 +489,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                       ListTile(
                         leading: Radio<int>(
                           value: 1,
-                          groupValue: selectedRole, // ignore: deprecated_member_use
-                          onChanged: (val) => setDialogState(() => selectedRole = val ?? 1), // ignore: deprecated_member_use
+                          groupValue:
+                              selectedRole, // ignore: deprecated_member_use
+                          onChanged: (val) => setDialogState(
+                            () => selectedRole = val ?? 1,
+                          ), // ignore: deprecated_member_use
                         ),
                         title: const Text('Manager'),
                         onTap: () => setDialogState(() => selectedRole = 1),
@@ -468,8 +501,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                       ListTile(
                         leading: Radio<int>(
                           value: 2,
-                          groupValue: selectedRole, // ignore: deprecated_member_use
-                          onChanged: (val) => setDialogState(() => selectedRole = val ?? 2), // ignore: deprecated_member_use
+                          groupValue:
+                              selectedRole, // ignore: deprecated_member_use
+                          onChanged: (val) => setDialogState(
+                            () => selectedRole = val ?? 2,
+                          ), // ignore: deprecated_member_use
                         ),
                         title: const Text('User'),
                         onTap: () => setDialogState(() => selectedRole = 2),
@@ -548,9 +584,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to create user: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to create user: $e')));
     }
   }
 
@@ -580,9 +616,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to update user: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Failed to update user: $e')));
     }
   }
 
@@ -599,7 +635,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.errorRed,
+            ),
             child: const Text('Xóa'),
           ),
         ],
@@ -616,9 +654,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         );
       } catch (e) {
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Không thể xóa người dùng: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Không thể xóa người dùng: $e')));
       }
     }
   }

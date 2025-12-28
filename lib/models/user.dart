@@ -34,16 +34,19 @@ class User {
       dob: json['dob'] != null ? DateTime.parse(json['dob'].toString()) : null,
       gender: json['gender']?.toString(),
       phone: json['phone']?.toString(),
-      roleId: json['role_id'] is int ? json['role_id'] : int.tryParse(json['role_id']?.toString() ?? '2') ?? 2,
-      createdAt: json['created_at'] != null ? 
-          DateTime.parse(json['created_at'].toString()) : 
-          DateTime.now(),
-      updatedAt: json['updated_at'] != null ? 
-          DateTime.parse(json['updated_at'].toString()) : null,
+      roleId: json['role_id'] is int
+          ? json['role_id']
+          : int.tryParse(json['role_id']?.toString() ?? '2') ?? 2,
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'].toString())
+          : DateTime.now(),
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'].toString())
+          : null,
       avatarUrl: json['avatar_url']?.toString(),
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {
       'user_id': id,
@@ -51,7 +54,7 @@ class User {
       'role_id': roleId,
       'created_at': createdAt.toIso8601String(),
     };
-    
+
     // Add optional fields only if they have values
     if (email != null) data['email'] = email;
     if (fullName != null) data['full_name'] = fullName;
@@ -60,7 +63,7 @@ class User {
     if (phone != null) data['phone'] = phone;
     if (updatedAt != null) data['updated_at'] = updatedAt!.toIso8601String();
     if (avatarUrl != null) data['avatar_url'] = avatarUrl;
-    
+
     return data;
   }
 

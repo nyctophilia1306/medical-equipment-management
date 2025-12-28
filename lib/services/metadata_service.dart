@@ -11,34 +11,42 @@ class MetadataService {
   MetadataService._internal();
 
   final SupabaseClient _supabase = Supabase.instance.client;
-  
+
   // Cache to avoid frequent database queries
   List<Category>? _cachedCategories;
   DateTime? _categoriesCacheTime;
-  
+
   // Cache expiration time (10 minutes)
   final Duration _cacheExpiration = const Duration(minutes: 10);
-  
+
   // Get all categories
   Future<List<Category>> getCategories({bool forceRefresh = false}) async {
     // Return cached data if available and not expired
     final now = DateTime.now();
-    if (!forceRefresh && _cachedCategories != null && _categoriesCacheTime != null &&
+    if (!forceRefresh &&
+        _cachedCategories != null &&
+        _categoriesCacheTime != null &&
         now.difference(_categoriesCacheTime!) < _cacheExpiration) {
-      Logger.debug('Returning cached categories (${_cachedCategories!.length})');
+      Logger.debug(
+        'Returning cached categories (${_cachedCategories!.length})',
+      );
       return _cachedCategories!;
     }
-    
+
     try {
       final response = await _supabase
           .from('equipment_categories')
           .select()
           .order('category_name');
-      
-      _cachedCategories = response.map<Category>((json) => Category.fromJson(json)).toList();
+
+      _cachedCategories = response
+          .map<Category>((json) => Category.fromJson(json))
+          .toList();
       _categoriesCacheTime = now;
-      
-      Logger.debug('Fetched ${_cachedCategories!.length} categories from database');
+
+      Logger.debug(
+        'Fetched ${_cachedCategories!.length} categories from database',
+      );
       return _cachedCategories!;
     } catch (e) {
       Logger.error('Failed to fetch categories: $e');
@@ -46,7 +54,7 @@ class MetadataService {
       return [];
     }
   }
-  
+
   // Get a category by ID
   Future<Category?> getCategoryById(int id) async {
     // First check the cache
@@ -56,14 +64,14 @@ class MetadataService {
         return cached.first;
       }
     }
-    
+
     try {
       final response = await _supabase
           .from('equipment_categories')
           .select()
           .eq('category_id', id)
           .maybeSingle();
-          
+
       if (response == null) return null;
       return Category.fromJson(response);
     } catch (e) {
@@ -71,31 +79,36 @@ class MetadataService {
       return null;
     }
   }
-  
+
   // Create a new category
-  Future<Category?> createCategory(String name, {String? description, int? parentCategoryId}) async {
+  Future<Category?> createCategory(
+    String name, {
+    String? description,
+    int? parentCategoryId,
+  }) async {
     try {
       final categoryData = {
         'category_name': name,
         'created_at': DateTime.now().toIso8601String(),
       };
-      
+
       if (description != null) categoryData['description'] = description;
-      if (parentCategoryId != null) categoryData['parent_category_id'] = parentCategoryId.toString();
-      
+      if (parentCategoryId != null)
+        categoryData['parent_category_id'] = parentCategoryId.toString();
+
       final response = await _supabase
           .from('equipment_categories')
           .insert(categoryData)
           .select()
           .single();
-          
+
       final newCategory = Category.fromJson(response);
-      
+
       // Update the cache
       if (_cachedCategories != null) {
         _cachedCategories!.add(newCategory);
       }
-      
+
       // Log the create action
       try {
         final currentUserId = AuthService().currentUser?.id ?? 'system';
@@ -113,14 +126,14 @@ class MetadataService {
       } catch (e) {
         Logger.error('Failed to log category create action: $e');
       }
-      
+
       return newCategory;
     } catch (e) {
       Logger.error('Failed to create category: $e');
       return null;
     }
   }
-  
+
   // Update a category
   Future<bool> updateCategory(Category category) async {
     try {
@@ -128,7 +141,7 @@ class MetadataService {
           .from('equipment_categories')
           .update(category.toJson())
           .eq('category_id', category.id);
-          
+
       // Update the cache
       if (_cachedCategories != null) {
         final index = _cachedCategories!.indexWhere((c) => c.id == category.id);
@@ -136,7 +149,7 @@ class MetadataService {
           _cachedCategories![index] = category;
         }
       }
-      
+
       // Log the update action
       try {
         final currentUserId = AuthService().currentUser?.id ?? 'system';
@@ -154,14 +167,14 @@ class MetadataService {
       } catch (e) {
         Logger.error('Failed to log category update action: $e');
       }
-      
+
       return true;
     } catch (e) {
       Logger.error('Failed to update category: $e');
       return false;
     }
   }
-  
+
   // Delete a category
   Future<bool> deleteCategory(int id) async {
     try {
@@ -169,12 +182,12 @@ class MetadataService {
           .from('equipment_categories')
           .delete()
           .eq('category_id', id);
-          
+
       // Update the cache
       if (_cachedCategories != null) {
         _cachedCategories!.removeWhere((c) => c.id == id);
       }
-      
+
       // Log the delete action
       try {
         final currentUserId = AuthService().currentUser?.id ?? 'system';
@@ -187,14 +200,14 @@ class MetadataService {
       } catch (e) {
         Logger.error('Failed to log category delete action: $e');
       }
-      
+
       return true;
     } catch (e) {
       Logger.error('Failed to delete category: $e');
       return false;
     }
   }
-  
+
   // Clear caches
   void clearCaches() {
     _cachedCategories = null;

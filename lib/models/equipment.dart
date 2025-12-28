@@ -50,7 +50,7 @@ class Equipment {
       if (value is String) return int.tryParse(value) ?? 0;
       return 0;
     }
-    
+
     // Helper function to safely parse nullable int values
     int? parseNullableInt(dynamic value) {
       if (value == null) return null;
@@ -68,40 +68,40 @@ class Equipment {
       if (url == null) return null;
       final urlStr = url.toString().trim();
       if (urlStr.isEmpty) return null;
-      
+
       // Validate URL format to prevent display errors
       if (urlStr.startsWith('http://') || urlStr.startsWith('https://')) {
         // Basic validation for common image formats
         final lowerUrl = urlStr.toLowerCase();
-        if (lowerUrl.endsWith('.jpg') || 
-            lowerUrl.endsWith('.jpeg') || 
-            lowerUrl.endsWith('.png') || 
-            lowerUrl.endsWith('.gif') || 
-            lowerUrl.endsWith('.webp') || 
+        if (lowerUrl.endsWith('.jpg') ||
+            lowerUrl.endsWith('.jpeg') ||
+            lowerUrl.endsWith('.png') ||
+            lowerUrl.endsWith('.gif') ||
+            lowerUrl.endsWith('.webp') ||
             lowerUrl.contains('image')) {
           return urlStr;
         }
       }
-      
+
       // Check for relative URLs and add base URL if needed
       if (urlStr.startsWith('/')) {
         // You can add your base URL here if needed
         // return 'https://your-base-url.com$urlStr';
         return null; // Skip relative URLs for now
       }
-      
+
       // Handle data URLs (base64 encoded images)
       if (urlStr.startsWith('data:image/')) {
         return urlStr;
       }
-      
+
       return null; // Invalid URL format
     }
 
     // Extract and validate the ID first
     final rawId = json['equipment_id'];
     String id = '';
-    
+
     if (rawId != null) {
       id = rawId.toString().trim();
       if (id.isEmpty) {
@@ -117,15 +117,15 @@ class Equipment {
         }
       }
     }
-    
+
     // Get category name from joined data
     String? categoryName;
-    
+
     // Handle nested category data
     if (json['equipment_categories'] != null) {
       categoryName = json['equipment_categories']['category_name']?.toString();
     }
-    
+
     // Handle null values and type conversions safely
     return Equipment(
       id: id,
@@ -142,7 +142,8 @@ class Equipment {
       manufacturer: json['manufacturer']?.toString(),
       model: json['model']?.toString(),
       notes: json['notes']?.toString(),
-      createdAt: _tryParseDateTime(json['created_at']?.toString()) ?? DateTime.now(),
+      createdAt:
+          _tryParseDateTime(json['created_at']?.toString()) ?? DateTime.now(),
       updatedAt: json['updated_at'] != null
           ? _tryParseDateTime(json['updated_at'].toString())
           : null,
@@ -163,7 +164,7 @@ class Equipment {
       'available_qty': availableQty,
       'status': status,
     };
-    
+
     // Only add ID if it's not empty (for updates)
     if (id.isNotEmpty) {
       json['equipment_id'] = id;
@@ -174,10 +175,10 @@ class Equipment {
     if (imageUrl != null) json['image_url'] = imageUrl;
     if (serialNumber != null) json['serial_number'] = serialNumber;
     if (manufacturer != null) json['manufacturer'] = manufacturer;
-    
+
     // Add category ID
     if (categoryId != null) json['category_id'] = categoryId;
-    
+
     // Fields that might not exist in the current schema
     // These will be added if the ALTER TABLE script was run
     if (qrCode != null) json['qr_code'] = qrCode;
@@ -239,13 +240,12 @@ class Equipment {
   bool get isOutOfStock => availableQty <= 0;
 
   int get borrowedQuantity => quantity - availableQty;
-  double get utilizationRate => quantity > 0 ? (quantity - availableQty) / quantity : 0.0;
+  double get utilizationRate =>
+      quantity > 0 ? (quantity - availableQty) / quantity : 0.0;
 
   // For backwards compatibility
   int get availableQuantity => availableQty;
   int get totalQuantity => quantity;
-
-
 
   @override
   bool operator ==(Object other) {
@@ -260,11 +260,11 @@ class Equipment {
   String toString() {
     return 'Equipment(id: $id, name: $name, category: $category, status: $status)';
   }
-  
+
   // Helper method to safely parse date strings with multiple format handling
   static DateTime? _tryParseDateTime(String? dateString) {
     if (dateString == null || dateString.isEmpty) return null;
-    
+
     // Try standard ISO format first
     try {
       return DateTime.parse(dateString);
@@ -278,9 +278,9 @@ class Equipment {
           if (parts.length == 3) {
             // Assume MM/dd/yyyy for now
             return DateTime(
-              int.parse(parts[2]), 
-              int.parse(parts[0]), 
-              int.parse(parts[1])
+              int.parse(parts[2]),
+              int.parse(parts[0]),
+              int.parse(parts[1]),
             );
           }
         } else if (dateString.contains('-')) {
@@ -288,13 +288,13 @@ class Equipment {
           List<String> parts = dateString.split('-');
           if (parts.length == 3) {
             return DateTime(
-              int.parse(parts[0]), 
-              int.parse(parts[1]), 
-              int.parse(parts[2])
+              int.parse(parts[0]),
+              int.parse(parts[1]),
+              int.parse(parts[2]),
             );
           }
         }
-        
+
         // Use logger instead of print
         return null;
       } catch (e2) {
@@ -318,7 +318,9 @@ class Equipment {
   String? getLocalizedCategoryName(BuildContext context) {
     if (categoryName == null) return null;
     final locale = Localizations.localeOf(context);
-    return DatabaseTranslations.getCategoryName(categoryName!, locale.languageCode);
+    return DatabaseTranslations.getCategoryName(
+      categoryName!,
+      locale.languageCode,
+    );
   }
 }
-

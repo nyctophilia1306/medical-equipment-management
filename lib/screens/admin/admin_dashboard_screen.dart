@@ -94,7 +94,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 ],
               ),
             ),
-            
+
             // Content
             Expanded(
               child: _isLoading
@@ -106,9 +106,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                         children: [
                           // Statistics Overview
                           _buildStatisticsSection(),
-                          
+
                           const SizedBox(height: AppConstants.paddingXLarge),
-                          
+
                           // Admin Functions Grid
                           _buildAdminFunctionsSection(),
                         ],
@@ -125,7 +125,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
     final userStats = _stats['users'] as Map<String, dynamic>? ?? {};
     final equipmentStats = _stats['equipment'] as Map<String, dynamic>? ?? {};
     final borrowStats = _stats['borrowRequests'] as Map<String, dynamic>? ?? {};
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -138,7 +138,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           ),
         ),
         const SizedBox(height: AppConstants.paddingMedium),
-        
+
         // Statistics Cards Row 1
         Row(
           children: [
@@ -148,7 +148,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 value: '${userStats['total'] ?? 0}',
                 icon: Icons.people,
                 color: AppColors.primaryBlue,
-                subtitle: '${AppLocalizations.of(context)!.adminsLabel}: ${userStats['admins'] ?? 0} | ${AppLocalizations.of(context)!.managersLabel}: ${userStats['managers'] ?? 0}',
+                subtitle:
+                    '${AppLocalizations.of(context)!.adminsLabel}: ${userStats['admins'] ?? 0} | ${AppLocalizations.of(context)!.managersLabel}: ${userStats['managers'] ?? 0}',
               ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
@@ -158,14 +159,15 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 value: '${equipmentStats['totalItems'] ?? 0}',
                 icon: Icons.inventory_2,
                 color: AppColors.successGreen,
-                subtitle: '${AppLocalizations.of(context)!.quantityLabel}: ${equipmentStats['totalQuantity'] ?? 0} | ${AppLocalizations.of(context)!.availableQuantity}: ${equipmentStats['availableQuantity'] ?? 0}',
+                subtitle:
+                    '${AppLocalizations.of(context)!.quantityLabel}: ${equipmentStats['totalQuantity'] ?? 0} | ${AppLocalizations.of(context)!.availableQuantity}: ${equipmentStats['availableQuantity'] ?? 0}',
               ),
             ),
           ],
         ),
-        
+
         const SizedBox(height: AppConstants.paddingMedium),
-        
+
         // Statistics Cards Row 2
         Row(
           children: [
@@ -175,7 +177,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 value: '${borrowStats['pending'] ?? 0}',
                 icon: Icons.pending_actions,
                 color: AppColors.warningYellow,
-                subtitle: '${AppLocalizations.of(context)!.approvedLabel}: ${borrowStats['approved'] ?? 0}',
+                subtitle:
+                    '${AppLocalizations.of(context)!.approvedLabel}: ${borrowStats['approved'] ?? 0}',
               ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
@@ -185,7 +188,8 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                 value: '${borrowStats['returned'] ?? 0}',
                 icon: Icons.check_circle,
                 color: AppColors.primaryBlue,
-                subtitle: '${AppLocalizations.of(context)!.totalLabel}: ${borrowStats['total'] ?? 0}',
+                subtitle:
+                    '${AppLocalizations.of(context)!.totalLabel}: ${borrowStats['total'] ?? 0}',
               ),
             ),
           ],
@@ -275,7 +279,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
           ),
         ),
         const SizedBox(height: AppConstants.paddingMedium),
-        
+
         LayoutBuilder(
           builder: (context, constraints) {
             // Responsive layout
@@ -287,7 +291,7 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
             } else {
               crossAxisCount = 4; // Desktop
             }
-            
+
             return GridView.count(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -298,32 +302,44 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
               children: [
                 _buildFunctionCard(
                   title: AppLocalizations.of(context)!.userManagement,
-                  subtitle: AppLocalizations.of(context)!.userManagementSubtitle,
+                  subtitle: AppLocalizations.of(
+                    context,
+                  )!.userManagementSubtitle,
                   icon: Icons.people_outlined,
                   color: AppColors.primaryBlue,
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const UserManagementScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const UserManagementScreen(),
+                    ),
                   ),
                 ),
                 _buildFunctionCard(
                   title: AppLocalizations.of(context)!.equipment,
-                  subtitle: AppLocalizations.of(context)!.equipmentManagementSubtitle,
+                  subtitle: AppLocalizations.of(
+                    context,
+                  )!.equipmentManagementSubtitle,
                   icon: Icons.medical_services_outlined,
                   color: AppColors.successGreen,
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const EquipmentCatalogScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const EquipmentCatalogScreen(),
+                    ),
                   ),
                 ),
                 _buildFunctionCard(
                   title: AppLocalizations.of(context)!.categories,
-                  subtitle: AppLocalizations.of(context)!.categoryManagementSubtitle,
+                  subtitle: AppLocalizations.of(
+                    context,
+                  )!.categoryManagementSubtitle,
                   icon: Icons.category_outlined,
                   color: AppColors.warningYellow,
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CategoryManagementScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const CategoryManagementScreen(),
+                    ),
                   ),
                 ),
                 _buildFunctionCard(
@@ -333,7 +349,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   color: AppColors.softTeal,
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AnalyticsScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const AnalyticsScreen(),
+                    ),
                   ),
                 ),
                 _buildFunctionCard(
@@ -343,7 +361,9 @@ class _AdminDashboardScreenState extends State<AdminDashboardScreen> {
                   color: AppColors.grayNeutral600,
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const AuditLogsScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => const AuditLogsScreen(),
+                    ),
                   ),
                 ),
               ],

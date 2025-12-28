@@ -25,6 +25,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     with TickerProviderStateMixin {
   final BorrowService _borrowService = BorrowService();
   final DataService _dataService = DataService();
+  final _supabase = Supabase.instance.client;
 
   late final TabController _tabController;
   final _serialController = TextEditingController();
@@ -40,6 +41,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   DateTime? _returnDate;
   bool _loading = false;
   String? _message;
+  bool _isMessageSuccess = false;
 
   final Map<String, Equipment> _scannedEquipment = <String, Equipment>{};
   final Map<String, int> _borrowQuantities = <String, int>{};
@@ -185,7 +187,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 children: [
                   const Icon(Icons.block, color: Colors.white, size: 20),
                   const SizedBox(width: 8),
-                  Expanded(child: Text('${equipment.getLocalizedName(context)} is not available')),
+                  Expanded(
+                    child: Text(
+                      '${equipment.getLocalizedName(context)} is not available',
+                    ),
+                  ),
                 ],
               ),
               duration: const Duration(seconds: 2),
@@ -289,7 +295,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       size: 20,
                     ),
                     const SizedBox(width: 8),
-                    Expanded(child: Text('✓ ${equipment.getLocalizedName(context)} added')),
+                    Expanded(
+                      child: Text(
+                        '✓ ${equipment.getLocalizedName(context)} added',
+                      ),
+                    ),
                   ],
                 ),
                 duration: const Duration(milliseconds: 800),
@@ -335,7 +345,10 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   Future<void> _addSerialFromInput() async {
     final s = _serialController.text.trim();
     if (s.isEmpty) {
-      setState(() => _message = 'Please enter or scan a serial number');
+      setState(() {
+        _message = 'Please enter or scan a serial number';
+        _isMessageSuccess = false;
+      });
       return;
     }
 
@@ -349,18 +362,19 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       setState(() => _loading = false);
 
       if (equipment == null) {
-        setState(
-          () =>
-              _message = 'No equipment found with QR code or serial number: $s',
-        );
+        setState(() {
+          _message = 'No equipment found with QR code or serial number: $s';
+          _isMessageSuccess = false;
+        });
         return;
       }
 
       if (equipment.availableQty <= 0) {
-        setState(
-          () => _message =
-              'Equipment ${equipment.getLocalizedName(context)} is not available for borrowing',
-        );
+        setState(() {
+          _message =
+              'Equipment ${equipment.getLocalizedName(context)} is not available for borrowing';
+          _isMessageSuccess = false;
+        });
         return;
       }
 
@@ -374,6 +388,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       setState(() {
         _loading = false;
         _message = 'Error looking up equipment: $e';
+        _isMessageSuccess = false;
       });
     }
   }
@@ -386,10 +401,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         _scannedEquipment.isEmpty ||
         _borrowDate == null ||
         _returnDate == null) {
-      setState(
-        () => _message =
-            'Please fill required info, dates and scan at least one equipment',
-      );
+      setState(() {
+        _message =
+            'Please fill required info, dates and scan at least one equipment';
+        _isMessageSuccess = false;
+      });
       return;
     }
 
@@ -397,9 +413,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       final equipment = entry.value;
       final borrowQty = _borrowQuantities[entry.key] ?? 0;
       if (borrowQty <= 0 || borrowQty > equipment.availableQty) {
-        setState(
-          () => _message = 'Invalid borrow quantity for ${equipment.getLocalizedName(context)}',
-        );
+        setState(() {
+          _message =
+              'Invalid borrow quantity for ${equipment.getLocalizedName(context)}';
+          _isMessageSuccess = false;
+        });
         return;
       }
     }
@@ -424,6 +442,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         setState(() {
           _loading = false;
           _message = 'Failed to create user';
+          _isMessageSuccess = false;
         });
         return;
       }
@@ -433,6 +452,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         setState(() {
           _loading = false;
           _message = 'Please select an existing user';
+          _isMessageSuccess = false;
         });
         return;
       }
@@ -452,9 +472,19 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       setState(() {
         _loading = false;
         _message = 'No authenticated user';
+        _isMessageSuccess = false;
       });
       return;
     }
+
+    // Check if current user is admin
+    final userData = await _supabase
+        .from('users')
+        .select('role_id')
+        .eq('user_id', currentUser.id)
+        .maybeSingle();
+
+    final isAdmin = userData?['role_id'] == 0;
 
     final requestSerial = await _borrowService.createBulkBorrowRequest(
       userId: userId,
@@ -469,9 +499,15 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
     setState(() {
       _loading = false;
-      _message = success
-          ? 'Borrow request saved successfully! Request #$requestSerial'
-          : 'Failed to save borrow request';
+      _isMessageSuccess = success;
+      if (success) {
+        // Different message for admin (auto-approved) vs manager (pending)
+        _message = isAdmin
+            ? 'Yêu cầu mượn đã được tạo và phê duyệt tự động! Mã yêu cầu: #$requestSerial'
+            : 'Yêu cầu mượn đã được lưu thành công! Mã yêu cầu: #$requestSerial';
+      } else {
+        _message = 'Không thể lưu yêu cầu mượn';
+      }
     });
 
     if (success) {
@@ -549,9 +585,18 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             hintText: AppLocalizations.of(context)!.selectGender,
           ),
           items: [
-            DropdownMenuItem(value: 'male', child: Text(AppLocalizations.of(context)!.male)),
-            DropdownMenuItem(value: 'female', child: Text(AppLocalizations.of(context)!.female)),
-            DropdownMenuItem(value: 'other', child: Text(AppLocalizations.of(context)!.other)),
+            DropdownMenuItem(
+              value: 'male',
+              child: Text(AppLocalizations.of(context)!.male),
+            ),
+            DropdownMenuItem(
+              value: 'female',
+              child: Text(AppLocalizations.of(context)!.female),
+            ),
+            DropdownMenuItem(
+              value: 'other',
+              child: Text(AppLocalizations.of(context)!.other),
+            ),
           ],
           onChanged: (value) => setState(() => _selectedGender = value),
         ),
@@ -739,7 +784,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 value: _isNewUser,
                 onChanged: (v) => setState(() => _isNewUser = v),
               ),
-              Text(_isNewUser ? AppLocalizations.of(context)!.newUser : AppLocalizations.of(context)!.existingUser),
+              Text(
+                _isNewUser
+                    ? AppLocalizations.of(context)!.newUser
+                    : AppLocalizations.of(context)!.existingUser,
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -757,7 +806,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           if (_message != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Text(_message!, style: const TextStyle(color: Colors.red)),
+              child: Text(
+                _message!,
+                style: TextStyle(
+                  color: _isMessageSuccess ? Colors.green : Colors.red,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           Row(
             children: [

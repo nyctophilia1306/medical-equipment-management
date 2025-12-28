@@ -33,13 +33,9 @@ class RowValidation {
   final String? error;
   final Map<String, dynamic>? data;
 
-  RowValidation.valid(this.data)
-      : isValid = true,
-        error = null;
+  RowValidation.valid(this.data) : isValid = true, error = null;
 
-  RowValidation.invalid(this.error)
-      : isValid = false,
-        data = null;
+  RowValidation.invalid(this.error) : isValid = false, data = null;
 }
 
 /// Service for importing equipment data from Excel files
@@ -61,7 +57,7 @@ class ExcelImportService {
     try {
       // Parse Excel file
       final excel = Excel.decodeBytes(fileBytes);
-      
+
       if (excel.tables.isEmpty) {
         errors.add('Excel file contains no sheets');
         return ImportResult(
@@ -90,7 +86,7 @@ class ExcelImportService {
 
       // Skip header row (index 0), start from row 1
       final dataRows = sheet.rows.skip(1).toList();
-      
+
       if (dataRows.isEmpty) {
         errors.add('No data rows found in Excel file');
         return ImportResult(
@@ -104,7 +100,9 @@ class ExcelImportService {
 
       // Process each row
       for (var i = 0; i < dataRows.length; i++) {
-        final rowIndex = i + 2; // +2 because: +1 for skipping header, +1 for 1-based indexing
+        final rowIndex =
+            i +
+            2; // +2 because: +1 for skipping header, +1 for 1-based indexing
         final row = dataRows[i];
 
         // Report progress
@@ -112,7 +110,7 @@ class ExcelImportService {
 
         // Validate and extract data from row
         final validation = _validateAndExtractRow(row, rowIndex);
-        
+
         if (!validation.isValid) {
           errors.add('Row $rowIndex: ${validation.error}');
           errorCount++;
@@ -126,7 +124,7 @@ class ExcelImportService {
             rowIndex,
             defaultCategoryId,
           );
-          
+
           if (equipment != null) {
             importedEquipment.add(equipment);
             successCount++;
@@ -175,20 +173,20 @@ class ExcelImportService {
       if (row.length > 1 && row[1] != null) {
         serialNumber = row[1]!.value?.toString().trim();
       }
-      
+
       String? name;
       if (row.length > 2 && row[2] != null) {
         name = row[2]!.value?.toString().trim();
       }
-      
+
       String description = '';
       if (row.length > 3 && row[3] != null) {
         description = row[3]!.value?.toString().trim() ?? '';
       }
-      
+
       // Note: Date bought (column E) is not currently used in equipment model
       // You can add it if needed in the future
-      
+
       String? quantityStr;
       if (row.length > 5 && row[5] != null) {
         quantityStr = row[5]!.value?.toString().trim();
@@ -277,7 +275,7 @@ class ExcelImportService {
           .select('equipment_id')
           .eq('serial_number', serialNumber)
           .maybeSingle();
-      
+
       return response != null;
     } catch (e) {
       Logger.error('Error checking serial number: $e', e);
@@ -289,7 +287,7 @@ class ExcelImportService {
   Future<bool> validateExcelStructure(Uint8List fileBytes) async {
     try {
       final excel = Excel.decodeBytes(fileBytes);
-      
+
       if (excel.tables.isEmpty) {
         return false;
       }

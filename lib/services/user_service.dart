@@ -70,25 +70,22 @@ class UserService {
           .single();
 
       Logger.info('User created successfully: $username');
-      
+
       // Log the create action
       try {
-        final currentUserId = AuthService().currentUser?.id ?? authResponse.user!.id;
+        final currentUserId =
+            AuthService().currentUser?.id ?? authResponse.user!.id;
         await AuditLogService().logAction(
           userId: currentUserId,
           actionType: AuditLog.actionUserCreate,
           targetType: AuditLog.targetUser,
           targetId: authResponse.user!.id,
-          details: {
-            'userName': username,
-            'email': email,
-            'roleId': roleId,
-          },
+          details: {'userName': username, 'email': email, 'roleId': roleId},
         );
       } catch (e) {
         Logger.error('Failed to log user create action: $e');
       }
-      
+
       return app_user.User.fromJson(response);
     } catch (e) {
       Logger.error('Failed to create user: $e');
@@ -108,14 +105,14 @@ class UserService {
   }) async {
     try {
       final updates = <String, dynamic>{};
-      
+
       if (username != null) updates['user_name'] = username;
       if (fullName != null) updates['full_name'] = fullName;
       if (dob != null) updates['dob'] = dob.toIso8601String();
       if (gender != null) updates['gender'] = gender;
       if (phone != null) updates['phone'] = phone;
       if (roleId != null) updates['role_id'] = roleId;
-      
+
       if (updates.isEmpty) {
         Logger.warn('No updates provided for user $userId');
         return;
@@ -123,13 +120,10 @@ class UserService {
 
       updates['updated_at'] = DateTime.now().toIso8601String();
 
-      await _supabase
-          .from('users')
-          .update(updates)
-          .eq('user_id', userId);
+      await _supabase.from('users').update(updates).eq('user_id', userId);
 
       Logger.info('User updated successfully: $userId');
-      
+
       // Log the update action
       try {
         final currentUserId = AuthService().currentUser?.id ?? 'system';
@@ -153,16 +147,13 @@ class UserService {
   Future<void> deleteUser(String userId) async {
     try {
       // Delete the user profile
-      await _supabase
-          .from('users')
-          .delete()
-          .eq('user_id', userId);
+      await _supabase.from('users').delete().eq('user_id', userId);
 
       // Note: Deleting auth users requires admin API access
       // This would typically be done via a backend function with service role key
-      
+
       Logger.info('User deleted successfully: $userId');
-      
+
       // Log the delete action
       try {
         final currentUserId = AuthService().currentUser?.id ?? 'system';
@@ -191,7 +182,7 @@ class UserService {
           .maybeSingle();
 
       if (response == null) return null;
-      
+
       return app_user.User.fromJson(response);
     } catch (e) {
       Logger.error('Failed to fetch user: $e');
@@ -205,7 +196,9 @@ class UserService {
       final response = await _supabase
           .from('users')
           .select()
-          .or('user_name.ilike.%$query%,full_name.ilike.%$query%,phone.ilike.%$query%')
+          .or(
+            'user_name.ilike.%$query%,full_name.ilike.%$query%,phone.ilike.%$query%',
+          )
           .order('created_at', ascending: false);
 
       return (response as List)
@@ -247,7 +240,7 @@ class UserService {
           .eq('user_id', userId);
 
       Logger.info('User role updated: $userId -> role $newRoleId');
-      
+
       // Log the role change action
       try {
         final currentUserId = AuthService().currentUser?.id ?? 'system';
@@ -282,14 +275,14 @@ class UserService {
   Future<Map<String, int>> getUserStatistics() async {
     try {
       final allUsers = await getAllUsers();
-      
+
       final stats = {
         'total': allUsers.length,
         'admins': allUsers.where((u) => u.roleId == 0).length,
         'managers': allUsers.where((u) => u.roleId == 1).length,
         'users': allUsers.where((u) => u.roleId == 2).length,
       };
-      
+
       return stats;
     } catch (e) {
       Logger.error('Failed to get user statistics: $e');

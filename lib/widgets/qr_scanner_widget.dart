@@ -37,18 +37,18 @@ class _QrScannerWidgetState extends State<QrScannerWidget> {
     if (_isScanned) return;
 
     final List<Barcode> barcodes = capture.barcodes;
-    
+
     for (final barcode in barcodes) {
       final String? code = barcode.rawValue;
-      
+
       if (code != null && code.isNotEmpty) {
         setState(() {
           _isScanned = true;
         });
-        
+
         // Call the callback with the scanned code
         widget.onScanned(code);
-        
+
         // Close the scanner
         Navigator.of(context).pop();
         break;
@@ -77,11 +77,8 @@ class _QrScannerWidgetState extends State<QrScannerWidget> {
       body: Stack(
         children: [
           // Camera view
-          MobileScanner(
-            controller: _controller,
-            onDetect: _handleBarcode,
-          ),
-          
+          MobileScanner(controller: _controller, onDetect: _handleBarcode),
+
           // Overlay with instructions
           Positioned(
             top: 0,
@@ -93,7 +90,8 @@ class _QrScannerWidgetState extends State<QrScannerWidget> {
               child: Column(
                 children: [
                   Text(
-                    widget.instruction ?? 'Position the QR code within the frame',
+                    widget.instruction ??
+                        'Position the QR code within the frame',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -105,22 +103,19 @@ class _QrScannerWidgetState extends State<QrScannerWidget> {
               ),
             ),
           ),
-          
+
           // Scanning frame overlay
           Center(
             child: Container(
               width: 250,
               height: 250,
               decoration: BoxDecoration(
-                border: Border.all(
-                  color: AppColors.primaryBlue,
-                  width: 3,
-                ),
+                border: Border.all(color: AppColors.primaryBlue, width: 3),
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),
-          
+
           // Bottom info
           Positioned(
             bottom: 40,
@@ -161,7 +156,7 @@ Future<String?> showQrScanner(
   String? instruction,
 }) async {
   String? scannedCode;
-  
+
   await Navigator.of(context).push(
     MaterialPageRoute(
       builder: (context) => QrScannerWidget(
@@ -173,6 +168,6 @@ Future<String?> showQrScanner(
       ),
     ),
   );
-  
+
   return scannedCode;
 }

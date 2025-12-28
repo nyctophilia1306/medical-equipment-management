@@ -16,7 +16,7 @@ class DatabaseTranslations {
     'Thiết bị sát khuẩn': 'Sterilization Equipment',
     'Dụng cụ y tế': 'Medical Instruments',
     'Thiết bị chăm sóc bệnh nhân': 'Patient Care Equipment',
-    
+
     // Diagnostic Equipment Subcategories
     'Máy đo huyết áp': 'Blood Pressure Monitor',
     'Máy đo đường huyết': 'Blood Glucose Meter',
@@ -27,7 +27,7 @@ class DatabaseTranslations {
     'Máy X-quang': 'X-ray Machine',
     'Máy CT': 'CT Scanner',
     'Máy MRI': 'MRI Machine',
-    
+
     // Surgical Equipment Subcategories
     'Dao mổ': 'Scalpel',
     'Kéo phẫu thuật': 'Surgical Scissors',
@@ -35,49 +35,49 @@ class DatabaseTranslations {
     'Máy đốt điện': 'Electrocautery',
     'Đèn mổ': 'Surgical Light',
     'Bàn mổ': 'Operating Table',
-    
+
     // Monitoring Equipment Subcategories
     'Máy theo dõi bệnh nhân': 'Patient Monitor',
     'Máy đo nhịp tim': 'Heart Rate Monitor',
     'Máy theo dõi huyết áp': 'Blood Pressure Monitor',
     'Máy theo dõi đa thông số': 'Multi-parameter Monitor',
-    
+
     // Laboratory Equipment Subcategories
     'Kính hiển vi': 'Microscope',
     'Máy ly tâm': 'Centrifuge',
     'Tủ ấm': 'Incubator',
     'Máy xét nghiệm': 'Analyzer',
     'Tủ bảo quản mẫu': 'Sample Storage Cabinet',
-    
+
     // Emergency Equipment Subcategories
     'Máy khử rung tim': 'Defibrillator',
     'Bộ cấp cứu': 'Emergency Kit',
     'Bình oxy': 'Oxygen Cylinder',
     'Xe cấp cứu': 'Emergency Cart',
-    
+
     // Respiratory Support Equipment Subcategories
     'Máy thở': 'Ventilator',
     'Máy tạo oxy': 'Oxygen Concentrator',
     'Máy hút đàm': 'Suction Machine',
     'Máy nebulizer': 'Nebulizer',
-    
+
     // Rehabilitation Equipment Subcategories
     'Xe lăn': 'Wheelchair',
     'Nạng': 'Crutches',
     'Máy tập vật lý trị liệu': 'Physical Therapy Equipment',
     'Gậy đi bộ': 'Walking Cane',
-    
+
     // Patient Care Equipment Subcategories
     'Giường bệnh': 'Hospital Bed',
     'Máy đo nhiệt độ': 'Temperature Monitor',
     'Bơm tiêm': 'Infusion Pump',
     'Máy hút sữa': 'Breast Pump',
-    
+
     // Dental Equipment Subcategories
     'Máy khoan nha khoa': 'Dental Drill',
     'Ghế nha khoa': 'Dental Chair',
     'Đèn chiếu nha khoa': 'Dental Light',
-    
+
     // Sterilization Equipment Subcategories
     'Nồi hấp tiệt trùng': 'Autoclave',
     'Tủ sấy khô': 'Drying Cabinet',

@@ -6,7 +6,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 void main() {
   group('DataService', () {
     late DataService dataService;
-    
+
     setUp(() async {
       // Initialize Supabase
       await Supabase.initialize(
@@ -15,14 +15,14 @@ void main() {
       );
       dataService = DataService();
     });
-    
+
     test('getEquipment includes category names', () async {
       // Fetch equipment with joins
       final equipment = await dataService.getEquipment();
-      
+
       // Verify that at least one item was returned
       expect(equipment, isNotEmpty);
-      
+
       // Log the first item for inspection using test framework output
       final first = equipment.first;
       addTearDown(() {
@@ -32,7 +32,7 @@ void main() {
         debugPrint('  Category ID: ${first.categoryId}');
         debugPrint('  Category Name: ${first.categoryName}');
       });
-      
+
       // Check if category info is present
       for (final item in equipment) {
         if (item.categoryId != null) {

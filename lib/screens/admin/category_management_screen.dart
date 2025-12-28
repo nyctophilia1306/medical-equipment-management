@@ -9,18 +9,19 @@ import '../../l10n/app_localizations.dart';
 
 class CategoryManagementScreen extends StatefulWidget {
   static const String routeName = '/category-management';
-  
+
   const CategoryManagementScreen({super.key});
 
   @override
-  State<CategoryManagementScreen> createState() => _CategoryManagementScreenState();
+  State<CategoryManagementScreen> createState() =>
+      _CategoryManagementScreenState();
 }
 
 class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   final MetadataService _metadataService = MetadataService();
   final DataService _dataService = DataService();
   final TextEditingController _searchController = TextEditingController();
-  
+
   List<Category> _allCategories = [];
   List<Category> _filteredCategories = [];
   Map<int, int> _equipmentCounts = {};
@@ -41,15 +42,19 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   Future<void> _loadCategories() async {
     setState(() => _isLoading = true);
     try {
-      final categories = await _metadataService.getCategories(forceRefresh: true);
-      
+      final categories = await _metadataService.getCategories(
+        forceRefresh: true,
+      );
+
       // Load equipment counts for each category
       final counts = <int, int>{};
       for (var category in categories) {
-        final equipment = await _dataService.getEquipment(category: category.name);
+        final equipment = await _dataService.getEquipment(
+          category: category.name,
+        );
         counts[category.id] = equipment.length;
       }
-      
+
       setState(() {
         _allCategories = categories;
         _equipmentCounts = counts;
@@ -72,20 +77,27 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       setState(() => _filteredCategories = _allCategories);
     } else {
       setState(() {
-        _filteredCategories = _allCategories.where((c) =>
-          c.name.toLowerCase().contains(query) ||
-          (c.description?.toLowerCase().contains(query) ?? false)
-        ).toList();
+        _filteredCategories = _allCategories
+            .where(
+              (c) =>
+                  c.name.toLowerCase().contains(query) ||
+                  (c.description?.toLowerCase().contains(query) ?? false),
+            )
+            .toList();
       });
     }
   }
 
   List<Category> _getParentCategories() {
-    return _filteredCategories.where((c) => c.parentCategoryId == null).toList();
+    return _filteredCategories
+        .where((c) => c.parentCategoryId == null)
+        .toList();
   }
 
   List<Category> _getChildCategories(int parentId) {
-    return _filteredCategories.where((c) => c.parentCategoryId == parentId).toList();
+    return _filteredCategories
+        .where((c) => c.parentCategoryId == parentId)
+        .toList();
   }
 
   @override
@@ -93,7 +105,10 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
-        title: Text('Category Management', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+        title: Text(
+          'Category Management',
+          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: AppColors.backgroundWhite,
         elevation: 2,
         actions: [
@@ -125,25 +140,27 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                       )
                     : null,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.borderRadiusMedium,
+                  ),
                 ),
               ),
             ),
           ),
-          
+
           // Categories List
           Expanded(
             child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _filteredCategories.isEmpty
-                    ? _buildEmptyState()
-                    : RefreshIndicator(
-                        onRefresh: _loadCategories,
-                        child: ListView(
-                          padding: const EdgeInsets.all(AppConstants.paddingMedium),
-                          children: _buildCategoryTree(),
-                        ),
-                      ),
+                ? _buildEmptyState()
+                : RefreshIndicator(
+                    onRefresh: _loadCategories,
+                    child: ListView(
+                      padding: const EdgeInsets.all(AppConstants.paddingMedium),
+                      children: _buildCategoryTree(),
+                    ),
+                  ),
           ),
         ],
       ),
@@ -161,7 +178,11 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.category_outlined, size: 64, color: AppColors.textSecondary),
+          Icon(
+            Icons.category_outlined,
+            size: 64,
+            color: AppColors.textSecondary,
+          ),
           const SizedBox(height: AppConstants.paddingMedium),
           Text(
             'No categories found',
@@ -187,10 +208,10 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   List<Widget> _buildCategoryTree() {
     final parentCategories = _getParentCategories();
     final widgets = <Widget>[];
-    
+
     for (var parent in parentCategories) {
       final children = _getChildCategories(parent.id);
-      
+
       if (children.isEmpty) {
         // Parent with no children - show as card
         widgets.add(_buildCategoryCard(parent));
@@ -199,7 +220,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
         widgets.add(_buildParentCategorySection(parent, children));
       }
     }
-    
+
     return widgets;
   }
 
@@ -271,7 +292,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
             ),
           ],
         ),
-        children: children.map((child) => _buildChildCategoryCard(child)).toList(),
+        children: children
+            .map((child) => _buildChildCategoryCard(child))
+            .toList(),
       ),
     );
   }
@@ -284,8 +307,14 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: AppColors.warningYellow.withAlpha((0.2 * 255).round()),
-              child: Icon(Icons.label, color: AppColors.warningYellow, size: 20),
+              backgroundColor: AppColors.warningYellow.withAlpha(
+                (0.2 * 255).round(),
+              ),
+              child: Icon(
+                Icons.label,
+                color: AppColors.warningYellow,
+                size: 20,
+              ),
             ),
             const SizedBox(width: AppConstants.paddingMedium),
             Expanded(
@@ -344,7 +373,11 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       child: Row(
         children: [
           const SizedBox(width: 24),
-          Icon(Icons.subdirectory_arrow_right, size: 20, color: AppColors.textSecondary),
+          Icon(
+            Icons.subdirectory_arrow_right,
+            size: 20,
+            color: AppColors.textSecondary,
+          ),
           const SizedBox(width: AppConstants.paddingSmall),
           Expanded(
             child: Column(
@@ -395,7 +428,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: count > 0 
+        color: count > 0
             ? AppColors.successGreen.withAlpha((0.2 * 255).round())
             : AppColors.grayNeutral600.withAlpha((0.2 * 255).round()),
         borderRadius: BorderRadius.circular(12),
@@ -406,7 +439,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           Icon(
             Icons.inventory_2_outlined,
             size: 14,
-            color: count > 0 ? AppColors.successGreen : AppColors.grayNeutral600,
+            color: count > 0
+                ? AppColors.successGreen
+                : AppColors.grayNeutral600,
           ),
           const SizedBox(width: 4),
           Text(
@@ -414,7 +449,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
             style: GoogleFonts.inter(
               fontSize: 12,
               fontWeight: FontWeight.w600,
-              color: count > 0 ? AppColors.successGreen : AppColors.grayNeutral600,
+              color: count > 0
+                  ? AppColors.successGreen
+                  : AppColors.grayNeutral600,
             ),
           ),
         ],
@@ -425,9 +462,11 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   Future<void> _showCategoryDialog({Category? category}) async {
     final isEdit = category != null;
     final nameController = TextEditingController(text: category?.name ?? '');
-    final descriptionController = TextEditingController(text: category?.description ?? '');
+    final descriptionController = TextEditingController(
+      text: category?.description ?? '',
+    );
     int? selectedParentId = category?.parentCategoryId;
-    
+
     final result = await showDialog<bool>(
       context: context,
       builder: (dialogContext) {
@@ -448,7 +487,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                         labelText: 'Category Name *',
                         hintText: 'Enter category name',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppConstants.borderRadiusSmall),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.borderRadiusSmall,
+                          ),
                         ),
                       ),
                     ),
@@ -459,7 +500,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                         labelText: 'Description',
                         hintText: 'Enter description (optional)',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppConstants.borderRadiusSmall),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.borderRadiusSmall,
+                          ),
                         ),
                       ),
                       maxLines: 3,
@@ -471,7 +514,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                         labelText: 'Parent Category',
                         hintText: 'Select parent (optional)',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppConstants.borderRadiusSmall),
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.borderRadiusSmall,
+                          ),
                         ),
                       ),
                       items: [
@@ -480,13 +525,17 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                           child: Text('None (Top Level)'),
                         ),
                         ..._allCategories
-                            .where((c) => 
-                                c.parentCategoryId == null && 
-                                (category == null || c.id != category.id))
-                            .map((c) => DropdownMenuItem<int?>(
-                                  value: c.id,
-                                  child: Text(c.name),
-                                )),
+                            .where(
+                              (c) =>
+                                  c.parentCategoryId == null &&
+                                  (category == null || c.id != category.id),
+                            )
+                            .map(
+                              (c) => DropdownMenuItem<int?>(
+                                value: c.id,
+                                child: Text(c.name),
+                              ),
+                            ),
                       ],
                       onChanged: (value) {
                         setDialogState(() => selectedParentId = value);
@@ -504,17 +553,25 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                   onPressed: () async {
                     if (nameController.text.trim().isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(AppLocalizations.of(context)!.categoryNameRequired)),
+                        SnackBar(
+                          content: Text(
+                            AppLocalizations.of(context)!.categoryNameRequired,
+                          ),
+                        ),
                       );
                       return;
                     }
-                    
+
                     Navigator.of(dialogContext).pop(true);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primaryBlue,
                   ),
-                  child: Text(isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.add),
+                  child: Text(
+                    isEdit
+                        ? AppLocalizations.of(context)!.update
+                        : AppLocalizations.of(context)!.add,
+                  ),
                 ),
               ],
             );
@@ -522,11 +579,11 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
         );
       },
     );
-    
+
     if (result == true) {
       final name = nameController.text.trim();
       final description = descriptionController.text.trim();
-      
+
       try {
         if (isEdit) {
           final updated = category.copyWith(
@@ -566,7 +623,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
         }
       }
     }
-    
+
     nameController.dispose();
     descriptionController.dispose();
   }
@@ -574,18 +631,24 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
   Future<void> _confirmDeleteCategory(Category category) async {
     // Check if category has equipment
     final equipmentCount = _equipmentCounts[category.id] ?? 0;
-    
+
     // Check if category has children
-    final children = _allCategories.where((c) => c.parentCategoryId == category.id).toList();
-    
+    final children = _allCategories
+        .where((c) => c.parentCategoryId == category.id)
+        .toList();
+
     String message;
     if (equipmentCount > 0) {
-      message = 'This category contains $equipmentCount equipment item${equipmentCount > 1 ? 's' : ''}. Cannot delete.';
-      
+      message =
+          'This category contains $equipmentCount equipment item${equipmentCount > 1 ? 's' : ''}. Cannot delete.';
+
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Cannot Delete', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+          title: Text(
+            'Cannot Delete',
+            style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+          ),
           content: Text(message),
           actions: [
             TextButton(
@@ -597,17 +660,21 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       );
       return;
     }
-    
+
     if (children.isNotEmpty) {
-      message = 'This category has ${children.length} subcategory${children.length > 1 ? 'ies' : 'y'}. Deleting this category will also delete all subcategories. Continue?';
+      message =
+          'This category has ${children.length} subcategory${children.length > 1 ? 'ies' : 'y'}. Deleting this category will also delete all subcategories. Continue?';
     } else {
       message = 'Are you sure you want to delete "${category.name}"?';
     }
-    
+
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Xác Nhận Xóa', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
+        title: Text(
+          'Xác Nhận Xóa',
+          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+        ),
         content: Text(message),
         actions: [
           TextButton(
@@ -624,14 +691,14 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
         ],
       ),
     );
-    
+
     if (confirmed == true) {
       try {
         // Delete children first
         for (var child in children) {
           await _metadataService.deleteCategory(child.id);
         }
-        
+
         // Delete the category
         final success = await _metadataService.deleteCategory(category.id);
         if (success) {

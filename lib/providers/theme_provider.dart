@@ -5,7 +5,7 @@ import '../utils/logger.dart';
 
 class ThemeProvider with ChangeNotifier {
   final UserSettingsService _settingsService = UserSettingsService();
-  
+
   ThemeMode _themeMode = ThemeMode.light;
   String? _userId;
 
@@ -16,10 +16,10 @@ class ThemeProvider with ChangeNotifier {
     try {
       _userId = userId;
       final settings = await _settingsService.getUserSettings(userId);
-      
+
       _themeMode = _getThemeModeFromString(settings.themeMode);
       notifyListeners();
-      
+
       Logger.info('Loaded theme: ${settings.themeMode} for user $userId');
     } catch (e) {
       Logger.error('Error loading theme: $e');
@@ -46,8 +46,8 @@ class ThemeProvider with ChangeNotifier {
 
   /// Toggle between light and dark mode
   Future<void> toggleTheme() async {
-    final newMode = _themeMode == ThemeMode.light 
-        ? ThemeMode.dark 
+    final newMode = _themeMode == ThemeMode.light
+        ? ThemeMode.dark
         : ThemeMode.light;
     await setTheme(newMode);
   }

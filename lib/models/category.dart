@@ -40,9 +40,7 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> json = {
-      'category_name': name,
-    };
+    final Map<String, dynamic> json = {'category_name': name};
 
     // Only add ID for updates, not for inserts (will use the sequence)
     if (id > 0) {

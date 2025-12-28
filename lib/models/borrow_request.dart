@@ -13,7 +13,8 @@ class BorrowRequest {
   final DateTime borrowDate;
   final DateTime expectedReturnDate;
   final DateTime? actualReturnDate;
-  final String status; // 'pending', 'approved', 'rejected', 'returned', 'overdue'
+  final String
+  status; // 'pending', 'approved', 'rejected', 'returned', 'overdue'
   final String purpose;
   final String? notes;
   final String? rejectionReason;
@@ -59,7 +60,9 @@ class BorrowRequest {
       requestedByName: json['requested_by_name'] as String,
       quantity: json['quantity'] as int,
       borrowDate: DateTime.parse(json['borrow_date'] as String),
-      expectedReturnDate: DateTime.parse(json['expected_return_date'] as String),
+      expectedReturnDate: DateTime.parse(
+        json['expected_return_date'] as String,
+      ),
       actualReturnDate: json['actual_return_date'] != null
           ? DateTime.parse(json['actual_return_date'] as String)
           : null,
@@ -89,7 +92,9 @@ class BorrowRequest {
       'requested_by_name': requestedByName,
       'quantity': quantity,
       'borrow_date': borrowDate.toIso8601String().split('T')[0],
-      'expected_return_date': expectedReturnDate.toIso8601String().split('T')[0],
+      'expected_return_date': expectedReturnDate.toIso8601String().split(
+        'T',
+      )[0],
       'actual_return_date': actualReturnDate?.toIso8601String().split('T')[0],
       'status': status,
       'purpose': purpose,
@@ -130,7 +135,8 @@ class BorrowRequest {
       id: id ?? this.id,
       equipmentId: equipmentId ?? this.equipmentId,
       equipmentName: equipmentName ?? this.equipmentName,
-      equipmentSerialNumber: equipmentSerialNumber ?? this.equipmentSerialNumber,
+      equipmentSerialNumber:
+          equipmentSerialNumber ?? this.equipmentSerialNumber,
       userId: userId ?? this.userId,
       userName: userName ?? this.userName,
       requestedBy: requestedBy ?? this.requestedBy,

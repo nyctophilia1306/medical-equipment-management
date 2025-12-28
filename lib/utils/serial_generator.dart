@@ -47,12 +47,12 @@ class SerialGenerator {
     if (categoryName == null || categoryName.isEmpty) {
       return 'GE';
     }
-    
+
     // Try exact match first
     if (_categoryCodeMap.containsKey(categoryName)) {
       return _categoryCodeMap[categoryName]!;
     }
-    
+
     // Try case-insensitive match
     final lowerCaseName = categoryName.toLowerCase();
     for (final entry in _categoryCodeMap.entries) {
@@ -60,7 +60,7 @@ class SerialGenerator {
         return entry.value;
       }
     }
-    
+
     // Try partial match
     for (final entry in _categoryCodeMap.entries) {
       if (entry.key.toLowerCase().contains(lowerCaseName) ||
@@ -68,7 +68,7 @@ class SerialGenerator {
         return entry.value;
       }
     }
-    
+
     // Default to GE (General)
     return 'GE';
   }
@@ -116,15 +116,15 @@ class SerialGenerator {
   /// Must be XXYYYY where XX is 2 letters and YYYY is 4 digits
   static bool isValidSerialFormat(String serial) {
     if (serial.length != 6) return false;
-    
+
     // First 2 characters should be uppercase letters
     final code = serial.substring(0, 2);
     if (!RegExp(r'^[A-Z]{2}$').hasMatch(code)) return false;
-    
+
     // Last 4 characters should be digits
     final digits = serial.substring(2);
     if (!RegExp(r'^\d{4}$').hasMatch(digits)) return false;
-    
+
     return true;
   }
 
@@ -164,17 +164,24 @@ class RequestSerialGenerator {
 
   /// Generates a unique request serial number in format DDMMYYSS
   /// DD = day, MM = month, YY = year (last 2 digits), SS = sequence number (01-99)
-  static Future<String> generateRequestSerial(DateTime requestDate, dynamic supabase) async {
+  static Future<String> generateRequestSerial(
+    DateTime requestDate,
+    dynamic supabase,
+  ) async {
     final day = requestDate.day.toString().padLeft(2, '0');
     final month = requestDate.month.toString().padLeft(2, '0');
     final year = (requestDate.year % 100).toString().padLeft(2, '0');
-    
+
     final datePrefix = '$day$month$year';
-    
+
     // Get count of requests on this date to determine sequence number
-    final startOfDay = DateTime(requestDate.year, requestDate.month, requestDate.day);
+    final startOfDay = DateTime(
+      requestDate.year,
+      requestDate.month,
+      requestDate.day,
+    );
     final endOfDay = startOfDay.add(const Duration(days: 1));
-    
+
     try {
       final existingRequests = await supabase
           .from('borrow_request')
@@ -183,9 +190,9 @@ class RequestSerialGenerator {
           .lt('request_date', endOfDay.toIso8601String())
           .order('request_serial', ascending: false)
           .limit(1);
-      
+
       int sequenceNumber = 1;
-      
+
       if (existingRequests.isNotEmpty) {
         final lastSerial = existingRequests[0]['request_serial'] as String?;
         if (lastSerial != null && lastSerial.startsWith(datePrefix)) {
@@ -193,12 +200,13 @@ class RequestSerialGenerator {
           sequenceNumber = lastSequence + 1;
         }
       }
-      
+
       final sequence = sequenceNumber.toString().padLeft(2, '0');
       return '$datePrefix$sequence';
     } catch (e) {
       // Fallback: use timestamp-based serial
-      return '$datePrefix${DateTime.now().millisecondsSinceEpoch % 100}'.padLeft(2, '0');
+      return '$datePrefix${DateTime.now().millisecondsSinceEpoch % 100}'
+          .padLeft(2, '0');
     }
   }
 
@@ -211,7 +219,7 @@ class RequestSerialGenerator {
   /// Extracts date from request serial
   static DateTime? getDateFromSerial(String serial) {
     if (!isValidRequestSerial(serial)) return null;
-    
+
     try {
       final day = int.parse(serial.substring(0, 2));
       final month = int.parse(serial.substring(2, 4));

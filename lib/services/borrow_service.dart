@@ -442,8 +442,9 @@ class BorrowService {
           'updated_at': DateTime.now().toIso8601String(),
         };
 
-        if (returnCondition != null)
+        if (returnCondition != null) {
           updateData['return_condition'] = returnCondition;
+        }
 
         await _supabase
             .from('borrow_request')

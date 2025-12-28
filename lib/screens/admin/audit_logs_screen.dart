@@ -17,7 +17,7 @@ class AuditLogsScreen extends StatefulWidget {
 class _AuditLogsScreenState extends State<AuditLogsScreen> {
   final AuditLogService _auditLogService = AuditLogService();
   final UserService _userService = UserService();
-  
+
   List<AuditLog> _logs = [];
   final Map<String, String> _userNames = {}; // Cache user names
   bool _isLoading = true;
@@ -55,7 +55,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
 
     try {
       List<AuditLog> newLogs;
-      
+
       if (_selectedCategory == null || _selectedCategory == 'All') {
         newLogs = await _auditLogService.getSystemLogs(
           limit: _logsPerPage,
@@ -93,7 +93,8 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
   }
 
   Color _getActionColor(String actionType) {
-    if (actionType == AuditLog.actionLogin || actionType == AuditLog.actionLogout) {
+    if (actionType == AuditLog.actionLogin ||
+        actionType == AuditLog.actionLogout) {
       return AppColors.primaryBlue;
     } else if (actionType.contains('create')) {
       return AppColors.successGreen;
@@ -143,7 +144,8 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: _categories.map((category) {
-                      final isSelected = category == (_selectedCategory ?? 'All');
+                      final isSelected =
+                          category == (_selectedCategory ?? 'All');
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: FilterChip(
@@ -151,15 +153,23 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                           selected: isSelected,
                           onSelected: (selected) {
                             setState(() {
-                              _selectedCategory = category == 'All' ? null : category;
+                              _selectedCategory = category == 'All'
+                                  ? null
+                                  : category;
                             });
                             _loadLogs();
                           },
                           backgroundColor: AppColors.backgroundWhite,
-                          selectedColor: AppColors.primaryBlue.withAlpha((0.2 * 255).round()),
+                          selectedColor: AppColors.primaryBlue.withAlpha(
+                            (0.2 * 255).round(),
+                          ),
                           labelStyle: GoogleFonts.inter(
-                            color: isSelected ? AppColors.primaryBlue : AppColors.textSecondary,
-                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                            color: isSelected
+                                ? AppColors.primaryBlue
+                                : AppColors.textSecondary,
+                            fontWeight: isSelected
+                                ? FontWeight.w600
+                                : FontWeight.w400,
                           ),
                         ),
                       );
@@ -175,53 +185,58 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
             child: _isLoading && _logs.isEmpty
                 ? const Center(child: CircularProgressIndicator())
                 : _logs.isEmpty
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.history,
-                              size: 64,
-                              color: AppColors.textSecondary.withAlpha((0.5 * 255).round()),
-                            ),
-                            const SizedBox(height: AppConstants.paddingMedium),
-                            Text(
-                              'No audit logs found',
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                                color: AppColors.textSecondary,
-                              ),
-                            ),
-                          ],
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.history,
+                          size: 64,
+                          color: AppColors.textSecondary.withAlpha(
+                            (0.5 * 255).round(),
+                          ),
                         ),
-                      )
-                    : RefreshIndicator(
-                        onRefresh: () => _loadLogs(),
-                        child: ListView.builder(
-                          padding: const EdgeInsets.all(AppConstants.paddingMedium),
-                          itemCount: _logs.length + (_hasMore ? 1 : 0),
-                          itemBuilder: (context, index) {
-                            if (index == _logs.length) {
-                              // Load more button
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: AppConstants.paddingMedium),
-                                child: Center(
-                                  child: _isLoading
-                                      ? const CircularProgressIndicator()
-                                      : ElevatedButton.icon(
-                                          onPressed: () => _loadLogs(loadMore: true),
-                                          icon: const Icon(Icons.arrow_downward),
-                                          label: const Text('Load More'),
-                                        ),
-                                ),
-                              );
-                            }
+                        const SizedBox(height: AppConstants.paddingMedium),
+                        Text(
+                          'No audit logs found',
+                          style: GoogleFonts.inter(
+                            fontSize: 16,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : RefreshIndicator(
+                    onRefresh: () => _loadLogs(),
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(AppConstants.paddingMedium),
+                      itemCount: _logs.length + (_hasMore ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index == _logs.length) {
+                          // Load more button
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: AppConstants.paddingMedium,
+                            ),
+                            child: Center(
+                              child: _isLoading
+                                  ? const CircularProgressIndicator()
+                                  : ElevatedButton.icon(
+                                      onPressed: () =>
+                                          _loadLogs(loadMore: true),
+                                      icon: const Icon(Icons.arrow_downward),
+                                      label: const Text('Load More'),
+                                    ),
+                            ),
+                          );
+                        }
 
-                            final log = _logs[index];
-                            return _buildLogCard(log);
-                          },
-                        ),
-                      ),
+                        final log = _logs[index];
+                        return _buildLogCard(log);
+                      },
+                    ),
+                  ),
           ),
         ],
       ),
@@ -292,7 +307,11 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                   ),
                 ),
                 const SizedBox(width: 12),
-                Icon(Icons.access_time, size: 14, color: AppColors.textSecondary),
+                Icon(
+                  Icons.access_time,
+                  size: 14,
+                  color: AppColors.textSecondary,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   DateFormat('MMM dd, yyyy HH:mm').format(log.timestamp),

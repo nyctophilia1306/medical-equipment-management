@@ -13,11 +13,8 @@ import '../../utils/serial_generator.dart';
 
 class EquipmentFormScreen extends StatefulWidget {
   final Equipment? equipment; // Null for create, non-null for edit
-  
-  const EquipmentFormScreen({
-    super.key, 
-    this.equipment,
-  });
+
+  const EquipmentFormScreen({super.key, this.equipment});
 
   @override
   State<EquipmentFormScreen> createState() => _EquipmentFormScreenState();
@@ -33,12 +30,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   bool _isEdit = false;
   String _errorMessage = '';
   bool _showQrCode = false;
-  
+
   // Form controllers
   late TextEditingController _nameController;
   late TextEditingController _descriptionController;
   late TextEditingController _categoryController;
-  late TextEditingController _quantityController;  // Updated field name
+  late TextEditingController _quantityController; // Updated field name
   late TextEditingController _statusController;
   late TextEditingController _imageUrlController;
   late TextEditingController _qrCodeController;
@@ -47,39 +44,63 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   late TextEditingController _modelController;
   // Purchase and maintenance fields removed for simplification
   late TextEditingController _notesController;
-  
+
   List<Category> _categoryList = [];
   List<String> _categoryNames = [];
   int? _selectedCategoryId;
-  
-  final List<String> _statuses = ['available', 'borrowed', 'maintenance', 'out_of_order'];
-  
+
+  final List<String> _statuses = [
+    'available',
+    'borrowed',
+    'maintenance',
+    'out_of_order',
+  ];
+
   @override
   void initState() {
     super.initState();
     _isEdit = widget.equipment != null;
-    
+
     // Initialize controllers
     _nameController = TextEditingController(text: widget.equipment?.name ?? '');
-    _descriptionController = TextEditingController(text: widget.equipment?.description ?? '');
-    _categoryController = TextEditingController(text: widget.equipment?.category ?? '');
+    _descriptionController = TextEditingController(
+      text: widget.equipment?.description ?? '',
+    );
+    _categoryController = TextEditingController(
+      text: widget.equipment?.category ?? '',
+    );
     _quantityController = TextEditingController(
-      text: widget.equipment?.quantity.toString() ?? '0');
-    _statusController = TextEditingController(text: widget.equipment?.status ?? 'available');
-    
+      text: widget.equipment?.quantity.toString() ?? '0',
+    );
+    _statusController = TextEditingController(
+      text: widget.equipment?.status ?? 'available',
+    );
+
     // Load categories
     _loadCategories();
-    _imageUrlController = TextEditingController(text: widget.equipment?.imageUrl ?? '');
-    _qrCodeController = TextEditingController(text: widget.equipment?.qrCode ?? '');
-    _serialNumberController = TextEditingController(text: widget.equipment?.serialNumber ?? '');
-    _manufacturerController = TextEditingController(text: widget.equipment?.manufacturer ?? '');
-    _modelController = TextEditingController(text: widget.equipment?.model ?? '');
+    _imageUrlController = TextEditingController(
+      text: widget.equipment?.imageUrl ?? '',
+    );
+    _qrCodeController = TextEditingController(
+      text: widget.equipment?.qrCode ?? '',
+    );
+    _serialNumberController = TextEditingController(
+      text: widget.equipment?.serialNumber ?? '',
+    );
+    _manufacturerController = TextEditingController(
+      text: widget.equipment?.manufacturer ?? '',
+    );
+    _modelController = TextEditingController(
+      text: widget.equipment?.model ?? '',
+    );
     // Purchase and maintenance field controllers removed for simplification
-    _notesController = TextEditingController(text: widget.equipment?.notes ?? '');
-    
+    _notesController = TextEditingController(
+      text: widget.equipment?.notes ?? '',
+    );
+
     _loadCategories();
   }
-  
+
   @override
   void dispose() {
     _nameController.dispose();
@@ -96,28 +117,32 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     _notesController.dispose();
     super.dispose();
   }
-  
-  
+
   Future<void> _loadCategories() async {
     try {
       // Load categories from MetadataService instead of DataService
       final categoryList = await _metadataService.getCategories();
-      
+
       if (mounted) {
         setState(() {
           _categoryList = categoryList;
           _categoryNames = categoryList.map((cat) => cat.name).toList();
-          
+
           // If editing an existing equipment, set the selected category ID
-          if (widget.equipment != null && widget.equipment!.categoryId != null) {
+          if (widget.equipment != null &&
+              widget.equipment!.categoryId != null) {
             _selectedCategoryId = widget.equipment!.categoryId;
-          } else if (widget.equipment != null && widget.equipment!.category?.isNotEmpty == true) {
+          } else if (widget.equipment != null &&
+              widget.equipment!.category?.isNotEmpty == true) {
             // Try to find a category by name for backward compatibility
             final matchingCategory = categoryList.firstWhere(
-              (cat) => cat.name.toLowerCase() == widget.equipment!.category?.toLowerCase(),
-              orElse: () => Category(id: -1, name: '', createdAt: DateTime.now()),
+              (cat) =>
+                  cat.name.toLowerCase() ==
+                  widget.equipment!.category?.toLowerCase(),
+              orElse: () =>
+                  Category(id: -1, name: '', createdAt: DateTime.now()),
             );
-            
+
             if (matchingCategory.id > 0) {
               _selectedCategoryId = matchingCategory.id;
               _categoryController.text = matchingCategory.name;
@@ -131,64 +156,87 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     }
   }
 
-  
   // Date selection method removed
-  
+
   Future<void> _saveEquipment() async {
     if (!_formKey.currentState!.validate()) {
       return;
-    }   
+    }
     setState(() {
       _isLoading = true;
       _errorMessage = '';
     });
-    
+
     try {
       // Parse form data
       final name = _nameController.text;
       final description = _descriptionController.text;
-      final category = _categoryController.text; // Keep for display purposes only
+      final category =
+          _categoryController.text; // Keep for display purposes only
       final quantity = int.parse(_quantityController.text);
       final status = _statusController.text;
-      final imageUrl = _imageUrlController.text.isNotEmpty ? _imageUrlController.text : null;
-      final serialNumber = _serialNumberController.text.isNotEmpty ? _serialNumberController.text : null;
-      final manufacturer = _manufacturerController.text.isNotEmpty ? _manufacturerController.text : null;
-      final model = _modelController.text.isNotEmpty ? _modelController.text : null;
-      
+      final imageUrl = _imageUrlController.text.isNotEmpty
+          ? _imageUrlController.text
+          : null;
+      final serialNumber = _serialNumberController.text.isNotEmpty
+          ? _serialNumberController.text
+          : null;
+      final manufacturer = _manufacturerController.text.isNotEmpty
+          ? _manufacturerController.text
+          : null;
+      final model = _modelController.text.isNotEmpty
+          ? _modelController.text
+          : null;
+
       // Purchase and maintenance date processing removed for simplification
-      
-      final notes = _notesController.text.isNotEmpty ? _notesController.text : null;
-      
+
+      final notes = _notesController.text.isNotEmpty
+          ? _notesController.text
+          : null;
+
       if (_isEdit) {
         // Update existing equipment using the safer method to avoid schema mismatches
         // Get the equipment ID from the existing equipment object
         final equipmentId = widget.equipment!.id;
-        
+
         // Add extra diagnostic logging
-        Logger.debug('Equipment form - Edit mode - Equipment ID: "$equipmentId"');
-        Logger.debug('Equipment form - Original equipment: ${widget.equipment.toString()}');
-        
+        Logger.debug(
+          'Equipment form - Edit mode - Equipment ID: "$equipmentId"',
+        );
+        Logger.debug(
+          'Equipment form - Original equipment: ${widget.equipment.toString()}',
+        );
+
         if (equipmentId.isEmpty) {
           Logger.error('Equipment form - Empty equipment ID in edit mode');
           throw Exception('Equipment ID is missing or invalid');
         }
-        
+
         // Verify the equipment exists in the database before updating
         final checkEquipment = await _dataService.getEquipmentById(equipmentId);
         if (checkEquipment == null) {
-          Logger.error('Equipment form - Equipment not found in database: $equipmentId');
-          throw Exception('Equipment not found in database with ID: $equipmentId');
+          Logger.error(
+            'Equipment form - Equipment not found in database: $equipmentId',
+          );
+          throw Exception(
+            'Equipment not found in database with ID: $equipmentId',
+          );
         } else {
-          Logger.debug('Equipment form - Verified equipment exists in database: ${checkEquipment.id}');
+          Logger.debug(
+            'Equipment form - Verified equipment exists in database: ${checkEquipment.id}',
+          );
         }
-        
+
         // Use the safe update method to avoid schema issues
-        Logger.debug('Equipment form - Calling safeUpdateEquipment with ID: $equipmentId');
+        Logger.debug(
+          'Equipment form - Calling safeUpdateEquipment with ID: $equipmentId',
+        );
         await _dataService.safeUpdateEquipment(
           equipmentId: equipmentId,
           name: name,
           description: description,
-          categoryId: _selectedCategoryId, // Use categoryId instead of category string
+          categoryId:
+              _selectedCategoryId, // Use categoryId instead of category string
           quantity: quantity,
           status: status,
           imageUrl: imageUrl,
@@ -197,10 +245,10 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           model: model,
           serialNumber: serialNumber,
         );
-        
+
         // Note: The maintenance dates are temporarily excluded as they may not exist in the DB
         // We can add them back later after confirming the schema
-        
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Equipment updated successfully')),
@@ -210,23 +258,27 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       } else {
         // Create new equipment - auto-generate serial number if not provided
         String finalSerialNumber = serialNumber ?? '';
-        
+
         // Auto-generate serial number if empty and category is selected
         if (finalSerialNumber.isEmpty && _selectedCategoryId != null) {
-          final categoryName = _categoryList.firstWhere(
-            (cat) => cat.id == _selectedCategoryId,
-            orElse: () => _categoryList.first,
-          ).name;
-          
-          finalSerialNumber = SerialGenerator.generateSerialNumber(categoryName);
-          
+          final categoryName = _categoryList
+              .firstWhere(
+                (cat) => cat.id == _selectedCategoryId,
+                orElse: () => _categoryList.first,
+              )
+              .name;
+
+          finalSerialNumber = SerialGenerator.generateSerialNumber(
+            categoryName,
+          );
+
           // Update the UI to show the generated serial number
           setState(() {
             _serialNumberController.text = finalSerialNumber;
             _qrCodeController.text = finalSerialNumber;
           });
         }
-        
+
         // Create new equipment - simplified version without purchase/maintenance fields
         final newEquipment = Equipment(
           id: '', // Will be generated by Supabase
@@ -245,9 +297,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           categoryId: _selectedCategoryId, // Include categoryId
           categoryName: category, // Include category name for display
         );
-        
+
         await _dataService.createEquipment(newEquipment);
-        
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Equipment created successfully')),
@@ -258,12 +310,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     } catch (e) {
       final errorMessage = 'Error saving equipment: $e';
       Logger.error(errorMessage);
-      
+
       if (mounted) {
         setState(() {
           _errorMessage = 'Error: ${e.toString()}';
         });
-        
+
         // Show a more user-friendly error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -278,9 +330,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   context: context,
                   builder: (ctx) => AlertDialog(
                     title: const Text('Error Details'),
-                    content: SingleChildScrollView(
-                      child: Text(errorMessage),
-                    ),
+                    content: SingleChildScrollView(child: Text(errorMessage)),
                     actions: [
                       TextButton(
                         child: const Text('Đồng Ý'),
@@ -315,7 +365,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     try {
       // Generate QR code image
       final imageBytes = await _qrCodeService.generateQrCodeImage(serialNumber);
-      
+
       if (imageBytes == null) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -330,7 +380,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
       // Download the image
       await _qrCodeService.downloadQrCode(imageBytes, 'QR_$serialNumber');
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -367,12 +417,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       body: _buildForm(),
     );
   }
-  
+
   Widget _buildForm() {
     if (_isLoading && !_isEdit) {
       return const Center(child: CircularProgressIndicator());
     }
-    
+
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
@@ -383,11 +433,17 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             if (_errorMessage.isNotEmpty)
               Container(
                 padding: const EdgeInsets.all(AppConstants.paddingMedium),
-                margin: const EdgeInsets.only(bottom: AppConstants.paddingMedium),
+                margin: const EdgeInsets.only(
+                  bottom: AppConstants.paddingMedium,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.errorRed.withAlpha((0.1 * 255).round()),
-                  borderRadius: BorderRadius.circular(AppConstants.borderRadiusMedium),
-                  border: Border.all(color: AppColors.errorRed.withAlpha((0.3 * 255).round())),
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.borderRadiusMedium,
+                  ),
+                  border: Border.all(
+                    color: AppColors.errorRed.withAlpha((0.3 * 255).round()),
+                  ),
                 ),
                 child: Row(
                   children: [
@@ -402,7 +458,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   ],
                 ),
               ),
-            
+
             // Basic Information Card
             _buildSectionCard(
               title: 'Thông Tin Cơ Bản',
@@ -421,7 +477,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   },
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
@@ -437,10 +493,10 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   },
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 _buildCategoryDropdown(),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 TextFormField(
                   controller: _quantityController,
                   decoration: const InputDecoration(
@@ -460,18 +516,22 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   },
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 DropdownButtonFormField<String>(
                   initialValue: _statusController.text,
-                  decoration: const InputDecoration(
-                    labelText: 'Trạng Thái *',
-                  ),
-                  items: _statuses.map((status) => DropdownMenuItem<String>(
-                    value: status,
-                    child: Text(status.replaceAll('_', ' ').toLowerCase()),
-                  )).toList(),
+                  decoration: const InputDecoration(labelText: 'Trạng Thái *'),
+                  items: _statuses
+                      .map(
+                        (status) => DropdownMenuItem<String>(
+                          value: status,
+                          child: Text(
+                            status.replaceAll('_', ' ').toLowerCase(),
+                          ),
+                        ),
+                      )
+                      .toList(),
                   onChanged: (value) {
                     if (value != null) {
                       _statusController.text = value;
@@ -486,7 +546,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 ),
               ],
             ),
-            
+
             // Details Card
             _buildSectionCard(
               title: 'Thông Tin Bổ Sung',
@@ -503,7 +563,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   },
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 TextFormField(
                   controller: _qrCodeController,
                   decoration: const InputDecoration(
@@ -514,7 +574,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   enabled: false,
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 // QR Code Preview and Download
                 if (_serialNumberController.text.isNotEmpty) ...[
                   Row(
@@ -525,7 +585,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                             _showQrCode = !_showQrCode;
                           });
                         },
-                        icon: Icon(_showQrCode ? Icons.visibility_off : Icons.qr_code_2),
+                        icon: Icon(
+                          _showQrCode ? Icons.visibility_off : Icons.qr_code_2,
+                        ),
                         label: Text(_showQrCode ? 'Ẩn Mã QR' : 'Hiện Mã QR'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryBlue,
@@ -557,7 +619,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   ],
                   const SizedBox(height: AppConstants.paddingMedium),
                 ],
-                
+
                 Row(
                   children: [
                     Expanded(
@@ -582,7 +644,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   ],
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 TextFormField(
                   controller: _imageUrlController,
                   decoration: const InputDecoration(
@@ -591,7 +653,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   ),
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
-                
+
                 TextFormField(
                   controller: _notesController,
                   decoration: const InputDecoration(
@@ -602,14 +664,14 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 ),
               ],
             ),
-            
+
             // Purchase & Maintenance section removed for simplification
           ],
         ),
       ),
     );
   }
-  
+
   Widget _buildCategoryDropdown() {
     if (_categoryList.isEmpty) {
       return TextFormField(
@@ -626,13 +688,15 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         },
       );
     }
-    
+
     // Use dropdown if we have existing categories
     return DropdownButtonFormField<int>(
       initialValue: _selectedCategoryId,
       decoration: InputDecoration(
         labelText: 'Category *',
-        hintText: _categoryNames.isEmpty ? 'Enter category' : 'Select or enter category',
+        hintText: _categoryNames.isEmpty
+            ? 'Enter category'
+            : 'Select or enter category',
         suffixIcon: IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
@@ -644,10 +708,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         ),
       ),
       items: [
-        ..._categoryList.map((cat) => DropdownMenuItem<int>(
-          value: cat.id,
-          child: Text(cat.name),
-        )),
+        ..._categoryList.map(
+          (cat) => DropdownMenuItem<int>(value: cat.id, child: Text(cat.name)),
+        ),
         const DropdownMenuItem<int>(
           value: -1, // Special value for "Add new category"
           child: Text('+ Add new category'),
@@ -663,7 +726,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             controller: _categoryController,
             onComplete: (String categoryName) async {
               // Create new category
-              final newCategory = await _metadataService.createCategory(categoryName);
+              final newCategory = await _metadataService.createCategory(
+                categoryName,
+              );
               if (newCategory != null) {
                 setState(() {
                   _categoryList.add(newCategory);
@@ -675,7 +740,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
             },
           );
         } else if (value != null) {
-          final selectedCategory = _categoryList.firstWhere((cat) => cat.id == value);
+          final selectedCategory = _categoryList.firstWhere(
+            (cat) => cat.id == value,
+          );
           setState(() {
             _selectedCategoryId = value;
             _categoryController.text = selectedCategory.name;
@@ -691,9 +758,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       },
     );
   }
-  
 
-  
   Future<void> _showAddNewDialog({
     required BuildContext context,
     required String title,
@@ -702,7 +767,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     Function(String value)? onComplete,
   }) async {
     final textController = TextEditingController();
-    
+
     return showDialog<void>(
       context: context,
       builder: (dialogContext) => AlertDialog(
@@ -729,7 +794,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   controller.text = value;
                 });
                 Navigator.of(dialogContext).pop();
-                
+
                 // Call onComplete callback if provided
                 if (onComplete != null) {
                   onComplete(value);
@@ -742,7 +807,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       ),
     );
   }
-  
+
   Widget _buildSectionCard({
     required String title,
     required List<Widget> children,

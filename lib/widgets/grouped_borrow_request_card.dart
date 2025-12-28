@@ -47,12 +47,17 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
   bool get _isPending =>
       widget.requests.every((r) => r.status.toLowerCase() == 'pending');
 
+  // Check if all requests are rejected
+  bool get _isRejected =>
+      widget.requests.every((r) => r.status.toLowerCase() == 'rejected');
+
   // Check if any equipment is overdue
   bool get _isOverdue =>
       widget.requests.any((r) => r.isOverdueByDate && !r.isEquipmentReturned);
 
   Color get _statusColor {
     if (_allReturned) return Colors.green;
+    if (_isRejected) return Colors.grey; // Rejected requests in grey
     if (_isPending) return Colors.orange; // Pending requests in orange
     if (_isOverdue) return Colors.red;
     if (_partiallyReturned) return Colors.orange;
@@ -61,9 +66,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
 
   String get _statusText {
     if (_allReturned) return 'All Returned';
+    if (_isRejected) return 'Rejected'; // Show rejected status
     if (_isPending) return 'Pending Approval'; // Show pending status
-    if (_partiallyReturned)
+    if (_partiallyReturned) {
       return 'Partially Returned ($_returnedCount/${widget.requests.length})';
+    }
     if (_isOverdue) return 'Overdue';
     return 'Active';
   }
@@ -71,8 +78,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
+      elevation: _isRejected ? 0 : 2, // Flat elevation for rejected
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      color: _isRejected
+          ? Colors.grey[200]
+          : null, // Grey background for rejected
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(color: _statusColor.withValues(alpha: 0.3), width: 2),
@@ -218,8 +228,9 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                   ),
                   const Spacer(),
 
-                  // Admin Actions for Pending Requests
+                  // Admin Actions for Pending Requests (hide for rejected)
                   if (_isPending &&
+                      !_isRejected &&
                       (widget.onApprove != null ||
                           widget.onReject != null)) ...[
                     if (widget.onApprove != null)
@@ -253,8 +264,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                       ),
                   ],
 
-                  // Mark as Return Button (only if not all returned and not pending)
-                  if (!_allReturned && !_isPending && widget.onReturn != null)
+                  // Mark as Return Button (only if not all returned and not pending and not rejected)
+                  if (!_allReturned &&
+                      !_isPending &&
+                      !_isRejected &&
+                      widget.onReturn != null)
                     TextButton.icon(
                       onPressed: widget.onReturn,
                       icon: const Icon(Icons.assignment_return, size: 18),

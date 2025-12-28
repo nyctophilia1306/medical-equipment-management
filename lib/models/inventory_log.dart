@@ -2,7 +2,8 @@ class InventoryLog {
   final String id;
   final String equipmentId;
   final String equipmentName;
-  final String action; // 'added', 'removed', 'adjusted', 'maintenance', 'returned'
+  final String
+  action; // 'added', 'removed', 'adjusted', 'maintenance', 'returned'
   final int quantityChange;
   final int quantityBefore;
   final int quantityAfter;

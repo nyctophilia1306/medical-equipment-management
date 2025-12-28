@@ -35,14 +35,14 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
       duration: const Duration(milliseconds: 300),
       vsync: this,
     );
-    
-    _flashAnimation = ColorTween(
-      begin: Colors.transparent,
-      end: Colors.green.withValues(alpha: 0.3),
-    ).animate(CurvedAnimation(
-      parent: _flashController,
-      curve: Curves.easeInOut,
-    ));
+
+    _flashAnimation =
+        ColorTween(
+          begin: Colors.transparent,
+          end: Colors.green.withValues(alpha: 0.3),
+        ).animate(
+          CurvedAnimation(parent: _flashController, curve: Curves.easeInOut),
+        );
   }
 
   @override
@@ -54,14 +54,15 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
   @override
   void didUpdateWidget(ContinuousScanPopup oldWidget) {
     super.didUpdateWidget(oldWidget);
-    
+
     // Check if new equipment was added
     if (widget.scannedEquipment.length > oldWidget.scannedEquipment.length) {
       // Get the newly added equipment
-      final newSerial = widget.scannedEquipment.keys
-          .firstWhere((key) => !oldWidget.scannedEquipment.containsKey(key));
+      final newSerial = widget.scannedEquipment.keys.firstWhere(
+        (key) => !oldWidget.scannedEquipment.containsKey(key),
+      );
       _lastScannedSerial = newSerial;
-      
+
       // Trigger flash animation
       _flashController.forward().then((_) {
         _flashController.reverse();
@@ -70,8 +71,9 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
   }
 
   int get _totalItems => widget.scannedEquipment.length;
-  
-  int get _totalQuantity => widget.quantities.values.fold(0, (sum, qty) => sum + qty);
+
+  int get _totalQuantity =>
+      widget.quantities.values.fold(0, (sum, qty) => sum + qty);
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +108,9 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.primaryBlue.withValues(alpha: 0.1),
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(20),
+                ),
               ),
               child: Row(
                 children: [
@@ -139,7 +143,10 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.green,
                       borderRadius: BorderRadius.circular(20),
@@ -198,7 +205,9 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       itemCount: widget.scannedEquipment.length,
                       itemBuilder: (context, index) {
-                        final entry = widget.scannedEquipment.entries.elementAt(index);
+                        final entry = widget.scannedEquipment.entries.elementAt(
+                          index,
+                        );
                         final serial = entry.key;
                         final equipment = entry.value;
                         final quantity = widget.quantities[serial] ?? 1;
@@ -206,7 +215,10 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
 
                         return AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
-                          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: isLastScanned
                                 ? Colors.green.withValues(alpha: 0.1)
@@ -220,12 +232,17 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
                             ),
                           ),
                           child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
+                            ),
                             leading: Container(
                               width: 40,
                               height: 40,
                               decoration: BoxDecoration(
-                                color: AppColors.primaryBlue.withValues(alpha: 0.1),
+                                color: AppColors.primaryBlue.withValues(
+                                  alpha: 0.1,
+                                ),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: const Icon(
@@ -254,9 +271,14 @@ class _ContinuousScanPopupState extends State<ContinuousScanPopup>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
                                   decoration: BoxDecoration(
-                                    color: AppColors.primaryBlue.withValues(alpha: 0.1),
+                                    color: AppColors.primaryBlue.withValues(
+                                      alpha: 0.1,
+                                    ),
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       color: AppColors.primaryBlue,

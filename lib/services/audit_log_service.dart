@@ -24,7 +24,7 @@ class AuditLogService {
         'ip_address': ipAddress,
         'timestamp': DateTime.now().toIso8601String(),
       });
-      
+
       Logger.info('Audit log created: $actionType by user $userId');
     } catch (e) {
       Logger.error('Error creating audit log: $e');
@@ -42,9 +42,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .limit(limit);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error fetching user logs: $e');
       return [];
@@ -63,9 +61,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .range(offset, offset + limit - 1);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error fetching system logs: $e');
       return [];
@@ -85,9 +81,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .limit(limit);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error filtering logs by action type: $e');
       return [];
@@ -109,9 +103,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .limit(limit);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error filtering logs by date range: $e');
       return [];
@@ -137,9 +129,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .limit(limit);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error fetching equipment status changes: $e');
       return [];
@@ -183,9 +173,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .range(offset, offset + limit - 1);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error searching logs: $e');
       return [];
@@ -199,7 +187,7 @@ class AuditLogService {
   }) async {
     try {
       List<String> actionTypes = [];
-      
+
       switch (category.toLowerCase()) {
         case 'equipment':
           actionTypes = [
@@ -232,10 +220,7 @@ class AuditLogService {
           ];
           break;
         case 'authentication':
-          actionTypes = [
-            AuditLog.actionLogin,
-            AuditLog.actionLogout,
-          ];
+          actionTypes = [AuditLog.actionLogin, AuditLog.actionLogout];
           break;
         default:
           return [];
@@ -248,9 +233,7 @@ class AuditLogService {
           .order('timestamp', ascending: false)
           .limit(limit);
 
-      return (response as List)
-          .map((json) => AuditLog.fromJson(json))
-          .toList();
+      return (response as List).map((json) => AuditLog.fromJson(json)).toList();
     } catch (e) {
       Logger.error('Error fetching logs by category: $e');
       return [];
@@ -260,9 +243,7 @@ class AuditLogService {
   /// Get total log count
   Future<int> getTotalLogCount() async {
     try {
-      final response = await _supabase
-          .from('audit_logs')
-          .select('log_id');
+      final response = await _supabase.from('audit_logs').select('log_id');
 
       return (response as List).length;
     } catch (e) {

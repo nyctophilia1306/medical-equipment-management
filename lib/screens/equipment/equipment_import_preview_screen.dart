@@ -45,10 +45,7 @@ Future<bool?> showEquipmentImportDialog(
 class EquipmentImportPreviewDialog extends StatefulWidget {
   final Uint8List excelBytes;
 
-  const EquipmentImportPreviewDialog({
-    super.key,
-    required this.excelBytes,
-  });
+  const EquipmentImportPreviewDialog({super.key, required this.excelBytes});
 
   @override
   State<EquipmentImportPreviewDialog> createState() =>
@@ -123,8 +120,12 @@ class _EquipmentImportPreviewDialogState
 
         try {
           final name = row.length > 1 ? row[1]?.value?.toString().trim() : null;
-          final description = row.length > 2 ? row[2]?.value?.toString().trim() : null;
-          final quantityStr = row.length > 4 ? row[4]?.value?.toString().trim() : null;
+          final description = row.length > 2
+              ? row[2]?.value?.toString().trim()
+              : null;
+          final quantityStr = row.length > 4
+              ? row[4]?.value?.toString().trim()
+              : null;
 
           if (name == null || name.isEmpty) continue;
           if (description == null || description.isEmpty) continue;
@@ -132,12 +133,14 @@ class _EquipmentImportPreviewDialogState
 
           final quantity = int.tryParse(quantityStr) ?? 1;
 
-          rows.add(ParsedEquipmentRow(
-            rowNumber: rowNum,
-            name: name,
-            description: description,
-            quantity: quantity,
-          ));
+          rows.add(
+            ParsedEquipmentRow(
+              rowNumber: rowNum,
+              name: name,
+              description: description,
+              quantity: quantity,
+            ),
+          );
         } catch (e) {
           continue;
         }
@@ -155,7 +158,9 @@ class _EquipmentImportPreviewDialogState
     if (missingCategory.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.pleasSelectCategoryForAll),
+          content: Text(
+            AppLocalizations.of(context)!.pleasSelectCategoryForAll,
+          ),
           backgroundColor: Colors.red,
         ),
       );
@@ -170,7 +175,9 @@ class _EquipmentImportPreviewDialogState
 
       for (var row in _equipmentRows) {
         if (row.categoryName != null && row.categoryName!.isNotEmpty) {
-          row.serialNumber = SerialGenerator.generateSerialNumber(row.categoryName!);
+          row.serialNumber = SerialGenerator.generateSerialNumber(
+            row.categoryName!,
+          );
         }
         // Small delay for loading effect
         await Future.delayed(const Duration(milliseconds: 50));
@@ -194,8 +201,9 @@ class _EquipmentImportPreviewDialogState
     if (row.serialNumber == null) return;
 
     try {
-      final imageBytes =
-          await _qrCodeService.generateQrCodeImage(row.serialNumber!);
+      final imageBytes = await _qrCodeService.generateQrCodeImage(
+        row.serialNumber!,
+      );
 
       if (imageBytes != null) {
         await _qrCodeService.downloadQrCode(
@@ -204,9 +212,9 @@ class _EquipmentImportPreviewDialogState
         );
 
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('QR code downloaded')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('QR code downloaded')));
         }
       }
     } catch (e) {
@@ -282,9 +290,7 @@ class _EquipmentImportPreviewDialogState
             _buildHeader(),
             const SizedBox(height: 16),
             if (_loading)
-              const Expanded(
-                child: Center(child: CircularProgressIndicator()),
-              )
+              const Expanded(child: Center(child: CircularProgressIndicator()))
             else if (_error != null)
               _buildError()
             else if (_generating)
@@ -313,7 +319,9 @@ class _EquipmentImportPreviewDialogState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _showQrCodes ? 'Review & Download QR Codes' : 'Import Equipment',
+                _showQrCodes
+                    ? 'Review & Download QR Codes'
+                    : 'Import Equipment',
                 style: GoogleFonts.inter(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -443,8 +451,9 @@ class _EquipmentImportPreviewDialogState
                 onChanged: (value) {
                   setState(() {
                     row.categoryId = value;
-                    row.categoryName =
-                        _categories.firstWhere((c) => c.id == value).name;
+                    row.categoryName = _categories
+                        .firstWhere((c) => c.id == value)
+                        .name;
                   });
                 },
               )
@@ -475,9 +484,15 @@ class _EquipmentImportPreviewDialogState
                       child: ElevatedButton.icon(
                         onPressed: () => _downloadQrCode(row),
                         icon: const Icon(Icons.download, size: 16),
-                        label: const Text('Tải Xuống', style: TextStyle(fontSize: 12)),
+                        label: const Text(
+                          'Tải Xuống',
+                          style: TextStyle(fontSize: 12),
+                        ),
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 6,
+                            horizontal: 8,
+                          ),
                         ),
                       ),
                     ),
@@ -537,10 +552,7 @@ class _EquipmentImportPreviewDialogState
 class EquipmentImportPreviewScreen extends StatefulWidget {
   final Uint8List excelBytes;
 
-  const EquipmentImportPreviewScreen({
-    super.key,
-    required this.excelBytes,
-  });
+  const EquipmentImportPreviewScreen({super.key, required this.excelBytes});
 
   @override
   State<EquipmentImportPreviewScreen> createState() =>
@@ -554,14 +566,15 @@ class _EquipmentImportPreviewScreenState
     // Redirect to dialog
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       if (!mounted) return;
-      final result = await showEquipmentImportDialog(context, widget.excelBytes);
+      final result = await showEquipmentImportDialog(
+        context,
+        widget.excelBytes,
+      );
       if (!mounted) return;
       if (!context.mounted) return;
       Navigator.of(context).pop(result);
     });
 
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }

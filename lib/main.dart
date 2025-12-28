@@ -13,7 +13,7 @@ import 'screens/admin/category_management_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Supabase (replace with your actual Supabase credentials)
   await Supabase.initialize(
     url: AppConstants.supabaseUrl,
@@ -51,14 +51,12 @@ class MedEquipApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('vi'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('vi')],
           home: const AuthGate(),
           routes: {
             '/dashboard': (context) => const MainDashboard(),
-            CategoryManagementScreen.routeName: (context) => const CategoryManagementScreen(),
+            CategoryManagementScreen.routeName: (context) =>
+                const CategoryManagementScreen(),
           },
         );
       },
@@ -88,8 +86,10 @@ class _AuthGateState extends State<AuthGate> {
       await _authService.initialize();
       // Load user's language preference after authentication
       if (mounted) {
-        await Provider.of<LocalizationProvider>(context, listen: false)
-            .loadLanguageFromDatabase();
+        await Provider.of<LocalizationProvider>(
+          context,
+          listen: false,
+        ).loadLanguageFromDatabase();
       }
     } catch (e) {
       // Handle initialization error
@@ -105,11 +105,7 @@ class _AuthGateState extends State<AuthGate> {
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     // Always show MainDashboard. It will adapt based on auth state

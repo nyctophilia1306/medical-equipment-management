@@ -25,7 +25,7 @@ class QrCodeService {
       if (qrValidationResult.status == QrValidationStatus.error) {
         throw Exception('Invalid QR code data: ${qrValidationResult.error}');
       }
-      
+
       // Create the QR code painter
       final painter = QrPainter(
         data: serialNumber,
@@ -45,17 +45,17 @@ class QrCodeService {
       // Create a picture recorder to capture the painting
       final pictureRecorder = ui.PictureRecorder();
       final canvas = Canvas(pictureRecorder);
-      
+
       // Paint the QR code
       painter.paint(canvas, Size(size, size));
-      
+
       // Convert to image
       final picture = pictureRecorder.endRecording();
       final image = await picture.toImage(size.toInt(), size.toInt());
-      
+
       // Convert to PNG bytes
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      
+
       return byteData?.buffer.asUint8List();
     } catch (e) {
       debugPrint('Error generating QR code image: $e');
@@ -67,14 +67,19 @@ class QrCodeService {
   void downloadQrCodeWeb(Uint8List imageBytes, String filename) {
     try {
       // Create a blob from the image bytes
-      final blob = html.Blob([imageBytes], 'image/png'); // ignore: deprecated_member_use
-      
+      final blob = html.Blob([
+        imageBytes,
+      ], 'image/png'); // ignore: deprecated_member_use
+
       // Create a download link
-      final url = html.Url.createObjectUrlFromBlob(blob); // ignore: deprecated_member_use
-      final anchor = html.AnchorElement(href: url) // ignore: deprecated_member_use
-        ..setAttribute('download', '$filename.png');
+      final url = html.Url.createObjectUrlFromBlob(
+        blob,
+      ); // ignore: deprecated_member_use
+      final anchor =
+          html.AnchorElement(href: url) // ignore: deprecated_member_use
+            ..setAttribute('download', '$filename.png');
       anchor.click();
-      
+
       // Clean up
       html.Url.revokeObjectUrl(url); // ignore: deprecated_member_use
     } catch (e) {
@@ -83,10 +88,7 @@ class QrCodeService {
   }
 
   /// Download QR code as PNG file (web only for now)
-  Future<void> downloadQrCode(
-    Uint8List imageBytes,
-    String filename,
-  ) async {
+  Future<void> downloadQrCode(Uint8List imageBytes, String filename) async {
     try {
       // For web platform only
       downloadQrCodeWeb(imageBytes, filename);
@@ -135,10 +137,7 @@ class QrCodeService {
           const SizedBox(height: 8),
           Text(
             serialNumber,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
           ),
         ],
       ],

@@ -43,8 +43,8 @@ class EquipmentCard extends StatelessWidget {
                         Text('Model: ${equipment.model}'),
                       ],
                       const SizedBox(height: 4),
-                      Text('Available: ${equipment.quantity}'),
-                      Text('Status: ${equipment.status}'),
+                      Text(_getQuantityDisplay()),
+                      Text('Trạng thái: ${_getStatusText()}'),
                     ],
                   ),
                 ),
@@ -59,10 +59,7 @@ class EquipmentCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Category: ${equipment.categoryName ?? "General"}',
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-              ),
+              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
             ),
             const SizedBox(height: 8),
             Row(
@@ -80,7 +77,10 @@ class EquipmentCard extends StatelessWidget {
                           initialValue: quantity,
                           decoration: const InputDecoration(
                             isDense: true,
-                            contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 4,
+                              vertical: 4,
+                            ),
                             border: OutlineInputBorder(),
                             constraints: BoxConstraints(maxHeight: 28),
                           ),
@@ -92,7 +92,10 @@ class EquipmentCard extends StatelessWidget {
                             equipment.quantity,
                             (i) => DropdownMenuItem(
                               value: i + 1,
-                              child: Text('${i + 1}', style: const TextStyle(fontSize: 13)),
+                              child: Text(
+                                '${i + 1}',
+                                style: const TextStyle(fontSize: 13),
+                              ),
                             ),
                           ),
                           onChanged: (value) {
@@ -107,7 +110,8 @@ class EquipmentCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 // QR Code display in bottom right
-                if (equipment.serialNumber != null && equipment.serialNumber!.isNotEmpty)
+                if (equipment.serialNumber != null &&
+                    equipment.serialNumber!.isNotEmpty)
                   Container(
                     padding: const EdgeInsets.all(4),
                     decoration: BoxDecoration(
@@ -136,5 +140,28 @@ class EquipmentCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getQuantityDisplay() {
+    if (equipment.quantity == equipment.availableQty) {
+      return 'Số lượng: ${equipment.quantity}';
+    } else {
+      return 'Số lượng: ${equipment.quantity} (Có sẵn: ${equipment.availableQty})';
+    }
+  }
+
+  String _getStatusText() {
+    switch (equipment.status.toLowerCase()) {
+      case 'available':
+        return 'Có sẵn';
+      case 'borrowed':
+        return 'Đang mượn';
+      case 'maintenance':
+        return 'Bảo trì';
+      case 'out_of_order':
+        return 'Hỏng';
+      default:
+        return equipment.status;
+    }
   }
 }

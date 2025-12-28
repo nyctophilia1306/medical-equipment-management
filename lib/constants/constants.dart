@@ -4,7 +4,8 @@ class AppConstants {
   // App Information
   static const String appName = 'MedEquip Manager';
   static const String appVersion = '1.0.0';
-  static const String appDescription = 'Manage and Track Medical Equipment Borrowing with Ease';
+  static const String appDescription =
+      'Manage and Track Medical Equipment Borrowing with Ease';
   static const String appTagline = 'Professional • Efficient • Trustworthy';
 
   // User Roles
@@ -93,17 +94,22 @@ class AppConstants {
 
   // Error Messages
   static const String errorGeneral = 'Something went wrong. Please try again.';
-  static const String errorNetwork = 'Network error. Please check your connection.';
-  static const String errorAuth = 'Authentication failed. Please sign in again.';
-  static const String errorPermission = 'You don\'t have permission to perform this action.';
+  static const String errorNetwork =
+      'Network error. Please check your connection.';
+  static const String errorAuth =
+      'Authentication failed. Please sign in again.';
+  static const String errorPermission =
+      'You don\'t have permission to perform this action.';
   static const String errorNotFound = 'Item not found.';
-  static const String errorInvalidInput = 'Please check your input and try again.';
+  static const String errorInvalidInput =
+      'Please check your input and try again.';
 
   // Success Messages
   static const String successSaved = 'Saved successfully!';
   static const String successDeleted = 'Deleted successfully!';
   static const String successUpdated = 'Updated successfully!';
-  static const String successBorrowRequested = 'Borrow request submitted successfully!';
+  static const String successBorrowRequested =
+      'Borrow request submitted successfully!';
   static const String successReturned = 'Item returned successfully!';
 
   // Placeholder Texts
@@ -129,7 +135,8 @@ class AppConstants {
 
   // Supabase Configuration (replace with your actual Supabase details)
   static const String supabaseUrl = 'https://aowxsljcxqfkrsvikmzf.supabase.co';
-  static const String supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd3hzbGpjeHFma3JzdmlrbXpmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTkzNDQxOCwiZXhwIjoyMDc1NTEwNDE4fQ.Iukr26GpghAwXxhPiuU-xFyuBYLHbKiv4l74oCSPaDE';
+  static const String supabaseAnonKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFvd3hzbGpjeHFma3JzdmlrbXpmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1OTkzNDQxOCwiZXhwIjoyMDc1NTEwNDE4fQ.Iukr26GpghAwXxhPiuU-xFyuBYLHbKiv4l74oCSPaDE';
 
   // QR Code Configuration
   static const double qrCodeSize = 200.0;
