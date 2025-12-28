@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../constants/constants.dart';
 import '../../models/equipment.dart';
@@ -41,7 +42,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
   final Map<String, Equipment> _scannedEquipment = <String, Equipment>{};
   final Map<String, int> _borrowQuantities = <String, int>{};
-  
+
   bool _isContinuousScanning = false;
   String? _lastScannedSerial;
   DateTime? _lastScanTime;
@@ -66,8 +67,10 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
   Future<void> _pickDate(BuildContext context, bool isBorrow) async {
     final now = DateTime.now();
-    final initial = isBorrow ? (_borrowDate ?? now) : (_returnDate ?? now.add(const Duration(days: 7)));
-    
+    final initial = isBorrow
+        ? (_borrowDate ?? now)
+        : (_returnDate ?? now.add(const Duration(days: 7)));
+
     final picked = await showDatePicker(
       context: context,
       initialDate: initial,
@@ -92,17 +95,17 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       facing: CameraFacing.back,
       torchEnabled: false,
     );
-    
+
     // Create scan line animation
     _scanLineController = AnimationController(
       duration: const Duration(milliseconds: 2000),
       vsync: this,
     )..repeat();
-    
+
     _scanLineAnimation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(parent: _scanLineController!, curve: Curves.easeInOut),
     );
-    
+
     setState(() {
       _isContinuousScanning = true;
       _message = null;
@@ -115,7 +118,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     _scanLineController?.dispose();
     _scanLineController = null;
     _scanLineAnimation = null;
-    
+
     setState(() {
       _isContinuousScanning = false;
       _lastScannedSerial = null;
@@ -136,7 +139,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     _lastScanTime = now;
 
     try {
-      final equipment = await _dataService.getEquipmentByQrCode(scannedCode) ??
+      final equipment =
+          await _dataService.getEquipmentByQrCode(scannedCode) ??
           await _dataService.getEquipmentBySerialNumber(scannedCode);
 
       if (equipment == null) {
@@ -147,11 +151,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             SnackBar(
               content: Row(
                 children: [
-                  const Icon(Icons.error_outline, color: Colors.white, size: 20),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text('No equipment found: $scannedCode'),
+                  const Icon(
+                    Icons.error_outline,
+                    color: Colors.white,
+                    size: 20,
                   ),
+                  const SizedBox(width: 8),
+                  Expanded(child: Text('No equipment found: $scannedCode')),
                 ],
               ),
               duration: const Duration(seconds: 2),
@@ -178,9 +184,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 children: [
                   const Icon(Icons.block, color: Colors.white, size: 20),
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Text('${equipment.name} is not available'),
-                  ),
+                  Expanded(child: Text('${equipment.name} is not available')),
                 ],
               ),
               duration: const Duration(seconds: 2),
@@ -199,7 +203,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
       // Haptic feedback for successful scan
       HapticFeedback.mediumImpact();
-      
+
       setState(() {
         if (_scannedEquipment.containsKey(scannedCode)) {
           // Increment quantity for duplicate scan
@@ -207,17 +211,23 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           final maxQty = equipment.availableQty;
           if (currentQty < maxQty) {
             _borrowQuantities[scannedCode] = currentQty + 1;
-            
+
             // Show success snackbar for quantity increment
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Row(
                     children: [
-                      const Icon(Icons.add_circle, color: Colors.white, size: 20),
+                      const Icon(
+                        Icons.add_circle,
+                        color: Colors.white,
+                        size: 20,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text('${equipment.name} quantity: $currentQty → ${currentQty + 1}'),
+                        child: Text(
+                          '${equipment.name} quantity: $currentQty → ${currentQty + 1}',
+                        ),
                       ),
                     ],
                   ),
@@ -243,7 +253,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       const Icon(Icons.warning, color: Colors.white, size: 20),
                       const SizedBox(width: 8),
                       Expanded(
-                        child: Text('Maximum quantity reached for ${equipment.name}'),
+                        child: Text(
+                          'Maximum quantity reached for ${equipment.name}',
+                        ),
                       ),
                     ],
                   ),
@@ -263,18 +275,20 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           // Add new equipment
           _scannedEquipment[scannedCode] = equipment;
           _borrowQuantities[scannedCode] = 1;
-          
+
           // Show success snackbar for new equipment
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Row(
                   children: [
-                    const Icon(Icons.check_circle, color: Colors.white, size: 20),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text('✓ ${equipment.name} added'),
+                    const Icon(
+                      Icons.check_circle,
+                      color: Colors.white,
+                      size: 20,
                     ),
+                    const SizedBox(width: 8),
+                    Expanded(child: Text('✓ ${equipment.name} added')),
                   ],
                 ),
                 duration: const Duration(milliseconds: 800),
@@ -300,9 +314,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
               children: [
                 const Icon(Icons.error_outline, color: Colors.white, size: 20),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: Text('Error scanning: $e'),
-                ),
+                Expanded(child: Text('Error scanning: $e')),
               ],
             ),
             duration: const Duration(seconds: 2),
@@ -329,18 +341,25 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     setState(() => _loading = true);
 
     try {
-      final equipment = await _dataService.getEquipmentByQrCode(s) ?? 
+      final equipment =
+          await _dataService.getEquipmentByQrCode(s) ??
           await _dataService.getEquipmentBySerialNumber(s);
 
       setState(() => _loading = false);
 
       if (equipment == null) {
-        setState(() => _message = 'No equipment found with QR code or serial number: $s');
+        setState(
+          () =>
+              _message = 'No equipment found with QR code or serial number: $s',
+        );
         return;
       }
 
       if (equipment.availableQty <= 0) {
-        setState(() => _message = 'Equipment ${equipment.name} is not available for borrowing');
+        setState(
+          () => _message =
+              'Equipment ${equipment.name} is not available for borrowing',
+        );
         return;
       }
 
@@ -366,8 +385,10 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         _scannedEquipment.isEmpty ||
         _borrowDate == null ||
         _returnDate == null) {
-      setState(() => _message =
-          'Please fill required info, dates and scan at least one equipment');
+      setState(
+        () => _message =
+            'Please fill required info, dates and scan at least one equipment',
+      );
       return;
     }
 
@@ -375,7 +396,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       final equipment = entry.value;
       final borrowQty = _borrowQuantities[entry.key] ?? 0;
       if (borrowQty <= 0 || borrowQty > equipment.availableQty) {
-        setState(() => _message = 'Invalid borrow quantity for ${equipment.name}');
+        setState(
+          () => _message = 'Invalid borrow quantity for ${equipment.name}',
+        );
         return;
       }
     }
@@ -390,7 +413,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       final newUserId = await _borrowService.createUser(
         userName: DateTime.now().millisecondsSinceEpoch.toString(),
         fullName: _fullNameController.text.trim(),
-        phone: _phoneController.text.trim().isEmpty ? null : _phoneController.text.trim(),
+        phone: _phoneController.text.trim().isEmpty
+            ? null
+            : _phoneController.text.trim(),
         dob: _userDob!,
         gender: _selectedGender!,
       );
@@ -416,7 +441,19 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     // Use bulk create for all equipment (generates single request serial)
     // Extract equipment UUIDs (not serials) from the scanned equipment map
     final equipmentIds = _scannedEquipment.values.map((e) => e.id).toList();
-    final quantities = _scannedEquipment.keys.map((serial) => _borrowQuantities[serial] ?? 1).toList();
+    final quantities = _scannedEquipment.keys
+        .map((serial) => _borrowQuantities[serial] ?? 1)
+        .toList();
+
+    // Get current user ID (the one creating the request)
+    final currentUser = Supabase.instance.client.auth.currentUser;
+    if (currentUser == null) {
+      setState(() {
+        _loading = false;
+        _message = 'No authenticated user';
+      });
+      return;
+    }
 
     final requestSerial = await _borrowService.createBulkBorrowRequest(
       userId: userId,
@@ -424,14 +461,15 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       quantities: quantities,
       requestDate: _borrowDate!,
       returnDate: _returnDate!,
+      createdBy: currentUser.id, // Pass the creator's user ID
     );
 
     final success = requestSerial != null;
 
     setState(() {
       _loading = false;
-      _message = success 
-          ? 'Borrow request saved successfully! Request #$requestSerial' 
+      _message = success
+          ? 'Borrow request saved successfully! Request #$requestSerial'
           : 'Failed to save borrow request';
     });
 
@@ -449,7 +487,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     }
   }
 
-  String _formatDate(DateTime? d) => d == null ? '-' : DateFormat.yMMMd().format(d);
+  String _formatDate(DateTime? d) =>
+      d == null ? '-' : DateFormat.yMMMd().format(d);
 
   Widget _buildNewUserForm() {
     return Column(
@@ -523,9 +562,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     return Column(
       children: [
         TextField(
-          decoration: const InputDecoration(
-            labelText: 'Search user by name',
-          ),
+          decoration: const InputDecoration(labelText: 'Search user by name'),
           onSubmitted: (q) async {
             final results = await _borrowService.findUsers(q);
             if (results.isNotEmpty) {
@@ -555,17 +592,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   Widget _buildDatePickers() {
     return Row(
       children: [
-        Expanded(
-          child: Text('Ngày mượn: ${_formatDate(_borrowDate)}'),
-        ),
+        Expanded(child: Text('Ngày mượn: ${_formatDate(_borrowDate)}')),
         TextButton(
           onPressed: () => _pickDate(context, true),
           child: const Text('Chọn'),
         ),
         const SizedBox(width: 8),
-        Expanded(
-          child: Text('Ngày trả: ${_formatDate(_returnDate)}'),
-        ),
+        Expanded(child: Text('Ngày trả: ${_formatDate(_returnDate)}')),
         TextButton(
           onPressed: () => _pickDate(context, false),
           child: const Text('Chọn'),
@@ -595,19 +628,19 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   decoration: const InputDecoration(
                     hintText: 'Nhập số serial',
                     prefixIcon: Icon(Icons.edit),
-                    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 0,
+                      horizontal: 12,
+                    ),
                     border: OutlineInputBorder(),
                   ),
                   onChanged: (value) {
                     if (value.length > 8) {
-                      Future.delayed(
-                        const Duration(milliseconds: 100),
-                        () {
-                          if (_serialController.text == value) {
-                            _addSerialFromInput();
-                          }
-                        },
-                      );
+                      Future.delayed(const Duration(milliseconds: 100), () {
+                        if (_serialController.text == value) {
+                          _addSerialFromInput();
+                        }
+                      });
                     }
                   },
                 ),
@@ -723,10 +756,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           if (_message != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                _message!,
-                style: const TextStyle(color: Colors.red),
-              ),
+              child: Text(_message!, style: const TextStyle(color: Colors.red)),
             ),
           Row(
             children: [
@@ -797,8 +827,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                               height: 30,
                               decoration: const BoxDecoration(
                                 border: Border(
-                                  top: BorderSide(color: Colors.white, width: 4),
-                                  left: BorderSide(color: Colors.white, width: 4),
+                                  top: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
+                                  left: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                 ),
                               ),
                             ),
@@ -811,8 +847,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                               height: 30,
                               decoration: const BoxDecoration(
                                 border: Border(
-                                  top: BorderSide(color: Colors.white, width: 4),
-                                  right: BorderSide(color: Colors.white, width: 4),
+                                  top: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                 ),
                               ),
                             ),
@@ -825,8 +867,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                               height: 30,
                               decoration: const BoxDecoration(
                                 border: Border(
-                                  bottom: BorderSide(color: Colors.white, width: 4),
-                                  left: BorderSide(color: Colors.white, width: 4),
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
+                                  left: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                 ),
                               ),
                             ),
@@ -839,8 +887,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                               height: 30,
                               decoration: const BoxDecoration(
                                 border: Border(
-                                  bottom: BorderSide(color: Colors.white, width: 4),
-                                  right: BorderSide(color: Colors.white, width: 4),
+                                  bottom: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
+                                  right: BorderSide(
+                                    color: Colors.white,
+                                    width: 4,
+                                  ),
                                 ),
                               ),
                             ),
@@ -866,7 +920,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                                       ),
                                       boxShadow: [
                                         BoxShadow(
-                                          color: Colors.green.withValues(alpha: 0.5),
+                                          color: Colors.green.withValues(
+                                            alpha: 0.5,
+                                          ),
                                           blurRadius: 8,
                                           spreadRadius: 2,
                                         ),
@@ -885,10 +941,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 shadows: [
-                                  Shadow(
-                                    color: Colors.black,
-                                    blurRadius: 8,
-                                  ),
+                                  Shadow(color: Colors.black, blurRadius: 8),
                                 ],
                               ),
                             ),
@@ -939,10 +992,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       onPressed: () {
                         _scannerController?.toggleTorch();
                       },
-                      child: const Icon(
-                        Icons.flash_on,
-                        color: Colors.orange,
-                      ),
+                      child: const Icon(Icons.flash_on, color: Colors.orange),
                     ),
                   ),
                 ],
@@ -984,25 +1034,21 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white70,
                   tabs: const [
-                    Tab(text: 'Tạo Yêu Cầu',),
-                    Tab(text: 'Quản Lý Yêu Cầu',),
+                    Tab(text: 'Tạo Yêu Cầu'),
+                    Tab(text: 'Quản Lý Yêu Cầu'),
                   ],
                 ),
               ),
               Expanded(
                 child: TabBarView(
                   controller: _tabController,
-                  children: [
-                    _buildCreateRequestTab(),
-                    const BorrowListTab(),
-                  ],
+                  children: [_buildCreateRequestTab(), const BorrowListTab()],
                 ),
               ),
             ],
           ),
           // Continuous scan overlay
-          if (_isContinuousScanning)
-            _buildContinuousScanOverlay(),
+          if (_isContinuousScanning) _buildContinuousScanOverlay(),
         ],
       ),
     );

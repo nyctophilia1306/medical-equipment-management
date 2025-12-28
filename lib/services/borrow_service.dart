@@ -18,6 +18,7 @@ class BorrowService {
     required List<int> quantities,
     required DateTime requestDate,
     required DateTime returnDate,
+    required String createdBy, // User ID of who creates the request
     String? returnCondition,
     bool isRecurring = false,
     String? recurrencePattern,
@@ -28,6 +29,15 @@ class BorrowService {
     }
 
     try {
+      // Check creator's role
+      final creatorData = await _supabase
+          .from('users')
+          .select('role_id')
+          .eq('user_id', createdBy)
+          .maybeSingle();
+
+      final isAdmin = creatorData?['role_id'] == 0; // 0 = admin
+
       // Generate request serial
       final requestSerial = await RequestSerialGenerator.generateRequestSerial(
         requestDate,
@@ -62,29 +72,38 @@ class BorrowService {
           continue;
         }
 
-        // Create request with request serial - PENDING status, requires admin approval
+        // Create request - auto-approve if admin, pending if manager
         final data = {
           'user_id': userId,
           'equipment_id': equipmentId,
           'request_date': requestDate.toIso8601String(),
           'return_date': returnDate.toIso8601String(),
           'quantity': quantity,
-          'status': 'pending', // Changed from 'active' - requires approval
+          'status': isAdmin
+              ? 'active'
+              : 'pending', // Admin: auto-approve, Manager: pending
           'request_serial': requestSerial,
           'is_equipment_returned': false,
           'is_recurring': isRecurring,
           if (recurrencePattern != null)
             'recurrence_pattern': recurrencePattern,
-          // Remove auto-approval fields
-          // 'approved_by': 'system',
-          // 'approval_date': DateTime.now().toIso8601String(),
+          // Auto-approve if admin
+          if (isAdmin) ...{
+            'approved_by': createdBy,
+            'approval_date': DateTime.now().toIso8601String(),
+          },
           if (returnCondition != null) 'return_condition': returnCondition,
         };
 
         await _supabase.from('borrow_request').insert(data);
 
-        // DO NOT update equipment quantity here - only when approved
-        // Equipment quantity will be reduced when admin approves the request
+        // Reduce equipment quantity immediately if admin, otherwise wait for approval
+        if (isAdmin) {
+          await _updateEquipmentQuantityForBorrow(
+            equipmentId,
+            -quantity, // Negative for borrowing
+          );
+        }
       }
 
       return requestSerial;
@@ -100,12 +119,22 @@ class BorrowService {
     required String equipmentId,
     required DateTime requestDate,
     required DateTime returnDate,
+    required String createdBy, // User ID of who creates the request
     int quantity = 1,
     String? returnCondition,
     bool isRecurring = false,
     String? recurrencePattern,
   }) async {
     try {
+      // Check creator's role
+      final creatorData = await _supabase
+          .from('users')
+          .select('role_id')
+          .eq('user_id', createdBy)
+          .maybeSingle();
+
+      final isAdmin = creatorData?['role_id'] == 0; // 0 = admin
+
       // Generate request serial
       final requestSerial = await RequestSerialGenerator.generateRequestSerial(
         requestDate,
@@ -134,28 +163,34 @@ class BorrowService {
         return false;
       }
 
-      // Create request with pending status - requires admin approval
+      // Create request - auto-approve if admin, pending if manager
       final data = {
         'user_id': userId,
         'equipment_id': equipmentId,
         'request_date': requestDate.toIso8601String(),
         'return_date': returnDate.toIso8601String(),
         'quantity': quantity,
-        'status': 'pending', // Changed from 'active' - requires admin approval
+        'status': isAdmin
+            ? 'active'
+            : 'pending', // Admin: auto-approve, Manager: pending
         'request_serial': requestSerial,
         'is_equipment_returned': false,
         'is_recurring': isRecurring,
         if (recurrencePattern != null) 'recurrence_pattern': recurrencePattern,
-        // Remove auto-approval
-        // 'approved_by': 'system',
-        // 'approval_date': DateTime.now().toIso8601String(),
+        // Auto-approve if admin
+        if (isAdmin) ...{
+          'approved_by': createdBy,
+          'approval_date': DateTime.now().toIso8601String(),
+        },
         if (returnCondition != null) 'return_condition': returnCondition,
       };
 
       await _supabase.from('borrow_request').insert(data);
 
-      // DO NOT update equipment quantity here - only when admin approves
-      // Equipment will be marked as borrowed only after approval
+      // Reduce equipment quantity immediately if admin, otherwise wait for approval
+      if (isAdmin) {
+        await _updateEquipmentQuantityForBorrow(equipmentId, -quantity);
+      }
 
       return true;
     } catch (e) {
