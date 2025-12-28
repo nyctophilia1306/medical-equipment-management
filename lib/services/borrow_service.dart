@@ -29,7 +29,10 @@ class BorrowService {
 
     try {
       // Generate request serial
-      final requestSerial = await RequestSerialGenerator.generateRequestSerial(requestDate, _supabase);
+      final requestSerial = await RequestSerialGenerator.generateRequestSerial(
+        requestDate,
+        _supabase,
+      );
       Logger.debug('Generated request serial: $requestSerial');
 
       // Create requests for each equipment
@@ -49,43 +52,39 @@ class BorrowService {
           continue;
         }
 
-        final availableQty = equipmentResult['available_qty'] as int? ?? equipmentResult['qty'] as int;
+        final availableQty =
+            equipmentResult['available_qty'] as int? ??
+            equipmentResult['qty'] as int;
         if (availableQty < quantity) {
-          Logger.error('Not enough available quantity for $equipmentId. Requested: $quantity, Available: $availableQty');
+          Logger.error(
+            'Not enough available quantity for $equipmentId. Requested: $quantity, Available: $availableQty',
+          );
           continue;
         }
 
-        // Create request with request serial
+        // Create request with request serial - PENDING status, requires admin approval
         final data = {
           'user_id': userId,
           'equipment_id': equipmentId,
           'request_date': requestDate.toIso8601String(),
           'return_date': returnDate.toIso8601String(),
           'quantity': quantity,
-          'status': 'active',
+          'status': 'pending', // Changed from 'active' - requires approval
           'request_serial': requestSerial,
           'is_equipment_returned': false,
           'is_recurring': isRecurring,
-          if (recurrencePattern != null) 'recurrence_pattern': recurrencePattern,
-          'approved_by': 'system',
-          'approval_date': DateTime.now().toIso8601String(),
+          if (recurrencePattern != null)
+            'recurrence_pattern': recurrencePattern,
+          // Remove auto-approval fields
+          // 'approved_by': 'system',
+          // 'approval_date': DateTime.now().toIso8601String(),
           if (returnCondition != null) 'return_condition': returnCondition,
         };
 
         await _supabase.from('borrow_request').insert(data);
 
-        // Update equipment available quantity and status
-        final newAvailableQty = availableQty - quantity;
-        final updateData = {
-          'available_qty': newAvailableQty,
-          'status': newAvailableQty <= 0 ? 'borrowed' : 'available',
-          'updated_at': DateTime.now().toIso8601String()
-        };
-
-        await _supabase
-            .from('equipment')
-            .update(updateData)
-            .eq('equipment_id', equipmentId);
+        // DO NOT update equipment quantity here - only when approved
+        // Equipment quantity will be reduced when admin approves the request
       }
 
       return requestSerial;
@@ -108,7 +107,10 @@ class BorrowService {
   }) async {
     try {
       // Generate request serial
-      final requestSerial = await RequestSerialGenerator.generateRequestSerial(requestDate, _supabase);
+      final requestSerial = await RequestSerialGenerator.generateRequestSerial(
+        requestDate,
+        _supabase,
+      );
 
       // First, check if equipment has enough available quantity
       final equipmentResult = await _supabase
@@ -122,43 +124,38 @@ class BorrowService {
         return false;
       }
 
-      final availableQty = equipmentResult['available_qty'] as int? ?? equipmentResult['qty'] as int;
+      final availableQty =
+          equipmentResult['available_qty'] as int? ??
+          equipmentResult['qty'] as int;
       if (availableQty < quantity) {
-        Logger.error('Not enough available quantity. Requested: $quantity, Available: $availableQty');
+        Logger.error(
+          'Not enough available quantity. Requested: $quantity, Available: $availableQty',
+        );
         return false;
       }
 
-      // Create request with active status and request serial
+      // Create request with pending status - requires admin approval
       final data = {
         'user_id': userId,
         'equipment_id': equipmentId,
         'request_date': requestDate.toIso8601String(),
         'return_date': returnDate.toIso8601String(),
         'quantity': quantity,
-        'status': 'active', // Automatically set as active
+        'status': 'pending', // Changed from 'active' - requires admin approval
         'request_serial': requestSerial,
         'is_equipment_returned': false,
         'is_recurring': isRecurring,
         if (recurrencePattern != null) 'recurrence_pattern': recurrencePattern,
-        'approved_by': 'system', // Auto-approved
-        'approval_date': DateTime.now().toIso8601String(),
+        // Remove auto-approval
+        // 'approved_by': 'system',
+        // 'approval_date': DateTime.now().toIso8601String(),
         if (returnCondition != null) 'return_condition': returnCondition,
       };
 
       await _supabase.from('borrow_request').insert(data);
 
-      // Update equipment available quantity and status
-      final newAvailableQty = availableQty - quantity;
-      final updateData = {
-        'available_qty': newAvailableQty,
-        'status': newAvailableQty <= 0 ? 'borrowed' : 'available',
-        'updated_at': DateTime.now().toIso8601String()
-      };
-
-      await _supabase
-        .from('equipment')
-        .update(updateData)
-        .eq('equipment_id', equipmentId);
+      // DO NOT update equipment quantity here - only when admin approves
+      // Equipment will be marked as borrowed only after approval
 
       return true;
     } catch (e) {
@@ -167,26 +164,94 @@ class BorrowService {
     }
   }
 
-  // Approve an existing borrow request (set status and update equipment if needed)
-  Future<bool> approveBorrowRequest(String requestId, {required String approvedBy}) async {
+  // Approve a pending borrow request - update status AND reduce equipment quantity
+  Future<bool> approveBorrowRequest(
+    String requestId, {
+    required String approvedBy,
+  }) async {
     try {
       // Fetch the request
-      final req = await _supabase.from('borrow_request').select().eq('request_id', requestId).maybeSingle();
+      final req = await _supabase
+          .from('borrow_request')
+          .select()
+          .eq('request_id', requestId)
+          .maybeSingle();
       if (req == null) return false;
 
-      // Update request status
-      await _supabase.from('borrow_request').update({
-        'status': 'active',
-        'approved_by': approvedBy,
-        'approval_date': DateTime.now().toIso8601String(),
-      }).eq('request_id', requestId);
+      final equipmentId = req['equipment_id'] as String;
+      final quantity = req['quantity'] as int;
 
-      // Update equipment status and quantity
-      await _updateEquipmentQuantityForBorrow(req['equipment_id'], -req['quantity']);
+      // Check equipment availability
+      final equipmentResult = await _supabase
+          .from('equipment')
+          .select('qty, available_qty, status')
+          .eq('equipment_id', equipmentId)
+          .maybeSingle();
 
+      if (equipmentResult == null) {
+        Logger.error('Equipment not found: $equipmentId');
+        return false;
+      }
+
+      final availableQty =
+          equipmentResult['available_qty'] as int? ??
+          equipmentResult['qty'] as int;
+      if (availableQty < quantity) {
+        Logger.error(
+          'Not enough available quantity. Requested: $quantity, Available: $availableQty',
+        );
+        return false;
+      }
+
+      // Update request status to active
+      await _supabase
+          .from('borrow_request')
+          .update({
+            'status': 'active',
+            'approved_by': approvedBy,
+            'approval_date': DateTime.now().toIso8601String(),
+          })
+          .eq('request_id', requestId);
+
+      // NOW reduce equipment quantity after approval
+      final newAvailableQty = availableQty - quantity;
+      final updateData = {
+        'available_qty': newAvailableQty,
+        'status': newAvailableQty <= 0 ? 'borrowed' : 'available',
+        'updated_at': DateTime.now().toIso8601String(),
+      };
+
+      await _supabase
+          .from('equipment')
+          .update(updateData)
+          .eq('equipment_id', equipmentId);
+
+      Logger.info(
+        'Borrow request approved: $requestId, equipment quantity updated',
+      );
       return true;
     } catch (e) {
       Logger.error('Failed to approve borrow request: $e');
+      return false;
+    }
+  }
+
+  // Reject a pending borrow request
+  Future<bool> rejectBorrowRequest(String requestId, String reason) async {
+    try {
+      await _supabase
+          .from('borrow_request')
+          .update({
+            'status': 'rejected',
+            'rejection_reason': reason,
+            'rejection_date': DateTime.now().toIso8601String(),
+          })
+          .eq('request_id', requestId);
+
+      Logger.info('Borrow request rejected: $requestId');
+      return true;
+    } catch (e) {
+      Logger.error('Failed to reject borrow request: $e');
       return false;
     }
   }
@@ -267,7 +332,9 @@ class BorrowService {
         // Get the request and equipment information
         final request = await _supabase
             .from('borrow_request')
-            .select('equipment_id, quantity, request_serial, is_equipment_returned')
+            .select(
+              'equipment_id, quantity, request_serial, is_equipment_returned',
+            )
             .eq('request_id', id)
             .maybeSingle();
 
@@ -293,7 +360,8 @@ class BorrowService {
           continue;
         }
 
-        final currentAvailableQty = equipment['available_qty'] as int? ?? equipment['qty'] as int;
+        final currentAvailableQty =
+            equipment['available_qty'] as int? ?? equipment['qty'] as int;
         final returnedQty = request['quantity'] as int;
         final newAvailableQty = currentAvailableQty + returnedQty;
 
@@ -303,8 +371,9 @@ class BorrowService {
           'actual_return_date': DateTime.now().toIso8601String(),
           'updated_at': DateTime.now().toIso8601String(),
         };
-        
-        if (returnCondition != null) updateData['return_condition'] = returnCondition;
+
+        if (returnCondition != null)
+          updateData['return_condition'] = returnCondition;
 
         await _supabase
             .from('borrow_request')
@@ -331,20 +400,19 @@ class BorrowService {
               .eq('request_serial', requestSerial);
 
           final allReturned = allRequestsInSerial.every(
-            (r) => r['is_equipment_returned'] == true
+            (r) => r['is_equipment_returned'] == true,
           );
 
           if (allReturned) {
             // Update all requests in this serial to have status 'returned'
             await _supabase
                 .from('borrow_request')
-                .update({
-                  'status': 'returned',
-                  'is_returned': true,
-                })
+                .update({'status': 'returned', 'is_returned': true})
                 .eq('request_serial', requestSerial);
-            
-            Logger.debug('All equipment in serial $requestSerial returned, status updated');
+
+            Logger.debug(
+              'All equipment in serial $requestSerial returned, status updated',
+            );
           }
         }
 
@@ -354,7 +422,9 @@ class BorrowService {
           await _supabase
               .from('equipment')
               .update({
-                'status': newAvailableQty >= totalQty ? 'available' : 'partially_available',
+                'status': newAvailableQty >= totalQty
+                    ? 'available'
+                    : 'partially_available',
               })
               .eq('equipment_id', request['equipment_id']);
         }
@@ -371,10 +441,10 @@ class BorrowService {
   Future<List<Map<String, dynamic>>> findUsers(String q) async {
     try {
       final resp = await _supabase
-        .from('users')
-        .select('user_id, full_name, phone, dob, gender')
-        .ilike('full_name', '%$q%')
-        .limit(20);
+          .from('users')
+          .select('user_id, full_name, phone, dob, gender')
+          .ilike('full_name', '%$q%')
+          .limit(20);
       return List<Map<String, dynamic>>.from(resp);
     } catch (e) {
       Logger.error('User search failed: $e');
@@ -383,7 +453,10 @@ class BorrowService {
   }
 
   // Create a simple user record (if you have a users table)
-  Future<void> _updateEquipmentQuantityForBorrow(String equipmentId, int quantityChange) async {
+  Future<void> _updateEquipmentQuantityForBorrow(
+    String equipmentId,
+    int quantityChange,
+  ) async {
     try {
       // Update equipment quantity
       await _supabase.rpc(
@@ -410,7 +483,7 @@ class BorrowService {
       // Generate a UUID v4 for the user_id
       final userId = const Uuid().v4();
       Logger.debug('Creating user with generated UUID: $userId');
-      
+
       final data = {
         'user_id': userId,
         'user_name': userName,
@@ -421,7 +494,7 @@ class BorrowService {
         'role_id': 2, // Normal user role
       };
       Logger.debug('Inserting user data: $data');
-      
+
       await _supabase.from('users').insert(data);
       return userId; // Return the generated UUID
     } catch (e) {

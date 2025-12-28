@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../models/borrow_request.dart';
 import '../../services/borrow_service.dart';
 import '../../widgets/grouped_borrow_request_card.dart';
@@ -15,7 +16,7 @@ class BorrowListTab extends StatefulWidget {
 class _BorrowListTabState extends State<BorrowListTab> {
   final BorrowService _borrowService = BorrowService();
   final TextEditingController _searchController = TextEditingController();
-  
+
   bool _loading = false;
   String? _error;
   Map<String, List<BorrowRequest>> _groupedRequests = {};
@@ -41,42 +42,45 @@ class _BorrowListTabState extends State<BorrowListTab> {
     });
 
     try {
+      // Load both pending and active requests (not returned)
       final rawRequests = await _borrowService.getBorrowRequests(
         isReturned: false,
       );
-      
+
       // Convert raw data to BorrowRequest objects
       final requests = rawRequests.map((data) {
         final equipmentData = data['equipment'] as Map<String, dynamic>?;
         final userData = data['users'] as Map<String, dynamic>?;
-        
+
         return BorrowRequest(
           id: data['request_id'] as String,
           equipmentId: data['equipment_id'] as String,
-          equipmentName: equipmentData?['equipment_name'] as String? ?? 'Unknown',
+          equipmentName:
+              equipmentData?['equipment_name'] as String? ?? 'Unknown',
           equipmentSerialNumber: equipmentData?['serial_number'] as String?,
           userId: data['user_id'] as String,
           userName: userData?['full_name'] as String? ?? 'Unknown',
           requestedBy: data['created_by'] as String? ?? '',
-          requestedByName: 'Manager', // This should come from a join in the future
+          requestedByName:
+              'Manager', // This should come from a join in the future
           quantity: data['quantity'] as int? ?? 0,
           borrowDate: DateTime.parse(data['request_date'] as String),
           expectedReturnDate: DateTime.parse(data['return_date'] as String),
-          actualReturnDate: data['actual_return_date'] != null 
+          actualReturnDate: data['actual_return_date'] != null
               ? DateTime.parse(data['actual_return_date'] as String)
               : null,
           status: data['status'] as String? ?? 'pending',
           purpose: data['purpose'] as String? ?? '',
           notes: data['notes'] as String?,
           createdAt: DateTime.parse(data['created_at'] as String),
-          updatedAt: data['updated_at'] != null 
+          updatedAt: data['updated_at'] != null
               ? DateTime.parse(data['updated_at'] as String)
               : null,
           requestSerial: data['request_serial'] as String?,
           isEquipmentReturned: data['is_equipment_returned'] as bool? ?? false,
         );
       }).toList();
-      
+
       setState(() {
         _groupedRequests = _groupRequestsBySerial(requests);
         _loading = false;
@@ -89,47 +93,52 @@ class _BorrowListTabState extends State<BorrowListTab> {
     }
   }
 
-  Map<String, List<BorrowRequest>> _groupRequestsBySerial(List<BorrowRequest> requests) {
+  Map<String, List<BorrowRequest>> _groupRequestsBySerial(
+    List<BorrowRequest> requests,
+  ) {
     final Map<String, List<BorrowRequest>> grouped = {};
-    
+
     for (final request in requests) {
-      final serial = request.requestSerial ?? 'LEGACY-${request.id.substring(0, 8)}';
+      final serial =
+          request.requestSerial ?? 'LEGACY-${request.id.substring(0, 8)}';
       grouped.putIfAbsent(serial, () => []).add(request);
     }
-    
+
     return grouped;
   }
 
   List<MapEntry<String, List<BorrowRequest>>> _getFilteredRequests() {
     final entries = _groupedRequests.entries.toList();
     final query = _searchController.text.toLowerCase().trim();
-    
+
     if (query.isEmpty && _selectedDate == null) {
       return entries;
     }
-    
+
     return entries.where((entry) {
       final requests = entry.value;
       final firstRequest = requests.first;
-      
+
       // Date filter
       if (_selectedDate != null) {
-        final isSameDate = firstRequest.borrowDate.year == _selectedDate!.year &&
+        final isSameDate =
+            firstRequest.borrowDate.year == _selectedDate!.year &&
             firstRequest.borrowDate.month == _selectedDate!.month &&
             firstRequest.borrowDate.day == _selectedDate!.day;
         if (!isSameDate) return false;
       }
-      
+
       // Text search filter
       if (query.isEmpty) return true;
-      
+
       switch (_searchMode) {
         case 'serial':
           return entry.key.toLowerCase().contains(query);
         case 'user':
           return firstRequest.userName.toLowerCase().contains(query);
         case 'date':
-          final dateStr = '${firstRequest.borrowDate.day}/${firstRequest.borrowDate.month}/${firstRequest.borrowDate.year}';
+          final dateStr =
+              '${firstRequest.borrowDate.day}/${firstRequest.borrowDate.month}/${firstRequest.borrowDate.year}';
           return dateStr.contains(query);
         default:
           return true;
@@ -144,7 +153,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
       firstDate: DateTime(2020),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    
+
     if (picked != null) {
       setState(() {
         _selectedDate = picked;
@@ -158,16 +167,17 @@ class _BorrowListTabState extends State<BorrowListTab> {
     });
   }
 
-  Future<void> _handleReturn(String requestSerial, List<BorrowRequest> requests) async {
+  Future<void> _handleReturn(
+    String requestSerial,
+    List<BorrowRequest> requests,
+  ) async {
     if (!mounted) return;
-    
+
     final selectedRequestIds = await showDialog<List<String>>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => QRScanReturnDialog(
-        requestSerial: requestSerial,
-        requests: requests,
-      ),
+      builder: (context) =>
+          QRScanReturnDialog(requestSerial: requestSerial, requests: requests),
     );
 
     if (selectedRequestIds == null || selectedRequestIds.isEmpty) {
@@ -194,7 +204,9 @@ class _BorrowListTabState extends State<BorrowListTab> {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Successfully returned ${selectedRequestIds.length} equipment'),
+            content: Text(
+              'Successfully returned ${selectedRequestIds.length} equipment',
+            ),
             backgroundColor: Colors.green,
           ),
         );
@@ -214,10 +226,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
       Navigator.of(context).pop(); // Close loading dialog
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error: $e'),
-          backgroundColor: Colors.red,
-        ),
+        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
       );
     }
   }
@@ -250,11 +259,14 @@ class _BorrowListTabState extends State<BorrowListTab> {
                   const SizedBox(width: 8),
                   _buildSearchModeChip('Ngày', 'date'),
                   const Spacer(),
-                  
+
                   // Date Filter Button
                   if (_selectedDate != null)
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.primaryBlue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
@@ -262,7 +274,11 @@ class _BorrowListTabState extends State<BorrowListTab> {
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.calendar_today, size: 14, color: AppColors.primaryBlue),
+                          Icon(
+                            Icons.calendar_today,
+                            size: 14,
+                            color: AppColors.primaryBlue,
+                          ),
                           const SizedBox(width: 4),
                           Text(
                             '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
@@ -275,22 +291,28 @@ class _BorrowListTabState extends State<BorrowListTab> {
                           const SizedBox(width: 4),
                           GestureDetector(
                             onTap: _clearDateFilter,
-                            child: const Icon(Icons.close, size: 14, color: AppColors.primaryBlue),
+                            child: const Icon(
+                              Icons.close,
+                              size: 14,
+                              color: AppColors.primaryBlue,
+                            ),
                           ),
                         ],
                       ),
                     ),
-                  
+
                   IconButton(
                     icon: const Icon(Icons.date_range),
                     onPressed: _selectDate,
                     tooltip: 'Filter by date',
-                    color: _selectedDate != null ? AppColors.primaryBlue : Colors.grey,
+                    color: _selectedDate != null
+                        ? AppColors.primaryBlue
+                        : Colors.grey,
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              
+
               // Search Field
               TextField(
                 controller: _searchController,
@@ -316,9 +338,15 @@ class _BorrowListTabState extends State<BorrowListTab> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
+                    borderSide: const BorderSide(
+                      color: AppColors.primaryBlue,
+                      width: 2,
+                    ),
                   ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                 ),
                 onChanged: (value) {
                   setState(() {});
@@ -327,18 +355,16 @@ class _BorrowListTabState extends State<BorrowListTab> {
             ],
           ),
         ),
-        
+
         // Content Area
-        Expanded(
-          child: _buildContent(),
-        ),
+        Expanded(child: _buildContent()),
       ],
     );
   }
 
   Widget _buildSearchModeChip(String label, String mode) {
     final isSelected = _searchMode == mode;
-    
+
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -416,10 +442,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
               _searchController.text.isNotEmpty || _selectedDate != null
                   ? 'No requests match your search'
                   : 'Không có yêu cầu mượn hoạt động',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
           ],
         ),
@@ -435,14 +458,184 @@ class _BorrowListTabState extends State<BorrowListTab> {
           final entry = filteredRequests[index];
           final requestSerial = entry.key;
           final requests = entry.value;
-          
+
           return GroupedBorrowRequestCard(
             requestSerial: requestSerial,
             requests: requests,
             onReturn: () => _handleReturn(requestSerial, requests),
+            onApprove: () => _handleApprove(requestSerial, requests),
+            onReject: () => _handleReject(requestSerial, requests),
           );
         },
       ),
     );
+  }
+
+  // Handle approval of pending requests
+  Future<void> _handleApprove(
+    String requestSerial,
+    List<BorrowRequest> requests,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Xác Nhận Duyệt'),
+        content: Text(
+          'Bạn có chắc muốn duyệt yêu cầu $requestSerial?\n\n${requests.length} thiết bị sẽ được cấp phát.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Hủy'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            child: const Text('Duyệt'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    // Show loading
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      // Get current user
+      final currentUser = Supabase.instance.client.auth.currentUser;
+      if (currentUser == null) {
+        throw Exception('No authenticated user');
+      }
+
+      // Approve each request in the batch
+      for (final request in requests) {
+        await _borrowService.approveBorrowRequest(
+          request.id,
+          approvedBy: currentUser.id,
+        );
+      }
+
+      if (!mounted) return;
+      Navigator.of(context).pop(); // Close loading
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Yêu cầu đã được duyệt thành công'),
+          backgroundColor: Colors.green,
+        ),
+      );
+
+      await _loadBorrowRequests();
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop(); // Close loading
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lỗi khi duyệt: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Handle rejection of pending requests
+  Future<void> _handleReject(
+    String requestSerial,
+    List<BorrowRequest> requests,
+  ) async {
+    final reasonController = TextEditingController();
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Từ Chối Yêu Cầu'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Từ chối yêu cầu $requestSerial?'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: reasonController,
+              decoration: const InputDecoration(
+                labelText: 'Lý do từ chối',
+                border: OutlineInputBorder(),
+                hintText: 'Nhập lý do...',
+              ),
+              maxLines: 3,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Hủy'),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Từ Chối'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true || !mounted) return;
+
+    final reason = reasonController.text.trim();
+    if (reason.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Vui lòng nhập lý do từ chối'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+      return;
+    }
+
+    // Show loading
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => const Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      // Reject each request in the batch
+      for (final request in requests) {
+        await _borrowService.rejectBorrowRequest(request.id, reason);
+      }
+
+      if (!mounted) return;
+      Navigator.of(context).pop(); // Close loading
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Yêu cầu đã bị từ chối'),
+          backgroundColor: Colors.orange,
+        ),
+      );
+
+      await _loadBorrowRequests();
+    } catch (e) {
+      if (!mounted) return;
+      Navigator.of(context).pop(); // Close loading
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lỗi khi từ chối: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+
+    reasonController.dispose();
   }
 }
