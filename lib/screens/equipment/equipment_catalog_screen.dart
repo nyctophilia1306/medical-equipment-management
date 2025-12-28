@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -695,102 +695,250 @@ class _EquipmentCard extends StatelessWidget {
   }
 
   Widget _buildDetailsDialog(BuildContext context) {
-    return AlertDialog(
-      title: Text(item.name),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Container(
+        width: 900, // Wider dialog
+        constraints: const BoxConstraints(maxHeight: 600),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Status badge
+            // Left side - Full image
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              width: 400,
               decoration: BoxDecoration(
-                color: _statusColor().withAlpha((0.1 * 255).round()),
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: _statusColor()),
-              ),
-              child: Text(
-                item.status.replaceAll('_', ' ').toUpperCase(),
-                style: TextStyle(
-                  color: _statusColor(),
-                  fontWeight: FontWeight.bold,
+                color: AppColors.grayNeutral100,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
                 ),
               ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(16),
+                  bottomLeft: Radius.circular(16),
+                ),
+                child: item.imageUrl != null && item.imageUrl!.isNotEmpty
+                    ? Image.network(
+                        item.imageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(
+                              Icons.medical_services,
+                              size: 120,
+                              color: Colors.grey,
+                            ),
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Icon(
+                          Icons.medical_services,
+                          size: 120,
+                          color: Colors.grey,
+                        ),
+                      ),
+              ),
             ),
-            const SizedBox(height: 16),
-
-            // Details
-            _detailRow(
-              'Category:',
-              item.categoryName ?? item.category ?? 'General',
-            ),
-            _detailRow('Quantity:', item.quantity.toString()),
-            if (item.serialNumber != null)
-              _detailRow('Serial Number:', item.serialNumber!),
-            if (item.manufacturer != null)
-              _detailRow('Manufacturer:', item.manufacturer!),
-            if (item.model != null) _detailRow('Model:', item.model!),
-
-            const SizedBox(height: 16),
-            Text('Description:', style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 4),
-            Text(item.description),
-
-            if (item.notes != null && item.notes!.isNotEmpty) ...[
-              const SizedBox(height: 16),
-              Text('Notes:', style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 4),
-              Text(item.notes!),
-            ],
-
-            const SizedBox(height: 16),
-            Text(
-              'Số Serial: ${item.serialNumber ?? "Không có"}',
-              style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+            // Right side - Information
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Header with title and close button
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Colors.grey.shade200),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item.name,
+                            style: GoogleFonts.inter(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  // Content
+                  Expanded(
+                    child: SingleChildScrollView(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Status badge
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: _statusColor().withAlpha(
+                                (0.1 * 255).round(),
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(color: _statusColor()),
+                            ),
+                            child: Text(
+                              item.status.replaceAll('_', ' ').toUpperCase(),
+                              style: TextStyle(
+                                color: _statusColor(),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          // Details
+                          _detailRow(
+                            'Danh mục:',
+                            item.categoryName ?? item.category ?? 'General',
+                          ),
+                          _detailRow('Số lượng:', item.quantity.toString()),
+                          _detailRow('Có sẵn:', item.availableQty.toString()),
+                          if (item.serialNumber != null)
+                            _detailRow('Số Serial:', item.serialNumber!),
+                          if (item.manufacturer != null)
+                            _detailRow('Nhà sản xuất:', item.manufacturer!),
+                          if (item.model != null)
+                            _detailRow('Model:', item.model!),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Mô tả:',
+                            style: GoogleFonts.inter(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            item.description,
+                            style: GoogleFonts.inter(fontSize: 13),
+                          ),
+                          if (item.notes != null && item.notes!.isNotEmpty) ...[
+                            const SizedBox(height: 16),
+                            Text(
+                              'Ghi chú:',
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              item.notes!,
+                              style: GoogleFonts.inter(fontSize: 13),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                  // Actions
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(color: Colors.grey.shade200),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        if (AuthService().canManageEquipment()) ...[
+                          ElevatedButton.icon(
+                            icon: const Icon(Icons.edit, size: 18),
+                            label: const Text('Sửa'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryBlue,
+                              foregroundColor: Colors.white,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              onEdit(item);
+                            },
+                          ),
+                          const SizedBox(width: 12),
+                          OutlinedButton.icon(
+                            icon: const Icon(Icons.delete, size: 18),
+                            label: const Text('Xóa'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: AppColors.errorRed,
+                              side: const BorderSide(color: AppColors.errorRed),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              onDelete(item);
+                            },
+                          ),
+                          const SizedBox(width: 12),
+                        ],
+                        TextButton(
+                          child: const Text('Đóng'),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
-      actions: [
-        if (AuthService().canManageEquipment()) ...[
-          TextButton.icon(
-            icon: const Icon(Icons.edit),
-            label: const Text('Sửa'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              onEdit(item);
-            },
-          ),
-          TextButton.icon(
-            icon: const Icon(Icons.delete, color: AppColors.errorRed),
-            label: const Text('Xóa'),
-            style: TextButton.styleFrom(foregroundColor: AppColors.errorRed),
-            onPressed: () {
-              Navigator.of(context).pop();
-              onDelete(item);
-            },
-          ),
-        ],
-        TextButton(
-          child: const Text('Đóng'),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ],
     );
   }
 
   Widget _detailRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             width: 120,
-            child: Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text(
+              label,
+              style: GoogleFonts.inter(
+                fontWeight: FontWeight.w600,
+                fontSize: 13,
+                color: AppColors.textSecondary,
+              ),
+            ),
           ),
-          Expanded(child: Text(value)),
+          Expanded(
+            child: Text(
+              value,
+              style: GoogleFonts.inter(
+                fontSize: 13,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -956,10 +1104,10 @@ class _EquipmentCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Image at the top - fixed height
+        // Image at the top - larger for better visibility
         Container(
           width: double.infinity,
-          height: 120, // Reduced height to avoid overflow
+          height: 240, // Large image for better visibility and detail
           decoration: BoxDecoration(
             color: AppColors.grayNeutral100,
             borderRadius: BorderRadius.circular(

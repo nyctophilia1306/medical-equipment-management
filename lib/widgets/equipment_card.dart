@@ -22,30 +22,66 @@ class EquipmentCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        equipment.getLocalizedName(context),
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+            // Image at the top with more space
+            Container(
+              height: 180,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child:
+                    equipment.imageUrl != null && equipment.imageUrl!.isNotEmpty
+                    ? Image.network(
+                        equipment.imageUrl!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return const Center(
+                            child: Icon(
+                              Icons.medical_services,
+                              size: 80,
+                              color: Colors.grey,
+                            ),
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Icon(
+                          Icons.medical_services,
+                          size: 80,
+                          color: Colors.grey,
                         ),
                       ),
-                      if (equipment.model != null) ...[
-                        const SizedBox(height: 4),
-                        Text('Model: ${equipment.model}'),
-                      ],
-                      const SizedBox(height: 4),
-                      Text(_getQuantityDisplay()),
-                      Text('Trạng thái: ${_getStatusText()}'),
-                    ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Equipment name and delete button
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    equipment.getLocalizedName(context),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 IconButton(
@@ -56,15 +92,67 @@ class EquipmentCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Category: ${equipment.categoryName ?? "General"}',
-              style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+            const SizedBox(height: 4),
+            // Category
+            Row(
+              children: [
+                const Icon(Icons.category, size: 14, color: Colors.grey),
+                const SizedBox(width: 4),
+                Expanded(
+                  child: Text(
+                    equipment.categoryName ?? "General",
+                    style: const TextStyle(fontSize: 13, color: Colors.grey),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 8),
+            if (equipment.model != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                'Model: ${equipment.model}',
+                style: const TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ],
+            const SizedBox(height: 4),
+            Text(_getQuantityDisplay(), style: const TextStyle(fontSize: 13)),
+            Text(
+              'Trạng thái: ${_getStatusText()}',
+              style: const TextStyle(fontSize: 13),
+            ),
+            const SizedBox(height: 12),
+            // QR Code and Quantity selector at bottom
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                // QR Code on the left
+                if (equipment.serialNumber != null &&
+                    equipment.serialNumber!.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: QrImageView(
+                      data: equipment.serialNumber!,
+                      version: QrVersions.auto,
+                      size: 60,
+                      backgroundColor: Colors.white,
+                      eyeStyle: const QrEyeStyle(
+                        eyeShape: QrEyeShape.square,
+                        color: Colors.black,
+                      ),
+                      dataModuleStyle: const QrDataModuleStyle(
+                        dataModuleShape: QrDataModuleShape.square,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                if (equipment.serialNumber != null &&
+                    equipment.serialNumber!.isNotEmpty)
+                  const SizedBox(width: 12),
+                // Quantity selector
                 Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -108,32 +196,6 @@ class EquipmentCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: 12),
-                // QR Code display in bottom right
-                if (equipment.serialNumber != null &&
-                    equipment.serialNumber!.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey.shade300),
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: QrImageView(
-                      data: equipment.serialNumber!,
-                      version: QrVersions.auto,
-                      size: 60,
-                      backgroundColor: Colors.white,
-                      eyeStyle: const QrEyeStyle(
-                        eyeShape: QrEyeShape.square,
-                        color: Colors.black,
-                      ),
-                      dataModuleStyle: const QrDataModuleStyle(
-                        dataModuleShape: QrDataModuleShape.square,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
               ],
             ),
           ],
