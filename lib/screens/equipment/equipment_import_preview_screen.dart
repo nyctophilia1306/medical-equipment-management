@@ -102,13 +102,13 @@ class _EquipmentImportPreviewDialogState
       final excel = Excel.decodeBytes(widget.excelBytes);
 
       if (excel.tables.isEmpty) {
-        throw Exception('Excel file is empty');
+        throw Exception('Không tìm thấy bảng trong tệp Excel');
       }
 
       final table = excel.tables[excel.tables.keys.first];
 
       if (table == null || table.rows.isEmpty) {
-        throw Exception('Sheet is empty');
+        throw Exception('Bảng Excel trống');
       }
 
       // New format: A=number, B=name, C=description, D=date_bought, E=quantity
@@ -148,7 +148,7 @@ class _EquipmentImportPreviewDialogState
 
       return rows;
     } catch (e) {
-      throw Exception('Failed to parse Excel: $e');
+      throw Exception('Không thể phân tích tệp Excel: $e');
     }
   }
 
@@ -191,7 +191,7 @@ class _EquipmentImportPreviewDialogState
       setState(() => _generating = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('Lỗi: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -214,13 +214,13 @@ class _EquipmentImportPreviewDialogState
         if (mounted) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(const SnackBar(content: Text('QR code downloaded')));
+          ).showSnackBar(const SnackBar(content: Text('Mã QR đã được tải xuống')));
         }
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('Lỗi: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -258,7 +258,7 @@ class _EquipmentImportPreviewDialogState
         Navigator.of(context).pop(true); // Close dialog
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Successfully imported $successCount equipment'),
+            content: Text('Đã nhập thành công $successCount thiết bị'),
             backgroundColor: Colors.green,
           ),
         );
@@ -267,7 +267,7 @@ class _EquipmentImportPreviewDialogState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Import failed: $e'),
+            content: Text('Nhập dữ liệu thất bại: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -320,8 +320,8 @@ class _EquipmentImportPreviewDialogState
             children: [
               Text(
                 _showQrCodes
-                    ? 'Review & Download QR Codes'
-                    : 'Import Equipment',
+                    ? 'Xem & Tải xuống Mã QR'
+                    : 'Nhập Thiết bị',
                 style: GoogleFonts.inter(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -329,8 +329,8 @@ class _EquipmentImportPreviewDialogState
               ),
               Text(
                 _showQrCodes
-                    ? 'Check the generated QR codes and download if needed'
-                    : '${_equipmentRows.length} items found - Select categories',
+                    ? 'Xem các mã QR đã tạo và tải xuống nếu cần'
+                    : '${_equipmentRows.length} mục được tìm thấy - Chọn danh mục',
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
@@ -368,7 +368,7 @@ class _EquipmentImportPreviewDialogState
             const CircularProgressIndicator(),
             const SizedBox(height: 24),
             Text(
-              'Generating QR codes...',
+              'Đang tạo mã QR...',
               style: GoogleFonts.inter(fontSize: 16),
             ),
           ],
@@ -518,7 +518,7 @@ class _EquipmentImportPreviewDialogState
           ElevatedButton.icon(
             onPressed: _generating ? null : _generateQrCodes,
             icon: const Icon(Icons.qr_code),
-            label: const Text('Generate QR Codes'),
+            label: const Text('Tạo Mã QR'),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryBlue,
               foregroundColor: Colors.white,

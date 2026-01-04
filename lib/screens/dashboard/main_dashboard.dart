@@ -279,7 +279,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     ),
                     Text(
                       isGuest
-                          ? 'Viewer (Public)'
+                          ? 'Người dùng khách'
                           : _getRoleDisplayName(currentUser!.roleId),
                       style: GoogleFonts.inter(
                         fontSize: 12,
@@ -460,11 +460,11 @@ class _MainDashboardState extends State<MainDashboard> {
   String _getRoleDisplayName(int roleId) {
     switch (roleId) {
       case 2: // User role
-        return 'User (Viewer)';
+        return 'Người Dùng';
       case 1: // Manager role
-        return 'Manager';
+        return 'Quản Lý';
       case 0: // Admin role
-        return 'Administrator';
+        return 'Quản Trị Viên';
       default:
         return 'Unknown Role ($roleId)';
     }

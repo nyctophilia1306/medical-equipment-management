@@ -1090,14 +1090,14 @@ class _EquipmentCard extends StatelessWidget {
                 children: [
                   _buildInfoChip(
                     Icons.category_outlined,
-                    item.categoryName ?? item.category ?? 'General',
+                    item.categoryName ?? item.category ?? 'Chung',
                   ),
                   const SizedBox(width: AppConstants.paddingMedium),
                   if (item.serialNumber != null)
                     _buildInfoChip(Icons.qr_code, item.serialNumber!),
                 ],
               ),
-              const SizedBox(height: AppConstants.paddingSmall),
+              const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -1224,9 +1224,7 @@ class _EquipmentCard extends StatelessWidget {
             ],
           ),
         ),
-        const Spacer(), // Flexible spacing
-        // Quantity indicator
-        const SizedBox(height: 6),
+        const Spacer(),
         // Quantity indicator aligned to right
         Row(
           mainAxisAlignment: MainAxisAlignment.end,

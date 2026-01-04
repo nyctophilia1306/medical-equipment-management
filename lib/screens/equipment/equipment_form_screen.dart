@@ -152,7 +152,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       }
     } catch (e) {
       // Ignore errors, form will use text input if lists are empty
-      Logger.error('Error loading categories: $e');
+      Logger.error('Lỗi khi tải danh mục: $e');
     }
   }
 
@@ -201,35 +201,35 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         // Add extra diagnostic logging
         Logger.debug(
-          'Equipment form - Edit mode - Equipment ID: "$equipmentId"',
+          'Equipment form - Chế độ chỉnh sửa - ID thiết bị: "$equipmentId"',
         );
         Logger.debug(
-          'Equipment form - Original equipment: ${widget.equipment.toString()}',
+          'Equipment form - Thiết bị gốc: ${widget.equipment.toString()}',
         );
 
         if (equipmentId.isEmpty) {
-          Logger.error('Equipment form - Empty equipment ID in edit mode');
-          throw Exception('Equipment ID is missing or invalid');
+          Logger.error('Thông tin ID thiết bị bị thiếu hoặc không hợp lệ');
+          throw Exception('Thông tin ID thiết bị bị thiếu hoặc không hợp lệ');
         }
 
         // Verify the equipment exists in the database before updating
         final checkEquipment = await _dataService.getEquipmentById(equipmentId);
         if (checkEquipment == null) {
           Logger.error(
-            'Equipment form - Equipment not found in database: $equipmentId',
+            'Equipment form - Không tìm thấy thiết bị trong cơ sở dữ liệu: $equipmentId',
           );
           throw Exception(
-            'Equipment not found in database with ID: $equipmentId',
+            'Không tìm thấy thiết bị trong cơ sở dữ liệu với ID: $equipmentId',
           );
         } else {
           Logger.debug(
-            'Equipment form - Verified equipment exists in database: ${checkEquipment.id}',
+            'Equipment form - Đã xác nhận thiết bị tồn tại trong cơ sở dữ liệu: ${checkEquipment.id}',
           );
         }
 
         // Use the safe update method to avoid schema issues
         Logger.debug(
-          'Equipment form - Calling safeUpdateEquipment with ID: $equipmentId',
+          'Equipment form - Gọi safeUpdateEquipment với ID: $equipmentId',
         );
         await _dataService.safeUpdateEquipment(
           equipmentId: equipmentId,
@@ -251,7 +251,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Equipment updated successfully')),
+            const SnackBar(content: Text('Thiết bị đã được cập nhật thành công')),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
         }
@@ -302,34 +302,34 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Equipment created successfully')),
+            const SnackBar(content: Text('Thiết bị mới đã được tạo thành công')),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
         }
       }
     } catch (e) {
-      final errorMessage = 'Error saving equipment: $e';
+      final errorMessage = 'Lỗi khi lưu thiết bị: $e';
       Logger.error(errorMessage);
 
       if (mounted) {
         setState(() {
-          _errorMessage = 'Error: ${e.toString()}';
+          _errorMessage = 'Lỗi: ${e.toString()}';
         });
 
         // Show a more user-friendly error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Failed to save equipment. Please try again.'),
+            content: const Text('Lỗi khi lưu thiết bị. Vui lòng thử lại.'),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 5),
             action: SnackBarAction(
-              label: 'DETAILS',
+              label: 'CHI TIẾT',
               textColor: Colors.white,
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: const Text('Error Details'),
+                    title: const Text('Chi Tiết Lỗi'),
                     content: SingleChildScrollView(child: Text(errorMessage)),
                     actions: [
                       TextButton(
@@ -357,7 +357,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     final serialNumber = _serialNumberController.text.trim();
     if (serialNumber.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a serial number first')),
+        const SnackBar(content: Text('Vui lòng nhập số serial trước')),
       );
       return;
     }
@@ -370,7 +370,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Failed to generate QR code'),
+              content: Text('Không thể tạo mã QR'),
               backgroundColor: Colors.red,
             ),
           );
@@ -384,7 +384,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('QR code downloaded successfully'),
+            content: Text('Mã QR đã được tải xuống thành công'),
             backgroundColor: Colors.green,
           ),
         );
@@ -393,7 +393,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error downloading QR code: $e'),
+            content: Text('Lỗi khi tải xuống mã QR: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -677,12 +677,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       return TextFormField(
         controller: _categoryController,
         decoration: const InputDecoration(
-          labelText: 'Category *',
-          hintText: 'Enter equipment category',
+          labelText: 'Danh mục *',
+          hintText: 'Nhập danh mục thiết bị',
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Category is required';
+            return 'Danh mục là bắt buộc';
           }
           return null;
         },
@@ -693,10 +693,10 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     return DropdownButtonFormField<int>(
       initialValue: _selectedCategoryId,
       decoration: InputDecoration(
-        labelText: 'Category *',
+        labelText: 'Danh mục *',
         hintText: _categoryNames.isEmpty
-            ? 'Enter category'
-            : 'Select or enter category',
+            ? 'Nhập danh mục'
+            : 'Chọn hoặc nhập danh mục',
         suffixIcon: IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
@@ -713,7 +713,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         ),
         const DropdownMenuItem<int>(
           value: -1, // Special value for "Add new category"
-          child: Text('+ Add new category'),
+          child: Text('+ Thêm danh mục mới'),
         ),
       ],
       onChanged: (value) {
@@ -721,8 +721,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           // Show dialog to enter new category
           _showAddNewDialog(
             context: context,
-            title: 'Add New Category',
-            label: 'Category Name',
+            title: 'Thêm Danh Mục Mới',
+            label: 'Tên Danh Mục',
             controller: _categoryController,
             onComplete: (String categoryName) async {
               // Create new category
@@ -752,7 +752,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       validator: (value) {
         final text = _categoryController.text;
         if (text.isEmpty) {
-          return 'Category is required';
+          return 'Danh mục là bắt buộc';
         }
         return null;
       },
@@ -776,7 +776,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           controller: textController,
           decoration: InputDecoration(
             labelText: label,
-            hintText: 'Enter new $label',
+            hintText: 'Nhập $label mới',
           ),
           autofocus: true,
           textCapitalization: TextCapitalization.words,

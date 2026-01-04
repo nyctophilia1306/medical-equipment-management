@@ -167,7 +167,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showCategoryDialog(),
         icon: const Icon(Icons.add),
-        label: const Text('Add Category'),
+        label: const Text('Thêm Danh Mục Mới'),
         backgroundColor: AppColors.primaryBlue,
       ),
     );
@@ -185,7 +185,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           ),
           const SizedBox(height: AppConstants.paddingMedium),
           Text(
-            'No categories found',
+            'Không tìm thấy danh mục nào',
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -194,7 +194,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           ),
           const SizedBox(height: AppConstants.paddingSmall),
           Text(
-            'Add a new category to get started',
+            'Thêm danh mục mới để bắt đầu',
             style: GoogleFonts.inter(
               fontSize: 14,
               color: AppColors.textSecondary,
@@ -474,7 +474,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           builder: (context, setDialogState) {
             return AlertDialog(
               title: Text(
-                isEdit ? 'Edit Category' : 'Add New Category',
+                isEdit ? 'Cập Nhật Danh Mục' : 'Thêm Danh Mục Mới',
                 style: GoogleFonts.inter(fontWeight: FontWeight.w600),
               ),
               content: SingleChildScrollView(
@@ -484,8 +484,8 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        labelText: 'Category Name *',
-                        hintText: 'Enter category name',
+                        labelText: 'Tên Danh Mục *',
+                        hintText: 'Nhập tên danh mục',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                             AppConstants.borderRadiusSmall,
@@ -497,8 +497,8 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     TextField(
                       controller: descriptionController,
                       decoration: InputDecoration(
-                        labelText: 'Description',
-                        hintText: 'Enter description (optional)',
+                        labelText: 'Mô Tả',
+                        hintText: 'Nhập mô tả (tùy chọn)',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                             AppConstants.borderRadiusSmall,
@@ -511,8 +511,8 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                     DropdownButtonFormField<int?>(
                       initialValue: selectedParentId,
                       decoration: InputDecoration(
-                        labelText: 'Parent Category',
-                        hintText: 'Select parent (optional)',
+                        labelText: 'Danh Mục Cha',
+                        hintText: 'Chọn danh mục cha (tùy chọn)',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                             AppConstants.borderRadiusSmall,
@@ -522,7 +522,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
                       items: [
                         const DropdownMenuItem<int?>(
                           value: null,
-                          child: Text('None (Top Level)'),
+                          child: Text('Không Có (Cấp Đầu)'),
                         ),
                         ..._allCategories
                             .where(
@@ -547,7 +547,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(dialogContext).pop(false),
-                  child: const Text('Cancel'),
+                  child: const Text('Hủy'),
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -595,7 +595,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           if (success) {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Category updated successfully')),
+                const SnackBar(content: Text('Cập Nhật Danh Mục Thành Công')),
               );
             }
             await _loadCategories();
@@ -609,7 +609,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
           if (newCategory != null) {
             if (mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Category created successfully')),
+                const SnackBar(content: Text('Tạo Danh Mục Thành Công')),
               );
             }
             await _loadCategories();
@@ -618,7 +618,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to save category: $e')),
+            SnackBar(content: Text('Lưu danh mục thất bại: $e')),
           );
         }
       }
@@ -640,13 +640,13 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
     String message;
     if (equipmentCount > 0) {
       message =
-          'This category contains $equipmentCount equipment item${equipmentCount > 1 ? 's' : ''}. Cannot delete.';
+          'Danh mục này chứa $equipmentCount thiết bị. Không thể xóa.';
 
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           title: Text(
-            'Cannot Delete',
+            'Không Thể Xóa',
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           content: Text(message),
@@ -663,9 +663,9 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
 
     if (children.isNotEmpty) {
       message =
-          'This category has ${children.length} subcategory${children.length > 1 ? 'ies' : 'y'}. Deleting this category will also delete all subcategories. Continue?';
+          'Danh mục này có ${children.length} danh mục con. Xóa danh mục này cũng sẽ xóa tất cả danh mục con. Tiếp tục?';
     } else {
-      message = 'Are you sure you want to delete "${category.name}"?';
+      message = 'Bạn có chắc chắn muốn xóa "${category.name}" không?';
     }
 
     final confirmed = await showDialog<bool>(
@@ -707,8 +707,8 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
               SnackBar(
                 content: Text(
                   children.isEmpty
-                      ? 'Category deleted successfully'
-                      : 'Category and ${children.length} subcategory${children.length > 1 ? 'ies' : 'y'} deleted',
+                      ? 'Danh mục đã bị xóa'
+                      : 'Danh mục và ${children.length} danh mục con đã bị xóa',
                 ),
               ),
             );
@@ -718,7 +718,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Failed to delete category: $e')),
+            SnackBar(content: Text('Xóa danh mục thất bại: $e')),
           );
         }
       }
