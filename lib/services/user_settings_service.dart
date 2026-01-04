@@ -62,8 +62,9 @@ class UserSettingsService {
 
       if (themeMode != null) updates['theme_mode'] = themeMode;
       if (language != null) updates['language'] = language;
-      if (emailNotifications != null)
+      if (emailNotifications != null) {
         updates['email_notifications'] = emailNotifications;
+      }
 
       if (updates.isEmpty) {
         Logger.info('No settings to update for user $userId');

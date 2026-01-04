@@ -346,7 +346,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     final s = _serialController.text.trim();
     if (s.isEmpty) {
       setState(() {
-        _message = 'Please enter or scan a serial number';
+        _message = 'Hãy quét mã QR hoặc nhập số serial hợp lệ';
         _isMessageSuccess = false;
       });
       return;
@@ -403,7 +403,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         _returnDate == null) {
       setState(() {
         _message =
-            'Please fill required info, dates and scan at least one equipment';
+            'Hãy điền tất cả các trường bắt buộc và quét thiết bị trước khi lưu yêu cầu';
         _isMessageSuccess = false;
       });
       return;
@@ -451,7 +451,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       if (_selectedExistingUserId == null) {
         setState(() {
           _loading = false;
-          _message = 'Please select an existing user';
+          _message = 'Hãy chọn một người dùng hiện có';
           _isMessageSuccess = false;
         });
         return;

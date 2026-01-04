@@ -829,8 +829,9 @@ class DataService {
       };
 
       if (notes != null) updateData['notes'] = notes;
-      if (rejectionReason != null)
+      if (rejectionReason != null) {
         updateData['rejection_reason'] = rejectionReason;
+      }
 
       final response = await _supabase
           .from('borrow_requests')

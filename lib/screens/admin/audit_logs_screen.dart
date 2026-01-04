@@ -113,7 +113,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
-        title: const Text('Audit Logs'),
+        title: const Text('Nhật Ký Kiểm Toán'),
         elevation: 0,
         actions: [
           IconButton(
@@ -132,7 +132,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Filter by Category',
+                  'Lọc theo Danh Mục',
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -145,7 +145,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                   child: Row(
                     children: _categories.map((category) {
                       final isSelected =
-                          category == (_selectedCategory ?? 'All');
+                          category == (_selectedCategory ?? 'Tất cả');
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: FilterChip(
@@ -153,7 +153,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                           selected: isSelected,
                           onSelected: (selected) {
                             setState(() {
-                              _selectedCategory = category == 'All'
+                              _selectedCategory = category == 'Tất cả'
                                   ? null
                                   : category;
                             });
@@ -198,7 +198,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                         ),
                         const SizedBox(height: AppConstants.paddingMedium),
                         Text(
-                          'No audit logs found',
+                          'Không tìm thấy nhật ký kiểm toán',
                           style: GoogleFonts.inter(
                             fontSize: 16,
                             color: AppColors.textSecondary,
@@ -226,7 +226,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
                                       onPressed: () =>
                                           _loadLogs(loadMore: true),
                                       icon: const Icon(Icons.arrow_downward),
-                                      label: const Text('Load More'),
+                                      label: const Text('Tải thêm'),
                                     ),
                             ),
                           );
@@ -244,7 +244,7 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
   }
 
   Widget _buildLogCard(AuditLog log) {
-    final userName = _userNames[log.userId] ?? 'Unknown User';
+    final userName = _userNames[log.userId] ?? 'Người dùng không xác định';
     final actionColor = _getActionColor(log.actionType);
 
     return Card(
@@ -339,20 +339,20 @@ class _AuditLogsScreenState extends State<AuditLogsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (log.targetType != null) ...[
-                  _buildDetailRow('Target Type', log.targetType!),
+                  _buildDetailRow('Loại mục tiêu', log.targetType!),
                   const SizedBox(height: 8),
                 ],
                 if (log.targetId != null) ...[
-                  _buildDetailRow('Target ID', log.targetId!),
+                  _buildDetailRow('ID mục tiêu', log.targetId!),
                   const SizedBox(height: 8),
                 ],
                 if (log.ipAddress != null) ...[
-                  _buildDetailRow('IP Address', log.ipAddress!),
+                  _buildDetailRow('Địa chỉ IP', log.ipAddress!),
                   const SizedBox(height: 8),
                 ],
                 if (log.details != null && log.details!.isNotEmpty) ...[
                   Text(
-                    'Details:',
+                    'Chi tiết:',
                     style: GoogleFonts.inter(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,

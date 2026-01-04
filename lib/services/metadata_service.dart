@@ -93,8 +93,9 @@ class MetadataService {
       };
 
       if (description != null) categoryData['description'] = description;
-      if (parentCategoryId != null)
+      if (parentCategoryId != null) {
         categoryData['parent_category_id'] = parentCategoryId.toString();
+      }
 
       final response = await _supabase
           .from('equipment_categories')

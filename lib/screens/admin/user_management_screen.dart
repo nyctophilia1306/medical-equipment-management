@@ -475,37 +475,46 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   child: Column(
                     children: [
                       ListTile(
+                        // ignore: deprecated_member_use
                         leading: Radio<int>(
                           value: 0,
-                          groupValue:
-                              selectedRole, // ignore: deprecated_member_use
+                          // ignore: deprecated_member_use
+                          groupValue: selectedRole,
+                          // ignore: deprecated_member_use
                           onChanged: (val) => setDialogState(
                             () => selectedRole = val ?? 0,
-                          ), // ignore: deprecated_member_use
+                          ),
+                          toggleable: false,
                         ),
                         title: const Text('Admin'),
                         onTap: () => setDialogState(() => selectedRole = 0),
                       ),
                       ListTile(
+                        // ignore: deprecated_member_use
                         leading: Radio<int>(
                           value: 1,
-                          groupValue:
-                              selectedRole, // ignore: deprecated_member_use
+                          // ignore: deprecated_member_use
+                          groupValue: selectedRole,
+                          // ignore: deprecated_member_use
                           onChanged: (val) => setDialogState(
                             () => selectedRole = val ?? 1,
-                          ), // ignore: deprecated_member_use
+                          ),
+                          toggleable: false,
                         ),
                         title: const Text('Manager'),
                         onTap: () => setDialogState(() => selectedRole = 1),
                       ),
                       ListTile(
+                        // ignore: deprecated_member_use
                         leading: Radio<int>(
                           value: 2,
-                          groupValue:
-                              selectedRole, // ignore: deprecated_member_use
+                          // ignore: deprecated_member_use
+                          groupValue: selectedRole,
+                          // ignore: deprecated_member_use
                           onChanged: (val) => setDialogState(
                             () => selectedRole = val ?? 2,
-                          ), // ignore: deprecated_member_use
+                          ),
+                          toggleable: false,
                         ),
                         title: const Text('User'),
                         onTap: () => setDialogState(() => selectedRole = 2),

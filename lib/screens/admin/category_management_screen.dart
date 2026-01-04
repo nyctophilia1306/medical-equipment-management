@@ -106,7 +106,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
         title: Text(
-          'Category Management',
+          'Quản Lý Danh Mục',
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         backgroundColor: AppColors.backgroundWhite,
@@ -128,7 +128,7 @@ class _CategoryManagementScreenState extends State<CategoryManagementScreen> {
               controller: _searchController,
               onChanged: (_) => _applyFilters(),
               decoration: InputDecoration(
-                hintText: 'Search categories...',
+                hintText: 'Tìm kiếm danh mục...',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(

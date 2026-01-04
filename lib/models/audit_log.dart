@@ -115,8 +115,9 @@ class AuditLog {
     if (actionType.contains('borrow')) return 'Borrow Request';
     if (actionType.contains('category')) return 'Category';
     if (actionType.contains('user')) return 'User';
-    if (actionType == actionLogin || actionType == actionLogout)
+    if (actionType == actionLogin || actionType == actionLogout) {
       return 'Authentication';
+    }
     return 'Other';
   }
 

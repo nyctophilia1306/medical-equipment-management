@@ -318,7 +318,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: 'Search by name, serial, manufacturer...',
+                          hintText: 'Tìm kiếm bằng tên, danh mục hoặc mã thiết bị...',
                           prefixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -335,14 +335,14 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                       height: 48, // Match height with TextField
                       child: Tooltip(
                         message: _isGrid
-                            ? 'Switch to list view'
-                            : 'Switch to grid view',
+                            ? 'Chuyển sang chế độ danh sách'
+                            : 'Chuyển sang chế độ lưới',
                         child: OutlinedButton.icon(
                           onPressed: () => setState(() => _isGrid = !_isGrid),
                           icon: Icon(
                             _isGrid ? Icons.view_list : Icons.grid_view,
                           ),
-                          label: Text(_isGrid ? 'List' : 'Grid'),
+                          label: Text(_isGrid ? 'Danh sách' : 'Lưới'),
                         ),
                       ),
                     ),
@@ -561,12 +561,12 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
               // Grid/List toggle
               Tooltip(
                 message: _isGrid
-                    ? 'Switch to list view'
-                    : 'Switch to grid view',
+                    ? 'Chuyển sang chế độ danh sách'
+                    : 'Chuyển sang chế độ lưới',
                 child: OutlinedButton.icon(
                   onPressed: () => setState(() => _isGrid = !_isGrid),
                   icon: Icon(_isGrid ? Icons.view_list : Icons.grid_view),
-                  label: Text(_isGrid ? 'List' : 'Grid'),
+                  label: Text(_isGrid ? 'Danh sách' : 'Lưới'),
                 ),
               ),
             ],

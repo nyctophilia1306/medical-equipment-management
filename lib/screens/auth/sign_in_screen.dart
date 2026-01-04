@@ -127,7 +127,7 @@ class _SignInScreenState extends State<SignInScreen> {
         const SizedBox(height: AppConstants.paddingMedium),
 
         Text(
-          'Welcome Back',
+          'Chào mừng',
           style: GoogleFonts.inter(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class _SignInScreenState extends State<SignInScreen> {
         const SizedBox(height: AppConstants.paddingSmall),
 
         Text(
-          'Sign in to your ${AppConstants.appName} account',
+          'Đăng nhập vào tài khoản ${AppConstants.appName} của bạn',
           style: GoogleFonts.inter(
             fontSize: 16,
             color: AppColors.textSecondary,
@@ -173,7 +173,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: 'Email Address',
+                labelText: 'Địa chỉ email',
                 prefixIcon: Icon(
                   Icons.email_outlined,
                   color: AppColors.textSecondary,
@@ -186,12 +186,12 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Please enter your email';
+                  return 'Hãy nhập email của bạn';
                 }
                 if (!RegExp(
                   r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                 ).hasMatch(value)) {
-                  return 'Please enter a valid email address';
+                  return 'Hãy nhập địa chỉ email hợp lệ';
                 }
                 return null;
               },
