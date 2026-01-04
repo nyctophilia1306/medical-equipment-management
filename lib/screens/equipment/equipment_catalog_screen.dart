@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 import 'dart:async';
 import '../../constants/app_colors.dart';
@@ -825,6 +826,43 @@ class _EquipmentCard extends StatelessWidget {
                           _detailRow('Có sẵn:', item.availableQty.toString()),
                           if (item.serialNumber != null)
                             _detailRow('Số Serial:', item.serialNumber!),
+                          // QR Code display
+                          if (item.serialNumber != null &&
+                              item.serialNumber!.isNotEmpty) ...[
+                            const SizedBox(height: 16),
+                            Text(
+                              'QR Code:',
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                  color: Colors.grey.shade300,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: QrImageView(
+                                data: item.serialNumber!,
+                                version: QrVersions.auto,
+                                size: 150,
+                                backgroundColor: Colors.white,
+                                eyeStyle: const QrEyeStyle(
+                                  eyeShape: QrEyeShape.square,
+                                  color: Colors.black,
+                                ),
+                                dataModuleStyle: const QrDataModuleStyle(
+                                  dataModuleShape: QrDataModuleShape.square,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ),
+                          ],
                           if (item.manufacturer != null)
                             _detailRow('Nhà sản xuất:', item.manufacturer!),
                           if (item.model != null)
@@ -861,7 +899,7 @@ class _EquipmentCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Actions
+                  // Close button only
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -872,34 +910,6 @@ class _EquipmentCard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        if (AuthService().canManageEquipment()) ...[
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.edit, size: 18),
-                            label: const Text('Sửa'),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primaryBlue,
-                              foregroundColor: Colors.white,
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              onEdit(item);
-                            },
-                          ),
-                          const SizedBox(width: 12),
-                          OutlinedButton.icon(
-                            icon: const Icon(Icons.delete, size: 18),
-                            label: const Text('Xóa'),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: AppColors.errorRed,
-                              side: const BorderSide(color: AppColors.errorRed),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              onDelete(item);
-                            },
-                          ),
-                          const SizedBox(width: 12),
-                        ],
                         TextButton(
                           child: const Text('Đóng'),
                           onPressed: () => Navigator.of(context).pop(),
