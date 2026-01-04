@@ -99,7 +99,10 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Image.asset(
                 'assets/images/hcmute-logo.png',
                 fit: BoxFit.contain,
+                width: 96,
+                height: 116,
                 errorBuilder: (context, error, stackTrace) {
+                  print('Logo error: $error');
                   return const Icon(
                     Icons.medical_services,
                     size: 40,

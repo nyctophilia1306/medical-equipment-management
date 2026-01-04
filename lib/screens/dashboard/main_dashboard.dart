@@ -101,7 +101,10 @@ class _MainDashboardState extends State<MainDashboard> {
                 child: Image.asset(
                   'assets/images/hcmute-logo.png',
                   fit: BoxFit.contain,
+                  width: 36,
+                  height: 44,
                   errorBuilder: (context, error, stackTrace) {
+                    print('Logo error: $error');
                     return const Icon(
                       Icons.medical_services,
                       color: AppColors.primaryBlue,
