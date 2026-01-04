@@ -82,8 +82,10 @@ class _MainDashboardState extends State<MainDashboard> {
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            constraints: const BoxConstraints(
+              maxWidth: 48,
+              maxHeight: 56,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(

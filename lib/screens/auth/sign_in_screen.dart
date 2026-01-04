@@ -77,8 +77,10 @@ class _SignInScreenState extends State<SignInScreen> {
       children: [
         // App Logo
         Container(
-          width: 100,
-          height: 100,
+          constraints: const BoxConstraints(
+            maxWidth: 120,
+            maxHeight: 140,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppConstants.borderRadiusLarge),
