@@ -184,15 +184,6 @@ class EquipmentCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Delete button on the right
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  iconSize: 20,
-                  padding: const EdgeInsets.all(4),
-                  constraints: const BoxConstraints(),
-                  onPressed: onDelete,
-                  tooltip: 'Delete',
-                ),
               ],
             ),
           ],
