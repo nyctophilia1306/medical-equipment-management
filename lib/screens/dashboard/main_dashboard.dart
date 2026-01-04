@@ -94,9 +94,19 @@ class _MainDashboardState extends State<MainDashboard> {
               borderRadius: BorderRadius.circular(
                 AppConstants.borderRadiusMedium,
               ),
-              child: Image.asset(
-                'assets/images/hcmute-logo.png',
-                fit: BoxFit.contain,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Image.asset(
+                  'assets/images/hcmute-logo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.medical_services,
+                      color: AppColors.primaryBlue,
+                      size: 24,
+                    );
+                  },
+                ),
               ),
             ),
           ),
