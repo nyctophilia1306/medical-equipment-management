@@ -103,14 +103,6 @@ class _MainDashboardState extends State<MainDashboard> {
                   fit: BoxFit.contain,
                   width: 36,
                   height: 44,
-                  errorBuilder: (context, error, stackTrace) {
-                    print('Logo error: $error');
-                    return const Icon(
-                      Icons.medical_services,
-                      color: AppColors.primaryBlue,
-                      size: 24,
-                    );
-                  },
                 ),
               ),
             ),
