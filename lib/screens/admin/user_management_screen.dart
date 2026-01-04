@@ -42,7 +42,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Failed to load users: $e')));
+        ).showSnackBar(SnackBar(content: Text('Thất bại khi tải người dùng: $e')));
       }
     }
   }
@@ -80,7 +80,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
         title: Text(
-          'User Management',
+          'Quản Lý Người Dùng',
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         backgroundColor: AppColors.backgroundWhite,
@@ -102,7 +102,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   controller: _searchController,
                   onChanged: (_) => _applyFilters(),
                   decoration: InputDecoration(
-                    hintText: 'Search by name, email, or phone...',
+                    hintText: 'Tìm kiếm theo tên, email hoặc điện thoại...',
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
@@ -157,7 +157,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showUserDialog(),
         icon: const Icon(Icons.person_add),
-        label: const Text('Add User'),
+        label: const Text('Thêm Người Dùng'),
         backgroundColor: AppColors.primaryBlue,
       ),
     );
@@ -265,7 +265,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextButton.icon(
                   onPressed: () => _showUserDialog(user: user),
                   icon: const Icon(Icons.edit, size: 18),
-                  label: const Text('Edit'),
+                  label: const Text('Cập Nhật'),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.primaryBlue,
                   ),
@@ -273,7 +273,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextButton.icon(
                   onPressed: () => _confirmDelete(user),
                   icon: const Icon(Icons.delete, size: 18),
-                  label: const Text('Delete'),
+                  label: const Text('Xóa'),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.errorRed,
                   ),
@@ -341,7 +341,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           ),
           const SizedBox(height: AppConstants.paddingMedium),
           Text(
-            'No users found',
+            'Không tìm thấy người dùng',
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -356,12 +356,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
   Map<String, dynamic> _getRoleData(int roleId) {
     switch (roleId) {
       case 0:
-        return {'name': 'Admin', 'color': AppColors.errorRed};
+        return {'name': 'Quản Trị Viên', 'color': AppColors.errorRed};
       case 1:
-        return {'name': 'Manager', 'color': AppColors.warningYellow};
+        return {'name': 'Quản Lý', 'color': AppColors.warningYellow};
       case 2:
       default:
-        return {'name': 'User', 'color': AppColors.successGreen};
+        return {'name': 'Người Dùng', 'color': AppColors.successGreen};
     }
   }
 
@@ -383,7 +383,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           title: Text(
-            isEdit ? 'Edit User' : 'Create New User',
+            isEdit ? 'Cập Nhật Người Dùng' : 'Tạo Người Dùng Mới',
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           content: SingleChildScrollView(
@@ -412,7 +412,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextField(
                   controller: usernameController,
                   decoration: const InputDecoration(
-                    labelText: 'Username *',
+                    labelText: 'Tên Đăng Nhập *',
                     prefixIcon: Icon(Icons.person),
                   ),
                 ),
@@ -420,7 +420,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextField(
                   controller: fullNameController,
                   decoration: const InputDecoration(
-                    labelText: 'Full Name',
+                    labelText: 'Họ Và Tên',
                     prefixIcon: Icon(Icons.badge),
                   ),
                 ),
@@ -428,7 +428,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextField(
                   controller: phoneController,
                   decoration: const InputDecoration(
-                    labelText: 'Phone',
+                    labelText: 'Số Điện Thoại',
                     prefixIcon: Icon(Icons.phone),
                   ),
                 ),
@@ -436,7 +436,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextField(
                   controller: genderController,
                   decoration: const InputDecoration(
-                    labelText: 'Gender',
+                    labelText: 'Giới Tính',
                     prefixIcon: Icon(Icons.wc),
                   ),
                 ),
@@ -445,7 +445,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   leading: const Icon(Icons.cake),
                   title: Text(
                     selectedDob == null
-                        ? 'Select Date of Birth'
+                        ? 'Chọn Ngày Sinh'
                         : DateFormat('MMM dd, yyyy').format(selectedDob!),
                   ),
                   trailing: const Icon(Icons.calendar_today),
@@ -486,7 +486,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           ),
                           toggleable: false,
                         ),
-                        title: const Text('Admin'),
+                        title: const Text('Quản Trị Viên'),
                         onTap: () => setDialogState(() => selectedRole = 0),
                       ),
                       ListTile(
@@ -501,7 +501,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           ),
                           toggleable: false,
                         ),
-                        title: const Text('Manager'),
+                        title: const Text('Quản Lý'),
                         onTap: () => setDialogState(() => selectedRole = 1),
                       ),
                       ListTile(
@@ -516,7 +516,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           ),
                           toggleable: false,
                         ),
-                        title: const Text('User'),
+                        title: const Text('Người Dùng'),
                         onTap: () => setDialogState(() => selectedRole = 2),
                       ),
                     ],
@@ -589,13 +589,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       await _loadUsers();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User created successfully')),
+        const SnackBar(content: Text('Tạo người dùng thành công')),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed to create user: $e')));
+      ).showSnackBar(SnackBar(content: Text('Không thể tạo người dùng: $e')));
     }
   }
 
@@ -621,13 +621,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       await _loadUsers();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('User updated successfully')),
+        const SnackBar(content: Text('Cập Nhật Người Dùng Thành Công')),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Failed to update user: $e')));
+      ).showSnackBar(SnackBar(content: Text('Không thể cập nhật người dùng: $e')));
     }
   }
 

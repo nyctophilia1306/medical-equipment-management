@@ -1099,10 +1099,9 @@ class _EquipmentCard extends StatelessWidget {
               ),
               const SizedBox(height: AppConstants.paddingSmall),
               Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   _buildQuantityIndicator(),
-                  const Spacer(),
-                  if (AuthService().canManageEquipment()) _buildActionButtons(),
                 ],
               ),
             ],
@@ -1227,13 +1226,12 @@ class _EquipmentCard extends StatelessWidget {
         ),
         const Spacer(), // Flexible spacing
         // Quantity indicator
-        _buildQuantityIndicator(),
         const SizedBox(height: 6),
-        // Bottom row with actions
+        // Quantity indicator aligned to right
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            if (AuthService().canManageEquipment()) _buildActionButtons(),
+            _buildQuantityIndicator(),
           ],
         ),
       ],
@@ -1315,33 +1313,6 @@ class _EquipmentCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildActionButtons() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: const Icon(Icons.edit_outlined, size: 18),
-          color: AppColors.primaryBlue,
-          visualDensity: VisualDensity.compact,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          onPressed: () => onEdit(item),
-          tooltip: 'Edit',
-        ),
-        const SizedBox(width: 8),
-        IconButton(
-          icon: const Icon(Icons.delete_outline, size: 18),
-          color: AppColors.errorRed,
-          visualDensity: VisualDensity.compact,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          onPressed: () => onDelete(item),
-          tooltip: 'Delete',
-        ),
-      ],
     );
   }
 }
