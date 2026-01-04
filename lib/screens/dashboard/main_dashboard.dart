@@ -82,8 +82,10 @@ class _MainDashboardState extends State<MainDashboard> {
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            constraints: const BoxConstraints(
+              maxWidth: 48,
+              maxHeight: 56,
+            ),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(
@@ -94,9 +96,19 @@ class _MainDashboardState extends State<MainDashboard> {
               borderRadius: BorderRadius.circular(
                 AppConstants.borderRadiusMedium,
               ),
-              child: Image.asset(
-                'assets/images/hcmute-logo.png',
-                fit: BoxFit.contain,
+              child: Padding(
+                padding: const EdgeInsets.all(6),
+                child: Image.asset(
+                  'assets/images/hcmute-logo.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.medical_services,
+                      color: AppColors.primaryBlue,
+                      size: 24,
+                    );
+                  },
+                ),
               ),
             ),
           ),

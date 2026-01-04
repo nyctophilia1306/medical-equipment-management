@@ -77,8 +77,10 @@ class _SignInScreenState extends State<SignInScreen> {
       children: [
         // App Logo
         Container(
-          width: 100,
-          height: 100,
+          constraints: const BoxConstraints(
+            maxWidth: 120,
+            maxHeight: 140,
+          ),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppConstants.borderRadiusLarge),
@@ -92,9 +94,19 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(AppConstants.borderRadiusLarge),
-            child: Image.asset(
-              'assets/images/hcmute-logo.png',
-              fit: BoxFit.contain,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Image.asset(
+                'assets/images/hcmute-logo.png',
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.medical_services,
+                    size: 40,
+                    color: AppColors.primaryBlue,
+                  );
+                },
+              ),
             ),
           ),
         ),

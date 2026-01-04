@@ -791,24 +791,27 @@ class _EquipmentCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // Status badge
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: _statusColor().withAlpha(
-                                (0.1 * 255).round(),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
                               ),
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: _statusColor()),
-                            ),
-                            child: Text(
-                              item.status.replaceAll('_', ' ').toUpperCase(),
-                              style: TextStyle(
-                                color: _statusColor(),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
+                              decoration: BoxDecoration(
+                                color: _statusColor().withAlpha(
+                                  (0.1 * 255).round(),
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(color: _statusColor()),
+                              ),
+                              child: Text(
+                                item.status.replaceAll('_', ' ').toUpperCase(),
+                                style: TextStyle(
+                                  color: _statusColor(),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                           ),

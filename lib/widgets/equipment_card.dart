@@ -137,61 +137,50 @@ class EquipmentCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                if (equipment.serialNumber != null &&
-                    equipment.serialNumber!.isNotEmpty)
-                  const SizedBox(width: 12),
-                // Quantity selector
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text('Quantity:', style: TextStyle(fontSize: 13)),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: DropdownButtonFormField<int>(
+                const Spacer(),
+                // Quantity selector on the right
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text('Qty:', style: TextStyle(fontSize: 13)),
+                    const SizedBox(width: 6),
+                    SizedBox(
+                      width: 60,
+                      child: DropdownButtonFormField<int>(
+                        isDense: true,
+                        initialValue: quantity,
+                        decoration: const InputDecoration(
                           isDense: true,
-                          initialValue: quantity,
-                          decoration: const InputDecoration(
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 4,
-                              vertical: 4,
-                            ),
-                            border: OutlineInputBorder(),
-                            constraints: BoxConstraints(maxHeight: 28),
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 4,
+                            vertical: 4,
                           ),
-                          style: const TextStyle(fontSize: 13),
-                          icon: const Icon(Icons.arrow_drop_down, size: 18),
-                          iconSize: 18,
-                          menuMaxHeight: 200,
-                          items: List.generate(
-                            equipment.quantity,
-                            (i) => DropdownMenuItem(
-                              value: i + 1,
-                              child: Text(
-                                '${i + 1}',
-                                style: const TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ),
-                          onChanged: (value) {
-                            if (value != null) {
-                              onQuantityChanged(value);
-                            }
-                          },
+                          border: OutlineInputBorder(),
+                          constraints: BoxConstraints(maxHeight: 28),
                         ),
+                        style: const TextStyle(fontSize: 13),
+                        icon: const Icon(Icons.arrow_drop_down, size: 18),
+                        iconSize: 18,
+                        menuMaxHeight: 200,
+                        items: List.generate(
+                          equipment.quantity,
+                          (i) => DropdownMenuItem(
+                            value: i + 1,
+                            child: Text(
+                              '${i + 1}',
+                              style: const TextStyle(fontSize: 13),
+                            ),
+                          ),
+                        ),
+                        onChanged: (value) {
+                          if (value != null) {
+                            onQuantityChanged(value);
+                          }
+                        },
                       ),
-                    ],
-                  ),
-                ),
-                // Delete button on the right
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  iconSize: 20,
-                  padding: const EdgeInsets.all(4),
-                  constraints: const BoxConstraints(),
-                  onPressed: onDelete,
-                  tooltip: 'Delete',
+                    ),
+                  ],
                 ),
               ],
             ),
