@@ -70,27 +70,15 @@ class EquipmentCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Equipment name and delete button
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    equipment.getLocalizedName(context),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, size: 20),
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints(),
-                  onPressed: onDelete,
-                ),
-              ],
+            // Equipment name
+            Text(
+              equipment.getLocalizedName(context),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 4),
             // Category
@@ -195,6 +183,15 @@ class EquipmentCard extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                // Delete button on the right
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  iconSize: 20,
+                  padding: const EdgeInsets.all(4),
+                  constraints: const BoxConstraints(),
+                  onPressed: onDelete,
+                  tooltip: 'Delete',
                 ),
               ],
             ),

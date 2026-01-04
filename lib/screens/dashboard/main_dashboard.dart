@@ -85,15 +85,19 @@ class _MainDashboardState extends State<MainDashboard> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: Colors.white.withAlpha((0.2 * 255).round()),
+              color: Colors.white,
               borderRadius: BorderRadius.circular(
                 AppConstants.borderRadiusMedium,
               ),
             ),
-            child: const Icon(
-              Icons.medical_services,
-              color: AppColors.textOnPrimary,
-              size: 24,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(
+                AppConstants.borderRadiusMedium,
+              ),
+              child: Image.asset(
+                'assets/images/hcmute-logo.png',
+                fit: BoxFit.contain,
+              ),
             ),
           ),
 
