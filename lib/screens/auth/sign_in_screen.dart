@@ -96,11 +96,29 @@ class _SignInScreenState extends State<SignInScreen> {
             borderRadius: BorderRadius.circular(AppConstants.borderRadiusLarge),
             child: Padding(
               padding: const EdgeInsets.all(12),
-              child: Image.asset(
-                'assets/images/hcmute-logo.png',
+              child: Image.network(
+                'https://aowxsljcxqfkrsvikmzf.supabase.co/storage/v1/object/public/equiqment_image/hcmute-logo.png',
                 fit: BoxFit.contain,
                 width: 96,
                 height: 116,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                                loadingProgress.expectedTotalBytes!
+                          : null,
+                    ),
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(
+                    Icons.medical_services,
+                    size: 40,
+                    color: AppColors.primaryBlue,
+                  );
+                },
               ),
             ),
           ),

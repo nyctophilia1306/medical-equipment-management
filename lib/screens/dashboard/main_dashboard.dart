@@ -98,11 +98,28 @@ class _MainDashboardState extends State<MainDashboard> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(6),
-                child: Image.asset(
-                  'assets/images/hcmute-logo.png',
+                child: Image.network(
+                  'https://aowxsljcxqfkrsvikmzf.supabase.co/storage/v1/object/public/equiqment_image/hcmute-logo.png',
                   fit: BoxFit.contain,
                   width: 36,
                   height: 44,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return const Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(
+                      Icons.medical_services,
+                      color: AppColors.primaryBlue,
+                      size: 24,
+                    );
+                  },
                 ),
               ),
             ),
