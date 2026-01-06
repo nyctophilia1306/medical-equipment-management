@@ -319,7 +319,8 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                       child: TextField(
                         controller: _searchController,
                         decoration: InputDecoration(
-                          hintText: 'Tìm kiếm bằng tên, danh mục hoặc mã thiết bị...',
+                          hintText:
+                              'Tìm kiếm bằng tên, danh mục hoặc mã thiết bị...',
                           prefixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -658,6 +659,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                 grid: _isGrid,
                 onEdit: _editEquipment,
                 onDelete: _deleteEquipment,
+                isAdmin: _authService.currentUser?.isAdmin ?? false,
               );
             },
           ),
@@ -672,12 +674,14 @@ class _EquipmentCard extends StatelessWidget {
   final bool grid;
   final Function(Equipment) onEdit;
   final Function(Equipment) onDelete;
+  final bool isAdmin;
 
   const _EquipmentCard({
     required this.item,
     required this.grid,
     required this.onEdit,
     required this.onDelete,
+    required this.isAdmin,
   });
 
   Color _statusColor() {
@@ -842,9 +846,7 @@ class _EquipmentCard extends StatelessWidget {
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(
-                                  color: Colors.grey.shade300,
-                                ),
+                                border: Border.all(color: Colors.grey.shade300),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: QrImageView(
@@ -899,7 +901,7 @@ class _EquipmentCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Close button only
+                  // Action buttons (Edit, Delete, Close)
                   Container(
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
@@ -908,8 +910,50 @@ class _EquipmentCard extends StatelessWidget {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: isAdmin
+                          ? MainAxisAlignment.spaceBetween
+                          : MainAxisAlignment.end,
                       children: [
+                        // Admin CRUD buttons on the left (only for admin)
+                        if (isAdmin)
+                          Row(
+                            children: [
+                              ElevatedButton.icon(
+                                icon: const Icon(Icons.edit, size: 18),
+                                label: const Text('Chỉnh sửa'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  onEdit(item);
+                                },
+                              ),
+                              const SizedBox(width: 8),
+                              OutlinedButton.icon(
+                                icon: const Icon(Icons.delete, size: 18),
+                                label: const Text('Xóa'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: Colors.red,
+                                  side: const BorderSide(color: Colors.red),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 12,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  onDelete(item);
+                                },
+                              ),
+                            ],
+                          ),
+                        // Close button on the right
                         TextButton(
                           child: const Text('Đóng'),
                           onPressed: () => Navigator.of(context).pop(),
@@ -1100,9 +1144,7 @@ class _EquipmentCard extends StatelessWidget {
               const SizedBox(height: 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  _buildQuantityIndicator(),
-                ],
+                children: [_buildQuantityIndicator()],
               ),
             ],
           ),
@@ -1228,9 +1270,7 @@ class _EquipmentCard extends StatelessWidget {
         // Quantity indicator aligned to right
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            _buildQuantityIndicator(),
-          ],
+          children: [_buildQuantityIndicator()],
         ),
       ],
     );
