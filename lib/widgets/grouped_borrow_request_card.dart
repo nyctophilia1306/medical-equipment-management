@@ -11,6 +11,10 @@ class GroupedBorrowRequestCard extends StatefulWidget {
   final VoidCallback? onReturn;
   final VoidCallback? onApprove; // New: Admin approval
   final VoidCallback? onReject; // New: Admin rejection
+  final Function(String equipmentId)?
+  onEditEquipment; // New: Admin edit equipment
+  final Function(String equipmentId)?
+  onDeleteEquipment; // New: Admin delete equipment
 
   const GroupedBorrowRequestCard({
     super.key,
@@ -20,6 +24,8 @@ class GroupedBorrowRequestCard extends StatefulWidget {
     this.onReturn,
     this.onApprove,
     this.onReject,
+    this.onEditEquipment,
+    this.onDeleteEquipment,
   });
 
   @override
@@ -409,6 +415,31 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
             const Icon(Icons.check_circle, color: Colors.green, size: 24)
           else if (request.isOverdueByDate)
             const Icon(Icons.warning, color: Colors.red, size: 24),
+
+          // Admin CRUD Actions for Equipment
+          if (widget.onEditEquipment != null ||
+              widget.onDeleteEquipment != null) ...[
+            const SizedBox(width: 8),
+            if (widget.onEditEquipment != null)
+              IconButton(
+                icon: const Icon(Icons.edit, size: 20),
+                color: Colors.blue,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                onPressed: () => widget.onEditEquipment!(request.equipmentId),
+                tooltip: 'Edit Equipment',
+              ),
+            const SizedBox(width: 4),
+            if (widget.onDeleteEquipment != null)
+              IconButton(
+                icon: const Icon(Icons.delete, size: 20),
+                color: Colors.red,
+                padding: EdgeInsets.zero,
+                constraints: const BoxConstraints(),
+                onPressed: () => widget.onDeleteEquipment!(request.equipmentId),
+                tooltip: 'Delete Equipment',
+              ),
+          ],
         ],
       ),
     );

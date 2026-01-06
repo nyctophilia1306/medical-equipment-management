@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../models/borrow_request.dart';
+import '../../services/auth_service.dart';
 import '../../services/borrow_service.dart';
+import '../../services/data_service.dart';
 import '../../widgets/grouped_borrow_request_card.dart';
+import '../../constants/app_colors.dart';
+import '../equipment/equipment_form_screen.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Tab showing completed/returned borrow requests
 /// Displays requests where all equipment is marked as returned
@@ -14,6 +19,8 @@ class ReturnedRequestsTab extends StatefulWidget {
 
 class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
   final BorrowService _borrowService = BorrowService();
+  final AuthService _authService = AuthService();
+  final DataService _dataService = DataService();
   final TextEditingController _searchController = TextEditingController();
 
   bool _loading = false;
@@ -176,6 +183,81 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
     setState(() {
       _selectedDate = null;
     });
+  }
+
+  Future<void> _editEquipment(String equipmentId) async {
+    try {
+      // Fetch the equipment details
+      final equipment = await _dataService.getEquipmentById(equipmentId);
+      if (equipment == null) {
+        if (mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Equipment not found')));
+        }
+        return;
+      }
+
+      if (mounted) {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EquipmentFormScreen(equipment: equipment),
+          ),
+        );
+        // Refresh the list after returning from edit
+        _loadReturnedRequests();
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to load equipment: $e')));
+      }
+    }
+  }
+
+  Future<void> _deleteEquipment(String equipmentId) async {
+    final l10n = AppLocalizations.of(context)!;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.confirmDelete),
+        content: Text(l10n.confirmDeleteEquipment),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            style: TextButton.styleFrom(foregroundColor: AppColors.errorRed),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    try {
+      setState(() => _loading = true);
+      await _dataService.deleteEquipment(equipmentId);
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.equipmentDeleted)));
+        // Refresh the list after deletion
+        _loadReturnedRequests();
+      }
+    } catch (e) {
+      setState(() => _loading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete equipment: $e')),
+        );
+      }
+    }
   }
 
   @override
@@ -401,10 +483,15 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
           final requestSerial = entry.key;
           final requests = entry.value;
 
+          // Check if current user is admin
+          final isAdmin = _authService.currentUser?.isAdmin ?? false;
+
           return GroupedBorrowRequestCard(
             requestSerial: requestSerial,
             requests: requests,
             onReturn: null, // No return button for already returned items
+            onEditEquipment: isAdmin ? _editEquipment : null,
+            onDeleteEquipment: isAdmin ? _deleteEquipment : null,
           );
         },
       ),

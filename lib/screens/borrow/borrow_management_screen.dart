@@ -31,11 +31,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   final _serialController = TextEditingController();
   final _fullNameController = TextEditingController();
   final _phoneController = TextEditingController();
+  final _userSearchController = TextEditingController();
 
   bool _isNewUser = true;
   String? _selectedExistingUserName;
   String? _selectedExistingUserId;
   DateTime? _userDob;
+  List<Map<String, dynamic>> _userSearchResults = [];
+  bool _showUserDropdown = false;
   String? _selectedGender;
   DateTime? _borrowDate;
   DateTime? _returnDate;
@@ -65,6 +68,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     _fullNameController.dispose();
     _phoneController.dispose();
     _serialController.dispose();
+    _userSearchController.dispose();
     super.dispose();
   }
 
@@ -516,10 +520,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         _borrowQuantities.clear();
         _fullNameController.clear();
         _phoneController.clear();
+        _userSearchController.clear();
         _borrowDate = null;
         _returnDate = null;
         _selectedExistingUserName = null;
         _selectedExistingUserId = null;
+        _userSearchResults.clear();
+        _showUserDropdown = false;
       });
     }
   }
@@ -607,29 +614,169 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   Widget _buildExistingUserForm() {
     return Column(
       children: [
-        TextField(
-          decoration: const InputDecoration(labelText: 'Search user by name'),
-          onSubmitted: (q) async {
-            final results = await _borrowService.findUsers(q);
-            if (results.isNotEmpty) {
-              final user = results.first;
-              setState(() {
-                _selectedExistingUserName = user['full_name'];
-                _selectedExistingUserId = user['user_id'];
-                _fullNameController.text = user['full_name'] ?? '';
-                _phoneController.text = user['phone'] ?? '';
-                if (user['dob'] != null) {
-                  _userDob = DateTime.parse(user['dob']);
+        // Search bar with dropdown
+        Stack(
+          children: [
+            TextField(
+              controller: _userSearchController,
+              decoration: InputDecoration(
+                labelText: 'Search user by name or phone',
+                hintText: 'Type to search...',
+                prefixIcon: const Icon(Icons.search),
+                suffixIcon: _userSearchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            _userSearchController.clear();
+                            _userSearchResults.clear();
+                            _showUserDropdown = false;
+                            _selectedExistingUserName = null;
+                            _selectedExistingUserId = null;
+                          });
+                        },
+                      )
+                    : null,
+                border: const OutlineInputBorder(),
+              ),
+              onChanged: (value) async {
+                if (value.isEmpty) {
+                  setState(() {
+                    _userSearchResults.clear();
+                    _showUserDropdown = false;
+                  });
+                  return;
                 }
-                _selectedGender = user['gender'];
-              });
-            }
-          },
+
+                // Search users in real-time
+                try {
+                  final results = await _borrowService.findUsers(value);
+                  setState(() {
+                    _userSearchResults = results;
+                    _showUserDropdown = results.isNotEmpty;
+                  });
+                } catch (e) {
+                  // Handle error silently or show a message
+                  setState(() {
+                    _userSearchResults.clear();
+                    _showUserDropdown = false;
+                  });
+                }
+              },
+            ),
+
+            // Dropdown results
+            if (_showUserDropdown && _userSearchResults.isNotEmpty)
+              Positioned(
+                top: 60,
+                left: 0,
+                right: 0,
+                child: Material(
+                  elevation: 8,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    constraints: const BoxConstraints(maxHeight: 200),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      itemCount: _userSearchResults.length,
+                      itemBuilder: (context, index) {
+                        final user = _userSearchResults[index];
+                        return ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.blue.shade100,
+                            child: Text(
+                              (user['full_name'] ?? 'U')[0].toUpperCase(),
+                              style: const TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                          title: Text(
+                            user['full_name'] ?? 'Unknown',
+                            style: const TextStyle(fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text(
+                            user['phone'] ?? 'No phone',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          onTap: () {
+                            setState(() {
+                              _selectedExistingUserName = user['full_name'];
+                              _selectedExistingUserId = user['user_id'];
+                              _userSearchController.text =
+                                  user['full_name'] ?? '';
+                              _fullNameController.text =
+                                  user['full_name'] ?? '';
+                              _phoneController.text = user['phone'] ?? '';
+                              if (user['dob'] != null) {
+                                _userDob = DateTime.parse(user['dob']);
+                              }
+                              _selectedGender = user['gender'];
+                              _showUserDropdown = false;
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+          ],
         ),
+
+        // Selected user info
         if (_selectedExistingUserName != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: Text('Selected: $_selectedExistingUserName'),
+          Container(
+            margin: const EdgeInsets.only(top: 12),
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.green.shade50,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: Colors.green.shade200),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Colors.green.shade700,
+                  size: 20,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Selected User:',
+                        style: TextStyle(fontSize: 12, color: Colors.grey),
+                      ),
+                      Text(
+                        _selectedExistingUserName!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14,
+                        ),
+                      ),
+                      if (_phoneController.text.isNotEmpty)
+                        Text(
+                          _phoneController.text,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
       ],
     );
