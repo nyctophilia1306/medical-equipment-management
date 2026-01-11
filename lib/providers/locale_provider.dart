@@ -1,4 +1,4 @@
-build import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/user_settings.dart';
 import '../services/auth_service.dart';
 import '../services/user_settings_service.dart';
