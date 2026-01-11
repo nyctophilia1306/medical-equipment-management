@@ -251,7 +251,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Thiết bị đã được cập nhật thành công')),
+            const SnackBar(
+              content: Text('Thiết bị đã được cập nhật thành công'),
+            ),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
         }
@@ -302,7 +304,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Thiết bị mới đã được tạo thành công')),
+            const SnackBar(
+              content: Text('Thiết bị mới đã được tạo thành công'),
+            ),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
         }
@@ -466,6 +470,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _nameController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Tên Thiết Bị *',
                     hintText: 'Nhập tên thiết bị',
                   ),
@@ -481,6 +487,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _descriptionController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Mô Tả *',
                     hintText: 'Nhập mô tả thiết bị',
                   ),
@@ -500,6 +508,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _quantityController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Số Lượng *',
                     hintText: 'Nhập số lượng',
                   ),
@@ -554,6 +564,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _serialNumberController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Số Serial',
                     hintText: 'Nhập số serial (tùy chọn)',
                   ),
@@ -567,6 +579,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _qrCodeController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Mã QR/Barcode',
                     hintText: 'Giống số serial (tự động điền)',
                     enabled: false,
@@ -626,6 +640,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                       child: TextFormField(
                         controller: _manufacturerController,
                         decoration: const InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
                           labelText: 'Nhà Sản Xuất',
                           hintText: 'Nhập tên nhà sản xuất',
                         ),
@@ -636,6 +652,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                       child: TextFormField(
                         controller: _modelController,
                         decoration: const InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
                           labelText: 'Mẫu Mã',
                           hintText: 'Nhập mã mẫu',
                         ),
@@ -648,6 +666,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _imageUrlController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Đường Dẫn Hình Ảnh',
                     hintText: 'Nhập URL hình ảnh thiết bị',
                   ),
@@ -657,6 +677,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 TextFormField(
                   controller: _notesController,
                   decoration: const InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Ghi Chú',
                     hintText: 'Nhập ghi chú bổ sung',
                   ),
@@ -677,6 +699,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       return TextFormField(
         controller: _categoryController,
         decoration: const InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
           labelText: 'Danh mục *',
           hintText: 'Nhập danh mục thiết bị',
         ),

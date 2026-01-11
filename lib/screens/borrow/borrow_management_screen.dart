@@ -583,6 +583,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         TextFormField(
           controller: _fullNameController,
           decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
             labelText: AppLocalizations.of(context)!.fullNameRequired,
             hintText: AppLocalizations.of(context)!.enterFullName,
           ),
@@ -591,6 +593,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         TextFormField(
           controller: _emailController,
           decoration: const InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
             labelText: 'Email *',
             hintText: 'Nhập email',
           ),
@@ -600,6 +604,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         TextFormField(
           controller: _phoneController,
           decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
             labelText: AppLocalizations.of(context)!.phone,
             hintText: AppLocalizations.of(context)!.enterPhone,
           ),

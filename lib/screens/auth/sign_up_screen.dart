@@ -135,6 +135,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Địa chỉ email *',
                 prefixIcon: Icon(
                   Icons.email_outlined,
@@ -165,6 +167,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextFormField(
               controller: _userNameController,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Tên đăng nhập *',
                 prefixIcon: Icon(
                   Icons.person_outlined,
@@ -196,6 +200,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextFormField(
               controller: _fullNameController,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Họ và tên *',
                 prefixIcon: Icon(
                   Icons.badge_outlined,
@@ -225,6 +231,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Số điện thoại (không bắt buộc)',
                 prefixIcon: Icon(
                   Icons.phone_outlined,
@@ -253,6 +261,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               controller: _passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Mật khẩu *',
                 prefixIcon: Icon(
                   Icons.lock_outlined,
@@ -293,6 +303,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               controller: _confirmPasswordController,
               obscureText: _obscureConfirmPassword,
               decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Xác nhận mật khẩu *',
                 prefixIcon: Icon(
                   Icons.lock_outlined,

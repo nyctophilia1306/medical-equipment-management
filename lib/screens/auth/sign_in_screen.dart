@@ -549,6 +549,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: newPasswordController,
                   obscureText: obscureNewPassword,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Mật khẩu mới',
                     prefixIcon: Icon(
                       Icons.lock_outlined,
@@ -579,6 +581,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   controller: confirmPasswordController,
                   obscureText: obscureConfirmPassword,
                   decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
                     labelText: 'Xác nhận mật khẩu',
                     prefixIcon: Icon(
                       Icons.lock_outlined,
@@ -720,6 +724,8 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
                 labelText: 'Địa Chỉ Email',
                 border: OutlineInputBorder(),
               ),
