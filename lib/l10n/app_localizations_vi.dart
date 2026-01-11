@@ -631,4 +631,99 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get expectedReturnDate => 'Ngày Trả Dự Kiến';
+
+  @override
+  String get createRequest => 'Tạo Yêu Cầu';
+
+  @override
+  String get manageRequests => 'Quản Lý Yêu Cầu';
+
+  @override
+  String get searchEquipmentcatalog =>
+      'Tìm kiếm bằng tên, danh mục hoặc mã thiết bị...';
+
+  @override
+  String get list => 'Danh Sách';
+
+  @override
+  String get grid => 'Lưới';
+
+  @override
+  String get switchToListView => 'Chuyển sang chế độ danh sách';
+
+  @override
+  String get switchToGridView => 'Chuyển sang chế độ lưới';
+
+  @override
+  String welcomeTo(Object appName) {
+    return 'Chào mừng đến với $appName';
+  }
+
+  @override
+  String get emailOrUsername => 'Email hoặc Tên đăng nhập';
+
+  @override
+  String get pleaseEnterEmailOrUsername =>
+      'Vui lòng nhập email hoặc tên đăng nhập';
+
+  @override
+  String get pleaseEnterPassword => 'Vui lòng nhập mật khẩu';
+
+  @override
+  String passwordMustBeAtLeast(Object length) {
+    return 'Mật khẩu phải có ít nhất $length ký tự';
+  }
+
+  @override
+  String get forgotPassword => 'Quên Mật Khẩu?';
+
+  @override
+  String get continueAsGuest => 'Tiếp tục với tư cách Khách';
+
+  @override
+  String get dontHaveAnAccount => 'Chưa có tài khoản?';
+
+  @override
+  String get signUpNow => 'Đăng Ký Ngay';
+
+  @override
+  String get changePassword => 'Đổi Mật Khẩu';
+
+  @override
+  String get youNeedToChangeDefaultPassword =>
+      'Bạn cần thay đổi mật khẩu mặc định trước khi tiếp tục.';
+
+  @override
+  String get newPassword => 'Mật khẩu mới';
+
+  @override
+  String get confirmPassword => 'Xác nhận mật khẩu';
+
+  @override
+  String get pleaseEnterNewPassword => 'Vui lòng nhập mật khẩu mới';
+
+  @override
+  String get passwordsDoNotMatch => 'Mật khẩu không khớp';
+
+  @override
+  String get resetPassword => 'Đặt Lại Mật Khẩu';
+
+  @override
+  String get enterEmailForReset =>
+      'Nhập địa chỉ email của bạn và chúng tôi sẽ gửi liên kết để đặt lại mật khẩu.';
+
+  @override
+  String get emailAddress => 'Địa Chỉ Email';
+
+  @override
+  String get sendLink => 'Gửi Liên Kết';
+
+  @override
+  String get resetLinkSent => 'Đã gửi liên kết đặt lại';
+
+  @override
+  String get signInFailed => 'Đăng nhập thất bại';
+
+  @override
+  String get agree => 'Đồng Ý';
 }

@@ -1339,6 +1339,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Expected Return'**
   String get expectedReturnDate;
+
+  /// No description provided for @createRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Request'**
+  String get createRequest;
+
+  /// No description provided for @manageRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Requests'**
+  String get manageRequests;
+
+  /// No description provided for @searchEquipmentcatalog.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, category, or equipment code...'**
+  String get searchEquipmentcatalog;
+
+  /// No description provided for @list.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get list;
+
+  /// No description provided for @grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Grid'**
+  String get grid;
+
+  /// No description provided for @switchToListView.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to List View'**
+  String get switchToListView;
+
+  /// No description provided for @switchToGridView.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Grid View'**
+  String get switchToGridView;
+
+  /// No description provided for @welcomeTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to {appName}'**
+  String welcomeTo(Object appName);
+
+  /// No description provided for @emailOrUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Email or Username'**
+  String get emailOrUsername;
+
+  /// No description provided for @pleaseEnterEmailOrUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter email or username'**
+  String get pleaseEnterEmailOrUsername;
+
+  /// No description provided for @pleaseEnterPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter password'**
+  String get pleaseEnterPassword;
+
+  /// No description provided for @passwordMustBeAtLeast.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least {length} characters'**
+  String passwordMustBeAtLeast(Object length);
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot Password?'**
+  String get forgotPassword;
+
+  /// No description provided for @continueAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as Guest'**
+  String get continueAsGuest;
+
+  /// No description provided for @dontHaveAnAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account?'**
+  String get dontHaveAnAccount;
+
+  /// No description provided for @signUpNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up Now'**
+  String get signUpNow;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change Password'**
+  String get changePassword;
+
+  /// No description provided for @youNeedToChangeDefaultPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'You need to change your default password before continuing.'**
+  String get youNeedToChangeDefaultPassword;
+
+  /// No description provided for @newPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get newPassword;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @pleaseEnterNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter new password'**
+  String get pleaseEnterNewPassword;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
+
+  /// No description provided for @resetPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get resetPassword;
+
+  /// No description provided for @enterEmailForReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address and we\'ll send you a link to reset your password.'**
+  String get enterEmailForReset;
+
+  /// No description provided for @emailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailAddress;
+
+  /// No description provided for @sendLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Link'**
+  String get sendLink;
+
+  /// No description provided for @resetLinkSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset link sent'**
+  String get resetLinkSent;
+
+  /// No description provided for @signInFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in failed'**
+  String get signInFailed;
+
+  /// No description provided for @agree.
+  ///
+  /// In en, this message translates to:
+  /// **'Agree'**
+  String get agree;
 }
 
 class _AppLocalizationsDelegate

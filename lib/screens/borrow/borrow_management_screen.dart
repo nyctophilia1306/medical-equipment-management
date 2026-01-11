@@ -1356,9 +1356,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   controller: _tabController,
                   labelColor: Colors.white,
                   unselectedLabelColor: Colors.white70,
-                  tabs: const [
-                    Tab(text: 'Tạo Yêu Cầu'),
-                    Tab(text: 'Quản Lý Yêu Cầu'),
+                  tabs: [
+                    Tab(text: AppLocalizations.of(context)!.createRequest),
+                    Tab(text: AppLocalizations.of(context)!.manageRequests),
                   ],
                 ),
               ),

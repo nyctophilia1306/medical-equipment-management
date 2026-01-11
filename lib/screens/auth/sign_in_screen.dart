@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/constants.dart';
@@ -134,7 +135,7 @@ class _SignInScreenState extends State<SignInScreen> {
         const SizedBox(height: AppConstants.paddingMedium),
 
         Text(
-          'Chào mừng',
+          AppLocalizations.of(context)!.welcome,
           style: GoogleFonts.inter(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -145,7 +146,7 @@ class _SignInScreenState extends State<SignInScreen> {
         const SizedBox(height: AppConstants.paddingSmall),
 
         Text(
-          'Đăng nhập vào tài khoản ${AppConstants.appName} của bạn',
+          AppLocalizations.of(context)!.welcomeTo(AppConstants.appName),
           style: GoogleFonts.inter(
             fontSize: 16,
             color: AppColors.textSecondary,
@@ -180,7 +181,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: _emailController,
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: 'Email hoặc Tên đăng nhập',
+                labelText: AppLocalizations.of(context)!.emailOrUsername,
                 filled: true,
                 fillColor: Colors.white,
                 prefixIcon: Icon(
@@ -195,7 +196,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Hãy nhập email hoặc tên đăng nhập';
+                  return AppLocalizations.of(context)!.pleaseEnterEmailOrUsername;
                 }
                 return null;
               },
@@ -208,7 +209,7 @@ class _SignInScreenState extends State<SignInScreen> {
               controller: _passwordController,
               obscureText: _obscurePassword,
               decoration: InputDecoration(
-                labelText: 'Mật Khẩu',
+                labelText: AppLocalizations.of(context)!.password,
                 filled: true,
                 fillColor: Colors.white,
                 prefixIcon: Icon(
@@ -234,10 +235,10 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Vui lòng nhập mật khẩu';
+                  return AppLocalizations.of(context)!.pleaseEnterPassword;
                 }
                 if (value.length < AppConstants.minPasswordLength) {
-                  return 'Mật khẩu phải có ít nhất ${AppConstants.minPasswordLength} ký tự';
+                  return AppLocalizations.of(context)!.passwordMustBeAtLeast(AppConstants.minPasswordLength);
                 }
                 return null;
               },
@@ -251,7 +252,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: TextButton(
                 onPressed: _isLoading ? null : _showForgotPasswordDialog,
                 child: Text(
-                  'Quên Mật Khẩu?',
+                  AppLocalizations.of(context)!.forgotPassword,
                   style: GoogleFonts.inter(
                     fontSize: 14,
                     color: AppColors.primaryBlue,
@@ -287,7 +288,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       )
                     : Text(
-                        'Đăng Nhập',
+                        AppLocalizations.of(context)!.signIn,
                         style: GoogleFonts.inter(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -310,7 +311,7 @@ class _SignInScreenState extends State<SignInScreen> {
         onPressed: _continueAsGuest,
         icon: const Icon(Icons.visibility_outlined, size: 16),
         label: Text(
-          'Tiếp tục với tư cách Khách',
+          AppLocalizations.of(context)!.continueAsGuest,
           style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500),
         ),
         style: OutlinedButton.styleFrom(
@@ -339,7 +340,7 @@ class _SignInScreenState extends State<SignInScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Chưa có tài khoản? ',
+          AppLocalizations.of(context)!.dontHaveAnAccount,
           style: GoogleFonts.inter(
             fontSize: 14,
             color: AppColors.textSecondary,
@@ -352,7 +353,7 @@ class _SignInScreenState extends State<SignInScreen> {
             );
           },
           child: Text(
-            'Đăng Ký Ngay',
+            AppLocalizations.of(context)!.signUpNow,
             style: GoogleFonts.inter(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -533,7 +534,7 @@ class _SignInScreenState extends State<SignInScreen> {
       builder: (dialogContext) => StatefulBuilder(
         builder: (context, setState) => AlertDialog(
           title: Text(
-            'Đổi Mật Khẩu',
+            AppLocalizations.of(context)!.changePassword,
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           content: SingleChildScrollView(
@@ -541,7 +542,7 @@ class _SignInScreenState extends State<SignInScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Bạn cần thay đổi mật khẩu mặc định trước khi tiếp tục.',
+                  AppLocalizations.of(context)!.youNeedToChangeDefaultPassword,
                   style: GoogleFonts.inter(fontSize: 14),
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
@@ -551,7 +552,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Mật khẩu mới',
+                    labelText: AppLocalizations.of(context)!.newPassword,
                     prefixIcon: Icon(
                       Icons.lock_outlined,
                       color: AppColors.textSecondary,
@@ -583,7 +584,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Xác nhận mật khẩu',
+                    labelText: AppLocalizations.of(context)!.confirmPassword,
                     prefixIcon: Icon(
                       Icons.lock_outlined,
                       color: AppColors.textSecondary,
@@ -619,7 +620,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       // Validate passwords
                       if (newPasswordController.text.isEmpty) {
                         ScaffoldMessenger.of(dialogContext).showSnackBar(
-                          SnackBar(content: Text('Vui lòng nhập mật khẩu mới')),
+                          SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterNewPassword)),
                         );
                         return;
                       }
@@ -628,7 +629,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ScaffoldMessenger.of(dialogContext).showSnackBar(
                           SnackBar(
                             content: Text(
-                              'Mật khẩu phải có ít nhất ${AppConstants.minPasswordLength} ký tự',
+                              AppLocalizations.of(context)!.passwordMustBeAtLeast(AppConstants.minPasswordLength),
                             ),
                           ),
                         );
@@ -637,7 +638,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       if (newPasswordController.text !=
                           confirmPasswordController.text) {
                         ScaffoldMessenger.of(dialogContext).showSnackBar(
-                          SnackBar(content: Text('Mật khẩu không khớp')),
+                          SnackBar(content: Text(AppLocalizations.of(context)!.passwordsDoNotMatch)),
                         );
                         return;
                       }
@@ -688,7 +689,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
                   : Text(
-                      'Xác Nhận',
+                      AppLocalizations.of(context)!.confirm,
                       style: GoogleFonts.inter(
                         fontWeight: FontWeight.w600,
                         color: AppColors.primaryBlue,
@@ -709,25 +710,25 @@ class _SignInScreenState extends State<SignInScreen> {
       context: currentContext,
       builder: (dialogContext) => AlertDialog(
         title: Text(
-          'Đặt Lại Mật Khẩu',
+          AppLocalizations.of(context)!.resetPassword,
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Nhập địa chỉ email của bạn và chúng tôi sẽ gửi liên kết để đặt lại mật khẩu.',
+              AppLocalizations.of(context)!.enterEmailForReset,
               style: GoogleFonts.inter(fontSize: 14),
             ),
             const SizedBox(height: AppConstants.paddingMedium),
             TextFormField(
               controller: emailController,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Địa Chỉ Email',
-                border: OutlineInputBorder(),
+                labelText: AppLocalizations.of(context)!.emailAddress,
+                border: const OutlineInputBorder(),
               ),
             ),
           ],
@@ -735,7 +736,7 @@ class _SignInScreenState extends State<SignInScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () {
@@ -750,9 +751,9 @@ class _SignInScreenState extends State<SignInScreen> {
                 _authService.resetPassword(email).then((_) {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         content: Text(
-                          'Liên kết đặt lại mật khẩu đã được gửi đến email của bạn',
+                          AppLocalizations.of(context)!.resetLinkSent,
                         ),
                         backgroundColor: AppColors.successGreen,
                       ),
@@ -761,7 +762,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 });
               }
             },
-            child: const Text('Gửi Liên Kết'),
+            child: Text(AppLocalizations.of(context)!.sendLink),
           ),
         ],
       ),
@@ -777,14 +778,14 @@ class _SignInScreenState extends State<SignInScreen> {
       context: currentContext,
       builder: (dialogContext) => AlertDialog(
         title: Text(
-          'Đăng Nhập Thất Bại',
+          AppLocalizations.of(context)!.signInFailed,
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Text(message, style: GoogleFonts.inter(fontSize: 14)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Đồng Ý'),
+            child: Text(AppLocalizations.of(context)!.agree),
           ),
         ],
       ),

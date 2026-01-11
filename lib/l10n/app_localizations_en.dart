@@ -631,4 +631,98 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get expectedReturnDate => 'Expected Return';
+
+  @override
+  String get createRequest => 'Create Request';
+
+  @override
+  String get manageRequests => 'Manage Requests';
+
+  @override
+  String get searchEquipmentcatalog =>
+      'Search by name, category, or equipment code...';
+
+  @override
+  String get list => 'List';
+
+  @override
+  String get grid => 'Grid';
+
+  @override
+  String get switchToListView => 'Switch to List View';
+
+  @override
+  String get switchToGridView => 'Switch to Grid View';
+
+  @override
+  String welcomeTo(Object appName) {
+    return 'Welcome to $appName';
+  }
+
+  @override
+  String get emailOrUsername => 'Email or Username';
+
+  @override
+  String get pleaseEnterEmailOrUsername => 'Please enter email or username';
+
+  @override
+  String get pleaseEnterPassword => 'Please enter password';
+
+  @override
+  String passwordMustBeAtLeast(Object length) {
+    return 'Password must be at least $length characters';
+  }
+
+  @override
+  String get forgotPassword => 'Forgot Password?';
+
+  @override
+  String get continueAsGuest => 'Continue as Guest';
+
+  @override
+  String get dontHaveAnAccount => 'Don\'t have an account?';
+
+  @override
+  String get signUpNow => 'Sign Up Now';
+
+  @override
+  String get changePassword => 'Change Password';
+
+  @override
+  String get youNeedToChangeDefaultPassword =>
+      'You need to change your default password before continuing.';
+
+  @override
+  String get newPassword => 'New Password';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get pleaseEnterNewPassword => 'Please enter new password';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get resetPassword => 'Reset Password';
+
+  @override
+  String get enterEmailForReset =>
+      'Enter your email address and we\'ll send you a link to reset your password.';
+
+  @override
+  String get emailAddress => 'Email Address';
+
+  @override
+  String get sendLink => 'Send Link';
+
+  @override
+  String get resetLinkSent => 'Reset link sent';
+
+  @override
+  String get signInFailed => 'Sign in failed';
+
+  @override
+  String get agree => 'Agree';
 }

@@ -320,7 +320,7 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                         controller: _searchController,
                         decoration: InputDecoration(
                           hintText:
-                              'Tìm kiếm bằng tên, danh mục hoặc mã thiết bị...',
+                              AppLocalizations.of(context)!.searchEquipmentcatalog,
                           prefixIcon: const Icon(Icons.search),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(
@@ -344,7 +344,8 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                           icon: Icon(
                             _isGrid ? Icons.view_list : Icons.grid_view,
                           ),
-                          label: Text(_isGrid ? 'Danh sách' : 'Lưới'),
+                          label: Text(_isGrid 
+                          ? AppLocalizations.of(context)!.list : AppLocalizations.of(context)!.grid),
                         ),
                       ),
                     ),
@@ -536,19 +537,19 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
                         ),
                         DropdownMenuItem(
                           value: 'available',
-                          child: Text(l10n.available),
+                          child: Text(AppLocalizations.of(context)!.available),
                         ),
                         DropdownMenuItem(
                           value: 'borrowed',
-                          child: Text(l10n.borrowed),
+                          child: Text(AppLocalizations.of(context)!.borrowed),
                         ),
                         DropdownMenuItem(
                           value: 'maintenance',
-                          child: Text(l10n.maintenance),
+                          child: Text(AppLocalizations.of(context)!.maintenance),
                         ),
                         DropdownMenuItem(
                           value: 'out_of_order',
-                          child: Text(l10n.outOfOrder),
+                          child: Text(AppLocalizations.of(context)!.outOfOrder),
                         ),
                       ],
                       onChanged: (v) {
@@ -563,12 +564,12 @@ class _EquipmentCatalogScreenState extends State<EquipmentCatalogScreen> {
               // Grid/List toggle
               Tooltip(
                 message: _isGrid
-                    ? 'Chuyển sang chế độ danh sách'
-                    : 'Chuyển sang chế độ lưới',
+                    ? AppLocalizations.of(context)!.switchToListView
+                    : AppLocalizations.of(context)!.switchToGridView,
                 child: OutlinedButton.icon(
                   onPressed: () => setState(() => _isGrid = !_isGrid),
                   icon: Icon(_isGrid ? Icons.view_list : Icons.grid_view),
-                  label: Text(_isGrid ? 'Danh sách' : 'Lưới'),
+                  label: Text(_isGrid ? AppLocalizations.of(context)!.list : AppLocalizations.of(context)!.grid),
                 ),
               ),
             ],
