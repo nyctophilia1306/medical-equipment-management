@@ -37,6 +37,17 @@ class GroupedBorrowRequestCard extends StatefulWidget {
 class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
   bool _isExpanded = false;
 
+  @override
+  void didUpdateWidget(GroupedBorrowRequestCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Collapse card if it becomes rejected
+    if (_isRejected && _isExpanded) {
+      setState(() {
+        _isExpanded = false;
+      });
+    }
+  }
+
   // Get the first request for common information
   BorrowRequest get _firstRequest => widget.requests.first;
 
@@ -100,17 +111,21 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: _isRejected ? Colors.grey[400]! : _statusColor.withValues(alpha: 0.3), 
+          color: _isRejected
+              ? Colors.grey[400]!
+              : _statusColor.withValues(alpha: 0.3),
           width: _isRejected ? 1 : 2,
         ),
       ),
       child: InkWell(
-        onTap: () {
-          setState(() {
-            _isExpanded = !_isExpanded;
-          });
-          widget.onTap?.call();
-        },
+        onTap: _isRejected
+            ? null
+            : () {
+                setState(() {
+                  _isExpanded = !_isExpanded;
+                });
+                widget.onTap?.call();
+              },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -170,13 +185,14 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                   ),
                   const Spacer(),
 
-                  // Expand/Collapse Icon
-                  Icon(
-                    _isExpanded
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: Colors.grey[600],
-                  ),
+                  // Expand/Collapse Icon (hidden for rejected)
+                  if (!_isRejected)
+                    Icon(
+                      _isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: Colors.grey[600],
+                    ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -184,7 +200,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
               // User Information
               Row(
                 children: [
-                  Icon(Icons.person, size: 16, color: _isRejected ? Colors.grey[400] : Colors.grey),
+                  Icon(
+                    Icons.person,
+                    size: 16,
+                    color: _isRejected ? Colors.grey[400] : Colors.grey,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
@@ -258,7 +278,10 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                       ElevatedButton.icon(
                         onPressed: widget.onApprove,
                         icon: const Icon(Icons.check_circle, size: 16),
-                        label: Text(AppLocalizations.of(context)!.approve, style: const TextStyle(fontSize: 12)),
+                        label: Text(
+                          AppLocalizations.of(context)!.approve,
+                          style: const TextStyle(fontSize: 12),
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
@@ -273,7 +296,10 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                       OutlinedButton.icon(
                         onPressed: widget.onReject,
                         icon: const Icon(Icons.cancel, size: 16),
-                        label: Text(AppLocalizations.of(context)!.reject, style: const TextStyle(fontSize: 12)),
+                        label: Text(
+                          AppLocalizations.of(context)!.reject,
+                          style: const TextStyle(fontSize: 12),
+                        ),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.red,
                           side: const BorderSide(color: Colors.red),
@@ -293,7 +319,10 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                     TextButton.icon(
                       onPressed: widget.onReturn,
                       icon: const Icon(Icons.assignment_return, size: 16),
-                      label: Text(AppLocalizations.of(context)!.returnEquipment, style: const TextStyle(fontSize: 12)),
+                      label: Text(
+                        AppLocalizations.of(context)!.returnEquipment,
+                        style: const TextStyle(fontSize: 12),
+                      ),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.primaryBlue,
                       ),
@@ -323,9 +352,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
     return Row(
       children: [
         Icon(
-          icon, 
-          size: 13, 
-          color: _isRejected ? Colors.grey[400] : (isOverdue ? Colors.red : Colors.grey),
+          icon,
+          size: 13,
+          color: _isRejected
+              ? Colors.grey[400]
+              : (isOverdue ? Colors.red : Colors.grey),
         ),
         const SizedBox(width: 4),
         Expanded(
@@ -335,7 +366,7 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
               Text(
                 label,
                 style: TextStyle(
-                  fontSize: 9, 
+                  fontSize: 9,
                   color: _isRejected ? Colors.grey[500] : Colors.grey[600],
                 ),
               ),
@@ -344,7 +375,9 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                 style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: _isRejected ? Colors.grey[600] : (isOverdue ? Colors.red : Colors.black87),
+                  color: _isRejected
+                      ? Colors.grey[600]
+                      : (isOverdue ? Colors.red : Colors.black87),
                 ),
               ),
             ],
