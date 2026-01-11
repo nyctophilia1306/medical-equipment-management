@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+build import 'package:flutter/material.dart';
 import '../models/user_settings.dart';
 import '../services/auth_service.dart';
 import '../services/user_settings_service.dart';
@@ -16,10 +16,12 @@ class LocaleProvider extends ChangeNotifier {
       final currentUser = _authService.currentUser;
       if (currentUser != null) {
         final settings = await _settingsService.getUserSettings(currentUser.id);
-        if (settings != null) {
-          _locale = Locale(settings.languageCode);
-          notifyListeners();
-        }
+        // Convert 'vn' to 'vi' for Locale (UserSettings uses 'vn', Locale uses 'vi')
+        final languageCode = settings.language == UserSettings.languageEnglish
+            ? 'en'
+            : 'vi';
+        _locale = Locale(languageCode);
+        notifyListeners();
       }
     } catch (e) {
       // If there's an error, keep default locale
