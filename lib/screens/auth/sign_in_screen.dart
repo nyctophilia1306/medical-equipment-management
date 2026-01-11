@@ -181,6 +181,8 @@ class _SignInScreenState extends State<SignInScreen> {
               keyboardType: TextInputType.text,
               decoration: InputDecoration(
                 labelText: 'Email hoặc Tên đăng nhập',
+                filled: true,
+                fillColor: Colors.white,
                 prefixIcon: Icon(
                   Icons.person_outlined,
                   color: AppColors.textSecondary,
@@ -207,6 +209,8 @@ class _SignInScreenState extends State<SignInScreen> {
               obscureText: _obscurePassword,
               decoration: InputDecoration(
                 labelText: 'Mật Khẩu',
+                filled: true,
+                fillColor: Colors.white,
                 prefixIcon: Icon(
                   Icons.lock_outlined,
                   color: AppColors.textSecondary,
