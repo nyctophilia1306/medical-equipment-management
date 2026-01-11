@@ -166,7 +166,6 @@
   "errorOpeningFile": "Lỗi mở tệp",
   "equipmentCatalogTitle": "Danh Mục Thiết Bị",
   "equipmentCatalogSubtitle": "Duyệt và tìm kiếm thiết bị y tế",
-  "borrower": "Người Mượn",
   "fullNameRequired": "Họ Và Tên *",
   "enterFullName": "Nhập họ và tên",
   "enterPhone": "Nhập số điện thoại",
@@ -200,5 +199,12 @@
   "analyticsSubtitle": "Thống kê chi tiết",
   "auditLogsSubtitle": "Theo dõi hoạt động",
   "categoryNameRequired": "Tên danh mục không được để trống",
-  "pleasSelectCategoryForAll": "Vui lòng chọn danh mục cho tất cả thiết bị"
+  "pleasSelectCategoryForAll": "Vui lòng chọn danh mục cho tất cả thiết bị",
+  "pendingApproval": "Chờ Duyệt",
+  "rejected": "Từ Chối",
+  "approve": "Duyệt",
+  "reject": "Từ Chối",
+  "active": "Đang Hoạt Động",
+  "equipmentList": "Danh Sách Thiết Bị",
+  "expectedReturnDate": "Ngày Trả Dự Kiến"
 }

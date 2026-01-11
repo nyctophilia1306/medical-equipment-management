@@ -610,4 +610,25 @@ class AppLocalizationsVi extends AppLocalizations {
   @override
   String get pleasSelectCategoryForAll =>
       'Vui lòng chọn danh mục cho tất cả thiết bị';
+
+  @override
+  String get pendingApproval => 'Chờ Duyệt';
+
+  @override
+  String get rejected => 'Từ Chối';
+
+  @override
+  String get approve => 'Duyệt';
+
+  @override
+  String get reject => 'Từ Chối';
+
+  @override
+  String get active => 'Đang Hoạt Động';
+
+  @override
+  String get equipmentList => 'Danh Sách Thiết Bị';
+
+  @override
+  String get expectedReturnDate => 'Ngày Trả Dự Kiến';
 }

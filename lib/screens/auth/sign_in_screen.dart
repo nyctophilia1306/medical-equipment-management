@@ -304,10 +304,10 @@ class _SignInScreenState extends State<SignInScreen> {
       constraints: const BoxConstraints(maxWidth: 400),
       child: OutlinedButton.icon(
         onPressed: _continueAsGuest,
-        icon: const Icon(Icons.visibility_outlined, size: 20),
+        icon: const Icon(Icons.visibility_outlined, size: 16),
         label: Text(
           'Tiếp tục với tư cách Khách',
-          style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+          style: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500),
         ),
         style: OutlinedButton.styleFrom(
           foregroundColor: AppColors.primaryBlue,
@@ -317,7 +317,7 @@ class _SignInScreenState extends State<SignInScreen> {
               AppConstants.borderRadiusMedium,
             ),
           ),
-          padding: const EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
         ),
       ),
     );

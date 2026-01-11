@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/borrow_request.dart';
 import '../constants/app_colors.dart';
+import '../l10n/app_localizations.dart';
 
 /// Widget that displays a group of borrow requests sharing the same request serial
 /// Shows request serial, user info, dates, and expandable equipment list
@@ -75,29 +76,33 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
     return AppColors.primaryBlue;
   }
 
-  String get _statusText {
-    if (_allReturned) return 'Đã trả';
-    if (_isRejected) return 'Từ chối'; // Show rejected status
-    if (_isPending) return 'Chờ duyệt'; // Show pending status
-    if (_isApproved) return 'Đã duyệt'; // Show approved status
+  String _getStatusText(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    if (_allReturned) return l10n.returned; // 'Returned' / 'Đã trả'
+    if (_isRejected) return l10n.rejected; // 'Rejected' / 'Từ chối'
+    if (_isPending) return l10n.pendingApproval; // 'Pending' / 'Chờ duyệt'
+    if (_isApproved) return l10n.approvedLabel; // 'Approved' / 'Đã duyệt'
     if (_partiallyReturned) {
-      return 'Đã trả một phần ($_returnedCount/${widget.requests.length})';
+      return '${l10n.returned} $_returnedCount/${widget.requests.length}'; // 'Returned X/Y' / 'Đã trả X/Y'
     }
-    if (_isOverdue) return 'Quá hạn';
-    return 'Đang hoạt động';
+    if (_isOverdue) return l10n.overdue; // 'Overdue' / 'Quá hạn'
+    return l10n.active; // 'Active' / 'Đang hoạt động'
   }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: _isRejected ? 0 : 2, // Flat elevation for rejected
+      elevation: _isRejected ? 1 : 2, // Reduced elevation for rejected
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       color: _isRejected
-          ? Colors.grey[200]
-          : null, // Grey background for rejected
+          ? Colors.grey[100]
+          : null, // Light grey background for rejected
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: _statusColor.withValues(alpha: 0.3), width: 2),
+        side: BorderSide(
+          color: _isRejected ? Colors.grey[400]! : _statusColor.withValues(alpha: 0.3), 
+          width: _isRejected ? 1 : 2,
+        ),
       ),
       child: InkWell(
         onTap: () {
@@ -179,14 +184,15 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
               // User Information
               Row(
                 children: [
-                  const Icon(Icons.person, size: 18, color: Colors.grey),
+                  Icon(Icons.person, size: 16, color: _isRejected ? Colors.grey[400] : Colors.grey),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       _firstRequest.userName,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: _isRejected ? Colors.grey[600] : Colors.black87,
                       ),
                     ),
                   ),
@@ -199,16 +205,18 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                 children: [
                   Expanded(
                     child: _buildDateInfo(
+                      context: context,
                       icon: Icons.calendar_today,
-                      label: 'Borrow',
+                      label: AppLocalizations.of(context)!.borrowDate,
                       date: _firstRequest.borrowDate,
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: _buildDateInfo(
+                      context: context,
                       icon: Icons.event,
-                      label: 'Expected Return',
+                      label: AppLocalizations.of(context)!.expectedReturnDate,
                       date: _firstRequest.expectedReturnDate,
                       isOverdue: _isOverdue,
                     ),
@@ -230,11 +238,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      _statusText,
+                      _getStatusText(context),
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: FontWeight.w600,
-                        color: _statusColor,
+                        color: _isRejected ? Colors.grey[600] : _statusColor,
                       ),
                     ),
                   ),
@@ -249,8 +257,8 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                     if (widget.onApprove != null)
                       ElevatedButton.icon(
                         onPressed: widget.onApprove,
-                        icon: const Icon(Icons.check_circle, size: 18),
-                        label: const Text('Duyệt'),
+                        icon: const Icon(Icons.check_circle, size: 16),
+                        label: Text(AppLocalizations.of(context)!.approve, style: const TextStyle(fontSize: 12)),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           foregroundColor: Colors.white,
@@ -264,8 +272,8 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                     if (widget.onReject != null)
                       OutlinedButton.icon(
                         onPressed: widget.onReject,
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: const Text('Từ Chối'),
+                        icon: const Icon(Icons.cancel, size: 16),
+                        label: Text(AppLocalizations.of(context)!.reject, style: const TextStyle(fontSize: 12)),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.red,
                           side: const BorderSide(color: Colors.red),
@@ -284,8 +292,8 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                       widget.onReturn != null)
                     TextButton.icon(
                       onPressed: widget.onReturn,
-                      icon: const Icon(Icons.assignment_return, size: 18),
-                      label: const Text('Return'),
+                      icon: const Icon(Icons.assignment_return, size: 16),
+                      label: Text(AppLocalizations.of(context)!.returnEquipment, style: const TextStyle(fontSize: 12)),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.primaryBlue,
                       ),
@@ -306,6 +314,7 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
   }
 
   Widget _buildDateInfo({
+    required BuildContext context,
     required IconData icon,
     required String label,
     required DateTime date,
@@ -313,7 +322,11 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
   }) {
     return Row(
       children: [
-        Icon(icon, size: 14, color: isOverdue ? Colors.red : Colors.grey),
+        Icon(
+          icon, 
+          size: 13, 
+          color: _isRejected ? Colors.grey[400] : (isOverdue ? Colors.red : Colors.grey),
+        ),
         const SizedBox(width: 4),
         Expanded(
           child: Column(
@@ -321,14 +334,17 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
             children: [
               Text(
                 label,
-                style: TextStyle(fontSize: 10, color: Colors.grey[600]),
+                style: TextStyle(
+                  fontSize: 9, 
+                  color: _isRejected ? Colors.grey[500] : Colors.grey[600],
+                ),
               ),
               Text(
                 '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 11,
                   fontWeight: FontWeight.w500,
-                  color: isOverdue ? Colors.red : Colors.black87,
+                  color: _isRejected ? Colors.grey[600] : (isOverdue ? Colors.red : Colors.black87),
                 ),
               ),
             ],
@@ -342,12 +358,12 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Equipment List:',
+        Text(
+          AppLocalizations.of(context)!.equipmentList,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 13,
             fontWeight: FontWeight.w600,
-            color: Colors.black87,
+            color: _isRejected ? Colors.grey[600] : Colors.black87,
           ),
         ),
         const SizedBox(height: 8),
