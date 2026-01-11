@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/constants.dart';
 import '../../models/user_settings.dart';
+import '../../providers/locale_provider.dart';
 import '../../services/auth_service.dart';
 import '../../services/user_settings_service.dart';
 
@@ -63,8 +65,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
         throw Exception('No authenticated user');
       }
 
+      // Update language in database
       await _settingsService.updateLanguage(currentUser.id, language);
-      
+
+      // Update locale provider to change app language immediately
+      if (mounted) {
+        final localeProvider = Provider.of<LocaleProvider>(
+          context,
+          listen: false,
+        );
+        final newLocale = language == UserSettings.languageEnglish
+            ? const Locale('en')
+            : const Locale('vi');
+        await localeProvider.setLocale(newLocale);
+      }
+
       // Reload settings to get updated data
       await _loadSettings();
 
@@ -108,7 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       }
 
       await _settingsService.updateEmailNotifications(currentUser.id, enabled);
-      
+
       // Reload settings to get updated data
       await _loadSettings();
 
@@ -116,9 +131,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              enabled
-                  ? 'Đã bật thông báo email'
-                  : 'Đã tắt thông báo email',
+              enabled ? 'Đã bật thông báo email' : 'Đã tắt thông báo email',
             ),
             backgroundColor: Colors.green,
           ),
@@ -161,11 +174,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             child: Row(
               children: [
-                Icon(
-                  Icons.settings,
-                  size: 32,
-                  color: AppColors.primaryBlue,
-                ),
+                Icon(Icons.settings, size: 32, color: AppColors.primaryBlue),
                 const SizedBox(width: 16),
                 Text(
                   'Cài Đặt',
@@ -184,30 +193,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null
-                    ? Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.error_outline,
-                              size: 64,
-                              color: Colors.red,
-                            ),
-                            const SizedBox(height: 16),
-                            Text(
-                              _error!,
-                              style: TextStyle(color: Colors.red),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: _loadSettings,
-                              child: const Text('Retry'),
-                            ),
-                          ],
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error_outline, size: 64, color: Colors.red),
+                        const SizedBox(height: 16),
+                        Text(
+                          _error!,
+                          style: TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
                         ),
-                      )
-                    : _buildSettingsContent(),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _loadSettings,
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  )
+                : _buildSettingsContent(),
           ),
         ],
       ),
@@ -247,9 +252,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildSettingsCard(
             title: 'Thông Báo',
             icon: Icons.notifications,
-            children: [
-              _buildNotificationToggle(),
-            ],
+            children: [_buildNotificationToggle()],
           ),
         ],
       ),
@@ -290,11 +293,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       AppConstants.borderRadiusMedium,
                     ),
                   ),
-                  child: Icon(
-                    icon,
-                    color: AppColors.primaryBlue,
-                    size: 24,
-                  ),
+                  child: Icon(icon, color: AppColors.primaryBlue, size: 24),
                 ),
                 const SizedBox(width: 12),
                 Text(
@@ -327,10 +326,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       trailing: isSelected
-          ? Icon(
-              Icons.check_circle,
-              color: AppColors.primaryBlue,
-            )
+          ? Icon(Icons.check_circle, color: AppColors.primaryBlue)
           : null,
       onTap: isSelected ? null : () => _updateLanguage(value),
     );
@@ -348,10 +344,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       subtitle: Text(
         'Nhận thông báo về yêu cầu mượn, duyệt, và nhắc nhở',
-        style: GoogleFonts.inter(
-          fontSize: 13,
-          color: AppColors.textSecondary,
-        ),
+        style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondary),
       ),
       value: _settings?.emailNotifications ?? true,
       activeThumbColor: AppColors.primaryBlue,

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'l10n/app_localizations.dart';
 import 'constants/app_theme.dart';
 import 'constants/constants.dart';
+import 'providers/locale_provider.dart';
 import 'services/auth_service.dart';
 import 'screens/auth/sign_in_screen.dart';
 import 'screens/dashboard/main_dashboard.dart';
@@ -18,7 +20,12 @@ void main() async {
     anonKey: AppConstants.supabaseAnonKey,
   );
 
-  runApp(const MedEquipApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LocaleProvider(),
+      child: const MedEquipApp(),
+    ),
+  );
 }
 
 class MedEquipApp extends StatelessWidget {
@@ -26,25 +33,29 @@ class MedEquipApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConstants.appName,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.system,
-      locale: const Locale('vi'), // Vietnamese only
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('vi')], // Vietnamese only
-      home: const AuthGate(),
-      routes: {
-        '/dashboard': (context) => const MainDashboard(),
-        CategoryManagementScreen.routeName: (context) =>
-            const CategoryManagementScreen(),
+    return Consumer<LocaleProvider>(
+      builder: (context, localeProvider, child) {
+        return MaterialApp(
+          title: AppConstants.appName,
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.system,
+          locale: localeProvider.locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('vi')],
+          home: const AuthGate(),
+          routes: {
+            '/dashboard': (context) => const MainDashboard(),
+            CategoryManagementScreen.routeName: (context) =>
+                const CategoryManagementScreen(),
+          },
+        );
       },
     );
   }
@@ -70,6 +81,15 @@ class _AuthGateState extends State<AuthGate> {
   Future<void> _checkInitialAuth() async {
     try {
       await _authService.initialize();
+
+      // Initialize locale from user settings if authenticated
+      if (_authService.isAuthenticated && mounted) {
+        final localeProvider = Provider.of<LocaleProvider>(
+          context,
+          listen: false,
+        );
+        await localeProvider.initializeLocale();
+      }
     } catch (e) {
       // Handle initialization error
     } finally {
