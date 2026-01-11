@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/constants.dart';
 import '../../services/statistics_service.dart';
+import '../../l10n/app_localizations.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({super.key});
@@ -80,7 +81,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
-        title: const Text('Thống Kê & Phân Tích'),
+        title: Text(AppLocalizations.of(context)!.analyticsAndStatistics),
         elevation: 0,
         actions: [
           IconButton(icon: const Icon(Icons.refresh), onPressed: _loadData),
@@ -97,9 +98,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 // Chart Type Selector
                 DropdownButtonFormField<String>(
                   initialValue: _selectedChart,
-                  decoration: const InputDecoration(
-                    labelText: 'Chọn loại biểu đồ',
-                    prefixIcon: Icon(Icons.analytics_outlined),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.selectChartType,
+                    prefixIcon: const Icon(Icons.analytics_outlined),
                   ),
                   items: _chartTypes.map((type) {
                     return DropdownMenuItem(value: type, child: Text(type));
@@ -156,14 +157,14 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       case 'Tỷ lệ trả lại':
         return _buildReturnRateChart();
       default:
-        return const Center(child: Text('Chart not available'));
+        return Center(child: Text(AppLocalizations.of(context)!.chartNotAvailable));
     }
   }
 
   Widget _buildEquipmentUsageChart() {
     return _buildChartCard(
-      title: 'Thiết bị sử dụng theo thời gian',
-      description: 'Hiển thị xu hướng mượn thiết bị trong khoảng thời gian đã chọn',
+      title: AppLocalizations.of(context)!.equipmentUsageOverTime,
+      description: AppLocalizations.of(context)!.showEquipmentBorrowingTrendsOverSelectedPeriod,
       chart: SizedBox(
         height: 300,
         child: LineChart(
@@ -185,13 +186,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
                     final days = [
-                      'Thứ 2',
-                      'Thứ 3',
-                      'Thứ 4',
-                      'Thứ 5',
-                      'Thứ 6',
-                      'Thứ 7',
-                      'Chủ Nhật',
+                      AppLocalizations.of(context)!.monday,
+                      AppLocalizations.of(context)!.tuesday,
+                      AppLocalizations.of(context)!.wednesday,
+                      AppLocalizations.of(context)!.thursday,
+                      AppLocalizations.of(context)!.friday,
+                      AppLocalizations.of(context)!.saturday,
+                      AppLocalizations.of(context)!.sunday,
                     ];
                     return Text(
                       days[value.toInt() % 7],
@@ -233,8 +234,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   Widget _buildBorrowTrendsByCategoryChart() {
     return _buildChartCard(
-      title: 'Xu hướng mượn theo danh mục',
-      description: 'Yêu cầu mượn thiết bị được nhóm theo danh mục',
+      title: AppLocalizations.of(context)!.borrowTrendsByCategory,
+      description: AppLocalizations.of(context)!.borrowRequestsGroupedByCategory,
       chart: SizedBox(
         height: 300,
         child: BarChart(
@@ -255,12 +256,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    const categories = [
-                      'Danh mục A',
-                      'Danh mục B',
-                      'Danh mục C',
-                      'Danh mục D',
-                      'Danh mục E',
+                    final categories = [
+                      AppLocalizations.of(context)!.categoryA,
+                      AppLocalizations.of(context)!.categoryB,
+                      AppLocalizations.of(context)!.categoryC,
+                      AppLocalizations.of(context)!.categoryD,
+                      AppLocalizations.of(context)!.categoryE,
                     ];
                     if (value.toInt() < categories.length) {
                       return Text(
@@ -318,8 +319,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   Widget _buildEquipmentStatusPieChart() {
     return _buildChartCard(
-      title: 'Trạng thái thiết bị',
-      description: 'Phân bố trạng thái hiện tại của tất cả thiết bị',
+      title: AppLocalizations.of(context)!.equipmentStatus,
+      description: AppLocalizations.of(context)!.distributionOfCurrentStatusOfAllEquipment,
       chart: SizedBox(
         height: 300,
         child: PieChart(
@@ -329,7 +330,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
             sections: [
               PieChartSectionData(
                 value: 45,
-                title: 'Sẵn có',
+                title: AppLocalizations.of(context)!.available,
                 color: AppColors.successGreen,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(
@@ -340,7 +341,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               ),
               PieChartSectionData(
                 value: 30,
-                title: 'Đang mượn',
+                title: AppLocalizations.of(context)!.currentlyBorrowed,
                 color: AppColors.warningYellow,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(
@@ -351,7 +352,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               ),
               PieChartSectionData(
                 value: 15,
-                title: 'Bảo trì',
+                title: AppLocalizations.of(context)!.maintenance,
                 color: AppColors.primaryBlue,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(
@@ -362,7 +363,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               ),
               PieChartSectionData(
                 value: 10,
-                title: 'Hỏng',
+                title: AppLocalizations.of(context)!.broken,
                 color: AppColors.errorRed,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(
@@ -380,8 +381,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   Widget _buildUserActivityChart() {
     return _buildChartCard(
-      title: 'Hoạt động người dùng',
-      description: 'Số lượng người dùng hoạt động mỗi ngày',
+      title: AppLocalizations.of(context)!.userActivity,
+      description: AppLocalizations.of(context)!.numberOfActiveUsersPerDay,
       chart: SizedBox(
         height: 300,
         child: LineChart(
@@ -402,7 +403,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) => Text(
-                    'Ngày ${value.toInt() + 1}',
+                    '${AppLocalizations.of(context)!.day} ${value.toInt() + 1}',
                     style: const TextStyle(fontSize: 10),
                   ),
                 ),
@@ -440,8 +441,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   Widget _buildTopBorrowedEquipmentChart() {
     return _buildChartCard(
-      title: 'Top Thiết bị được mượn',
-      description: 'Các thiết bị được mượn nhiều nhất',
+      title: AppLocalizations.of(context)!.topBorrowedEquipment,
+      description: AppLocalizations.of(context)!.mostBorrowedEquipment,
       chart: SizedBox(
         height: 300,
         child: BarChart(
@@ -462,12 +463,12 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 sideTitles: SideTitles(
                   showTitles: true,
                   getTitlesWidget: (value, meta) {
-                    const items = [
-                      'Thiết bị 1',
-                      'Thiết bị 2',
-                      'Thiết bị 3',
-                      'Thiết bị 4',
-                      'Thiết bị 5',
+                    final items = [
+                      AppLocalizations.of(context)!.equipment1,
+                      AppLocalizations.of(context)!.equipment2,
+                      AppLocalizations.of(context)!.equipment3,
+                      AppLocalizations.of(context)!.equipment4,
+                      AppLocalizations.of(context)!.equipment5,
                     ];
                     if (value.toInt() < items.length) {
                       return Text(
@@ -527,8 +528,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
 
   Widget _buildReturnRateChart() {
     return _buildChartCard(
-      title: 'Phân tích tỷ lệ trả',
-      description: 'Trả đúng hạn và trả muộn',
+      title: AppLocalizations.of(context)!.returnRateAnalysis,
+      description: AppLocalizations.of(context)!.onTimeAndLateReturns,
       chart: SizedBox(
         height: 300,
         child: PieChart(
@@ -538,7 +539,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
             sections: [
               PieChartSectionData(
                 value: 75,
-                title: 'Trả đúng hạn\n75%',
+                title: AppLocalizations.of(context)!.onTimeReturn + '\n75%',
                 color: AppColors.successGreen,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(
@@ -549,7 +550,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               ),
               PieChartSectionData(
                 value: 15,
-                title: 'Trả muộn\n15%',
+                title: AppLocalizations.of(context)!.lateReturn + '\n15%',
                 color: AppColors.warningYellow,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(
@@ -560,7 +561,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               ),
               PieChartSectionData(
                 value: 10,
-                title: 'Quá hạn\n10%',
+                title: AppLocalizations.of(context)!.notReturned + '\n10%',
                 color: AppColors.errorRed,
                 radius: 100,
                 titleStyle: GoogleFonts.inter(

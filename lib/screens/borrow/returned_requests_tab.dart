@@ -93,7 +93,7 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = 'Failed to load returned requests: $e';
+        _error = AppLocalizations.of(context)!.failedToLoadReturnedRequests(e.toString());
       });
     }
   }
@@ -212,7 +212,7 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Failed to load equipment: $e')));
+        ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.failedToLoadEquipment(e.toString()))));
       }
     }
   }
@@ -254,7 +254,7 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
       setState(() => _loading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to delete equipment: $e')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.failedToDeleteEquipment(e.toString()))),
         );
       }
     }
@@ -282,11 +282,11 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
               // Search Mode Selector
               Row(
                 children: [
-                  _buildSearchModeChip('Serial', 'serial'),
+                  _buildSearchModeChip(AppLocalizations.of(context)!.serial, 'serial'),
                   const SizedBox(width: 8),
-                  _buildSearchModeChip('Người Dùng', 'user'),
+                  _buildSearchModeChip(AppLocalizations.of(context)!.user, 'user'),
                   const SizedBox(width: 8),
-                  _buildSearchModeChip('Ngày', 'date'),
+                  _buildSearchModeChip(AppLocalizations.of(context)!.date, 'date'),
                   const Spacer(),
 
                   // Date Filter Button
@@ -333,7 +333,7 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
                   IconButton(
                     icon: const Icon(Icons.date_range),
                     onPressed: _selectDate,
-                    tooltip: 'Filter by return date',
+                    tooltip: AppLocalizations.of(context)!.filterByReturnDate,
                     color: _selectedDate != null ? Colors.green : Colors.grey,
                   ),
                 ],
@@ -416,13 +416,13 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
   String _getSearchHint() {
     switch (_searchMode) {
       case 'serial':
-        return 'Tìm theo số serial yêu cầu (ví dụ: 15012501)';
+        return AppLocalizations.of(context)!.searchBySerialNumber;
       case 'user':
-        return 'Search by user name';
+        return AppLocalizations.of(context)!.searchByUserName;
       case 'date':
-        return 'Search by return date (e.g., 15/01/2025)';
+        return AppLocalizations.of(context)!.searchByReturnDate;
       default:
-        return 'Search...';
+        return AppLocalizations.of(context)!.search;
     }
   }
 
@@ -446,7 +446,7 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loadReturnedRequests,
-              child: const Text('Retry'),
+              child: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -464,8 +464,8 @@ class _ReturnedRequestsTabState extends State<ReturnedRequestsTab> {
             const SizedBox(height: 16),
             Text(
               _searchController.text.isNotEmpty || _selectedDate != null
-                  ? 'No returned requests match your search'
-                  : 'No returned requests yet',
+                  ? AppLocalizations.of(context)!.noReturnedRequestsMatchYourSearch
+                  : AppLocalizations.of(context)!.noReturnedRequestsYet,
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
           ],

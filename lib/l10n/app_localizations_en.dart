@@ -373,9 +373,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get parentCategory => 'Parent Category';
 
   @override
-  String get subcategories => 'Subcategories';
-
-  @override
   String get noSubcategories => 'No subcategories';
 
   @override
@@ -725,4 +722,785 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get agree => 'Agree';
+
+  @override
+  String get createAccount => 'Create Account';
+
+  @override
+  String get signUpToUseSystem => 'Sign up to use the system';
+
+  @override
+  String get pleaseEnterEmailAddress => 'Please enter email address';
+
+  @override
+  String get pleaseEnterValidEmailAddress =>
+      'Please enter a valid email address';
+
+  @override
+  String get pleaseEnterUsername => 'Please enter username';
+
+  @override
+  String get usernameMustBeAtLeast3Characters =>
+      'Username must be at least 3 characters';
+
+  @override
+  String get usernameCanOnlyContainLettersNumbersAndUnderscores =>
+      'Username can only contain letters, numbers and underscores';
+
+  @override
+  String get pleaseEnterFullName => 'Please enter full name';
+
+  @override
+  String get fullNameMustBeAtLeast2Characters =>
+      'Full name must be at least 2 characters';
+
+  @override
+  String get phoneNumberOptional => 'Phone Number (optional)';
+
+  @override
+  String get pleaseEnterValidPhoneNumber => 'Please enter valid phone number';
+
+  @override
+  String get pleaseConfirmPassword => 'Please confirm password';
+
+  @override
+  String get signUp => 'Sign Up';
+
+  @override
+  String get alreadyHaveAnAccount => 'Already have an account?';
+
+  @override
+  String get cannotCreateAccount => 'Cannot create account';
+
+  @override
+  String get registrationSuccessful => 'Registration Successful';
+
+  @override
+  String get pleaseCheckEmailToVerifyAccount =>
+      'Please check your email to verify your account';
+
+  @override
+  String get goToSignInPage => 'Go to Sign In Page';
+
+  @override
+  String get registrationError => 'Registration Error';
+
+  @override
+  String get failedToLoadUsers => 'Failed to load users';
+
+  @override
+  String get searchUsersorPhone => 'Search by name or phone';
+
+  @override
+  String get addUser => 'Add User';
+
+  @override
+  String get noUsersFound => 'No users found';
+
+  @override
+  String get updateUser => 'Update User';
+
+  @override
+  String get createNewUser => 'Create New User';
+
+  @override
+  String get phoneNumber => 'Phone Number';
+
+  @override
+  String get cannotCreateUser => 'Cannot create user';
+
+  @override
+  String get cannotUpdateUser => 'Cannot update user';
+
+  @override
+  String get confirmDeletion => 'Confirm Deletion';
+
+  @override
+  String areYouSureDeleteUser(Object userName) {
+    return 'Are you sure you want to delete $userName?';
+  }
+
+  @override
+  String get cannotDeleteUser => 'Cannot delete user';
+
+  @override
+  String get searchCategories => 'Search categories';
+
+  @override
+  String get noCategoriesFound => 'No categories found';
+
+  @override
+  String get enterCategoryName => 'Enter category name';
+
+  @override
+  String get enterDescriptionOptional => 'Enter description (optional)';
+
+  @override
+  String get selectParentCategoryOptional =>
+      'Select parent category (optional)';
+
+  @override
+  String get noParentCategory => 'No parent category';
+
+  @override
+  String get editCategorySuccess => 'Category updated successfully';
+
+  @override
+  String get addCategorySuccess => 'Category added successfully';
+
+  @override
+  String get saveCategoryFailed => 'Failed to save category';
+
+  @override
+  String get cannotDelete => 'Cannot delete';
+
+  @override
+  String get categoryHasSubcategories => 'Category has';
+
+  @override
+  String get subcategories => 'Subcategories';
+
+  @override
+  String get deletingCategoryWillAlsoDeleteSubcategories =>
+      'Deleting this category will also delete all its subcategories.';
+
+  @override
+  String get continueText => 'Continue';
+
+  @override
+  String get areYouSureYouWantToDelete => 'Are you sure you want to delete';
+
+  @override
+  String get confirmDeleteCategory => 'Confirm Delete Category';
+
+  @override
+  String get categoryDeleted => 'Category deleted successfully';
+
+  @override
+  String get categoryAnd => 'and';
+
+  @override
+  String get subcategoriesDeleted => 'subcategories deleted';
+
+  @override
+  String get deleteCategoryFailed => 'Failed to delete category';
+
+  @override
+  String get pleaseEnterEmail => 'Please enter email';
+
+  @override
+  String get pleaseEnterValidEmail => 'Invalid email';
+
+  @override
+  String get emailRequired => 'Email Required';
+
+  @override
+  String get enterEmail => 'Enter email';
+
+  @override
+  String get select => 'Select';
+
+  @override
+  String borrowDateLabel(Object date) {
+    return 'Borrow date: $date';
+  }
+
+  @override
+  String returnDateLabel(Object date) {
+    return 'Return date: $date';
+  }
+
+  @override
+  String get searchUserByNameOrPhone => 'Search user by name or phone';
+
+  @override
+  String get typeToSearch => 'Type to search...';
+
+  @override
+  String get pleaseSelectAnExistingUser => 'Please select an existing user';
+
+  @override
+  String get emailIsRequiredToCreateBorrowRequest =>
+      'Email is required to create borrow request';
+
+  @override
+  String get cannotSaveBorrowRequest => 'Cannot save borrow request';
+
+  @override
+  String get noAuthenticatedUser => 'No authenticated user';
+
+  @override
+  String get failedToCreateUser => 'Failed to create user';
+
+  @override
+  String get pleaseScanQROrEnterValidSerial =>
+      'Please scan QR code or enter valid serial number';
+
+  @override
+  String noEquipmentFoundWithQROrSerial(Object code) {
+    return 'No equipment found with QR code or serial number: $code';
+  }
+
+  @override
+  String errorLookingUpEquipment(Object error) {
+    return 'Error looking up equipment: $error';
+  }
+
+  @override
+  String errorScanning(Object error) {
+    return 'Error scanning: $error';
+  }
+
+  @override
+  String noEquipmentFoundCode(Object code) {
+    return 'No equipment found: $code';
+  }
+
+  @override
+  String get pleaseFillAllRequiredFields =>
+      'Please fill all required fields and scan equipment before saving request';
+
+  @override
+  String equipmentNotAvailableForBorrowing(Object equipment) {
+    return '$equipment is not available for borrowing';
+  }
+
+  @override
+  String borrowRequestCreatedAndAutoApproved(Object requestSerial) {
+    return 'Borrow request created and auto-approved! Request code: #$requestSerial';
+  }
+
+  @override
+  String borrowRequestSavedSuccessfully(Object requestSerial) {
+    return 'Borrow request saved successfully! Request code: #$requestSerial';
+  }
+
+  @override
+  String get userDoesNotHaveEmailPleaseEnter =>
+      'This user does not have an email. Please enter email to continue.';
+
+  @override
+  String get equipmentUpdatedSuccessfully => 'Equipment updated successfully';
+
+  @override
+  String get newEquipmentCreatedSuccessfully =>
+      'New equipment created successfully';
+
+  @override
+  String get errorSavingEquipmentPleaseTryAgain =>
+      'Error saving equipment. Please try again.';
+
+  @override
+  String get errorDetails => 'Error Details';
+
+  @override
+  String get pleaseEnterSerialNumberFirst => 'Please enter serial number first';
+
+  @override
+  String get cannotGenerateQRCode => 'Cannot generate QR code';
+
+  @override
+  String get qrCodeDownloadedSuccessfully => 'QR code downloaded successfully';
+
+  @override
+  String errorDownloadingQRCode(Object error) {
+    return 'Error downloading QR code: $error';
+  }
+
+  @override
+  String get downloadPNG => 'Download PNG';
+
+  @override
+  String get addNewCategory => '+ Add New Category';
+
+  @override
+  String errorWithDetails(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String get qrCodeDownloaded => 'QR code downloaded';
+
+  @override
+  String successfullyImported(Object count) {
+    return 'Successfully imported $count equipment';
+  }
+
+  @override
+  String importDataFailed(Object error) {
+    return 'Import data failed: $error';
+  }
+
+  @override
+  String get generateQRCode => 'Generate QR Code';
+
+  @override
+  String get generating => 'Generating...';
+
+  @override
+  String get switchToListMode => 'Switch to list mode';
+
+  @override
+  String get switchToGridMode => 'Switch to grid mode';
+
+  @override
+  String get confirmApproval => 'Confirm Approval';
+
+  @override
+  String approveRequest(Object serial) {
+    return 'Approve request $serial?';
+  }
+
+  @override
+  String get requestApprovedSuccessfully => 'Request approved successfully';
+
+  @override
+  String errorApproving(Object error) {
+    return 'Error approving: $error';
+  }
+
+  @override
+  String get rejectRequest => 'Reject Request';
+
+  @override
+  String rejectRequestSerial(Object serial) {
+    return 'Reject request $serial?';
+  }
+
+  @override
+  String get reasonForRejection => 'Reason for Rejection';
+
+  @override
+  String get pleaseEnterRejectionReason => 'Please enter rejection reason';
+
+  @override
+  String get requestRejected => 'Request rejected';
+
+  @override
+  String errorRejecting(Object error) {
+    return 'Error rejecting: $error';
+  }
+
+  @override
+  String get logoutConfirmation => 'Are you sure you want to log out?';
+
+  @override
+  String get logoutTitle => 'Logout';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get errorLoadingCategories => 'Error loading categories';
+
+  @override
+  String get equipmentForm => 'Equipment Form';
+
+  @override
+  String get editMode => 'Edit mode';
+
+  @override
+  String get equipmentId => 'equipment ID';
+
+  @override
+  String get originalEquipment => 'Original equipment';
+
+  @override
+  String get missingOrInvalidEquipmentId => 'Missing or invalid equipment ID';
+
+  @override
+  String get equipmentNotFoundInDatabase => 'Equipment not found in database';
+
+  @override
+  String get confirmedEquipmentExistsInDatabase =>
+      'Confirmed equipment exists in database';
+
+  @override
+  String get callingSafeUpdateEquipment => 'Calling safeUpdateEquipment';
+
+  @override
+  String get errorSavingEquipment => 'Error saving equipment';
+
+  @override
+  String get addNewEquipment => 'Add New Equipment';
+
+  @override
+  String get saving => 'Saving...';
+
+  @override
+  String get basicInformation => 'Basic Information';
+
+  @override
+  String get equipmentName => 'Equipment Name';
+
+  @override
+  String get enterEquipmentName => 'Enter equipment name';
+
+  @override
+  String get isRequired => 'is required';
+
+  @override
+  String get enterDescription => 'Enter description';
+
+  @override
+  String get enterQuantity => 'Enter quantity';
+
+  @override
+  String get mustBeValidNumber => 'Must be a valid number';
+
+  @override
+  String get additionalInformation => 'Additional Information';
+
+  @override
+  String get qrCode => 'QR Code';
+
+  @override
+  String get qrCodeHint => 'Generated automatically';
+
+  @override
+  String get hideQRCode => 'Hide QR Code';
+
+  @override
+  String get showQRCode => 'Show QR Code';
+
+  @override
+  String get manufacturer => 'Manufacturer';
+
+  @override
+  String get enterManufacturer => 'Enter manufacturer';
+
+  @override
+  String get enterModel => 'Enter model';
+
+  @override
+  String get imageUrl => 'Image URL';
+
+  @override
+  String get enterImageUrl => 'Enter image URL';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get enterAdditionalNotes => 'Enter additional notes';
+
+  @override
+  String get enterCategory => 'Enter category';
+
+  @override
+  String get selectOrEnterCategory => 'Select or enter category';
+
+  @override
+  String get enterNewCategory => 'Enter new category name';
+
+  @override
+  String get noExcelTablesFound => 'No Excel tables found';
+
+  @override
+  String get emptyExcelTable => 'Empty Excel table';
+
+  @override
+  String get cannotParseExcelFile => 'Cannot parse Excel file';
+
+  @override
+  String importSuccess(Object count, Object items) {
+    return 'Successfully imported $count $items';
+  }
+
+  @override
+  String get items => 'items';
+
+  @override
+  String get importFailed => 'Import failed';
+
+  @override
+  String get viewAndDownloadQrCodes => 'View & Download QR Codes';
+
+  @override
+  String itemsFound(Object count) {
+    return '$count items found';
+  }
+
+  @override
+  String get selectCategory => 'Select category';
+
+  @override
+  String get creatingQrCode => 'Creating QR code...';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get createQrCode => 'Create QR Code';
+
+  @override
+  String get saveAll => 'Save All';
+
+  @override
+  String get failedToLoadSettings => 'Failed to load settings';
+
+  @override
+  String get failedToUpdateLanguage => 'Failed to update language';
+
+  @override
+  String get failedToUpdateEmailNotifications =>
+      'Failed to update email notifications';
+
+  @override
+  String get noAccess => 'No Access';
+
+  @override
+  String welcomeUser(Object userName) {
+    return 'Welcome, $userName!';
+  }
+
+  @override
+  String get confirmSignOut => 'Are you sure you want to sign out?';
+
+  @override
+  String failedToLoadReturnedRequests(Object error) {
+    return 'Failed to load returned requests: $error';
+  }
+
+  @override
+  String failedToLoadEquipment(Object error) {
+    return 'Failed to load equipment: $error';
+  }
+
+  @override
+  String failedToDeleteEquipment(Object error) {
+    return 'Failed to delete equipment: $error';
+  }
+
+  @override
+  String get serial => 'Serial';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get filterByReturnDate => 'Filter by return date';
+
+  @override
+  String get searchBySerialNumber => 'Search by serial number';
+
+  @override
+  String get searchByUserName => 'Search by user name';
+
+  @override
+  String get searchByReturnDate => 'Search by return date';
+
+  @override
+  String get noReturnedRequestsMatchYourSearch =>
+      'No returned requests match your search';
+
+  @override
+  String get noReturnedRequestsYet => 'No returned requests yet';
+
+  @override
+  String failedToLoadBorrowRequests(Object error) {
+    return 'Failed to load borrow requests: $error';
+  }
+
+  @override
+  String successfullyReturned(Object count) {
+    return 'Successfully returned $count equipment(s)';
+  }
+
+  @override
+  String get failedToReturnSomeEquipment =>
+      'Failed to return some equipment. Please try again.';
+
+  @override
+  String get filterByDate => 'Filter by date';
+
+  @override
+  String get searchBySerial => 'Search by serial number';
+
+  @override
+  String get searchByDate => 'Search by date';
+
+  @override
+  String get noRequestsMatchYourSearch => 'No requests match your search';
+
+  @override
+  String get noActiveBorrowRequests => 'No active borrow requests';
+
+  @override
+  String get confirmApprove => 'Confirm Approval';
+
+  @override
+  String confirmApproveWithSerial(Object serial) {
+    return 'Are you sure you want to approve this request $serial?';
+  }
+
+  @override
+  String equipmentCount(Object count) {
+    return '$count equipment(s) will be allocated.';
+  }
+
+  @override
+  String get errorWhenApproving =>
+      'Error when approving request. Please try again.';
+
+  @override
+  String get rejectRequestMessage =>
+      'Are you sure you want to reject this request?';
+
+  @override
+  String get rejectReason => 'Reject Reason';
+
+  @override
+  String get enterRejectReason => 'Enter reject reason';
+
+  @override
+  String get pleaseEnterRejectReason => 'Please enter a reject reason';
+
+  @override
+  String get requestRejectedSuccessfully => 'Request rejected successfully';
+
+  @override
+  String get errorWhenRejecting =>
+      'Error when rejecting request. Please try again.';
+
+  @override
+  String get returnCondition => 'Return Condition';
+
+  @override
+  String get returnConditionHint => 'E.g., Good, Damaged, etc.';
+
+  @override
+  String get notesHint => 'Any additional notes';
+
+  @override
+  String get confirmReturn => 'Confirm Return';
+
+  @override
+  String get chartNotAvailable => 'Chart not available';
+
+  @override
+  String get equipmentUsageOverTime => 'Equipment Usage Over Time';
+
+  @override
+  String get showEquipmentBorrowingTrendsOverSelectedPeriod =>
+      'Shows equipment borrowing trends over the selected period';
+
+  @override
+  String get monday => 'Mon';
+
+  @override
+  String get tuesday => 'Tue';
+
+  @override
+  String get wednesday => 'Wed';
+
+  @override
+  String get thursday => 'Thu';
+
+  @override
+  String get friday => 'Fri';
+
+  @override
+  String get saturday => 'Sat';
+
+  @override
+  String get sunday => 'Sun';
+
+  @override
+  String get equipmentUsageByCategory => 'Equipment Usage by Category';
+
+  @override
+  String get showsEquipmentDistributionAcrossCategories =>
+      'Shows equipment distribution across categories';
+
+  @override
+  String get categoryA => 'Category A';
+
+  @override
+  String get categoryB => 'Category B';
+
+  @override
+  String get categoryC => 'Category C';
+
+  @override
+  String get categoryD => 'Category D';
+
+  @override
+  String get categoryE => 'Category E';
+
+  @override
+  String get topBorrowedEquipment => 'Top Borrowed Equipment';
+
+  @override
+  String get showsMostFrequentlyBorrowedEquipment =>
+      'Shows most frequently borrowed equipment';
+
+  @override
+  String get equipment1 => 'Equipment 1';
+
+  @override
+  String get equipment2 => 'Equipment 2';
+
+  @override
+  String get equipment3 => 'Equipment 3';
+
+  @override
+  String get equipment4 => 'Equipment 4';
+
+  @override
+  String get equipment5 => 'Equipment 5';
+
+  @override
+  String get returnRate => 'Return Rate';
+
+  @override
+  String get showsPercentageOfOnTimeReturns =>
+      'Shows percentage of on-time returns';
+
+  @override
+  String get analyticsAndStatistics => 'Analytics & Statistics';
+
+  @override
+  String get borrowTrendsByCategory => 'Borrow Trends by Category';
+
+  @override
+  String get borrowRequestsGroupedByCategory =>
+      'Borrow requests grouped by category';
+
+  @override
+  String get equipmentStatus => 'Equipment Status';
+
+  @override
+  String get distributionOfCurrentStatusOfAllEquipment =>
+      'Distribution of current status of all equipment';
+
+  @override
+  String get currentlyBorrowed => 'Currently Borrowed';
+
+  @override
+  String get broken => 'Broken';
+
+  @override
+  String get userActivity => 'User Activity';
+
+  @override
+  String get numberOfActiveUsersPerDay => 'Number of active users per day';
+
+  @override
+  String get day => 'Day';
+
+  @override
+  String get mostBorrowedEquipment => 'Most borrowed equipment';
+
+  @override
+  String get returnRateAnalysis => 'Return Rate Analysis';
+
+  @override
+  String get onTimeAndLateReturns => 'On-time and late returns';
+
+  @override
+  String get onTimeReturn => 'On-time Return';
+
+  @override
+  String get lateReturn => 'Late Return';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../../constants/app_colors.dart';
@@ -42,7 +43,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Thất bại khi tải người dùng: $e')));
+        ).showSnackBar(SnackBar(content: Text('${AppLocalizations.of(context)!.failedToLoadUsers}: $e')));
       }
     }
   }
@@ -80,7 +81,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       backgroundColor: AppColors.backgroundGray,
       appBar: AppBar(
         title: Text(
-          'Quản Lý Người Dùng',
+          AppLocalizations.of(context)!.userManagement,
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         backgroundColor: AppColors.backgroundWhite,
@@ -102,7 +103,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   controller: _searchController,
                   onChanged: (_) => _applyFilters(),
                   decoration: InputDecoration(
-                    hintText: 'Tìm kiếm theo tên, email hoặc điện thoại...',
+                    hintText: AppLocalizations.of(context)!.searchUsersorPhone,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: _searchController.text.isNotEmpty
                         ? IconButton(
@@ -128,10 +129,10 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: [
-                      _buildFilterChip('Tất Cả', null),
-                      _buildFilterChip('Quản Trị Viên', 0),
-                      _buildFilterChip('Quản Lý', 1),
-                      _buildFilterChip('Người Dùng', 2),
+                      _buildFilterChip(AppLocalizations.of(context)!.all, null),
+                      _buildFilterChip(AppLocalizations.of(context)!.administrator, 0),
+                      _buildFilterChip(AppLocalizations.of(context)!.manager, 1),
+                      _buildFilterChip(AppLocalizations.of(context)!.user, 2),
                     ],
                   ),
                 ),
@@ -157,7 +158,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showUserDialog(),
         icon: const Icon(Icons.person_add),
-        label: const Text('Thêm Người Dùng'),
+        label: Text(AppLocalizations.of(context)!.addUser),
         backgroundColor: AppColors.primaryBlue,
       ),
     );
@@ -265,7 +266,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextButton.icon(
                   onPressed: () => _showUserDialog(user: user),
                   icon: const Icon(Icons.edit, size: 18),
-                  label: const Text('Cập Nhật'),
+                  label: Text(AppLocalizations.of(context)!.update),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.primaryBlue,
                   ),
@@ -273,7 +274,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 TextButton.icon(
                   onPressed: () => _confirmDelete(user),
                   icon: const Icon(Icons.delete, size: 18),
-                  label: const Text('Xóa'),
+                  label: Text(AppLocalizations.of(context)!.delete),
                   style: TextButton.styleFrom(
                     foregroundColor: AppColors.errorRed,
                   ),
@@ -341,7 +342,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           ),
           const SizedBox(height: AppConstants.paddingMedium),
           Text(
-            'Không tìm thấy người dùng',
+            AppLocalizations.of(context)!.noUsersFound,
             style: GoogleFonts.inter(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -356,12 +357,12 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
   Map<String, dynamic> _getRoleData(int roleId) {
     switch (roleId) {
       case 0:
-        return {'name': 'Quản Trị Viên', 'color': AppColors.errorRed};
+        return {'name': AppLocalizations.of(context)!.administrator, 'color': AppColors.errorRed};
       case 1:
-        return {'name': 'Quản Lý', 'color': AppColors.warningYellow};
+        return {'name': AppLocalizations.of(context)!.manager, 'color': AppColors.warningYellow};
       case 2:
       default:
-        return {'name': 'Người Dùng', 'color': AppColors.successGreen};
+        return {'name': AppLocalizations.of(context)!.user, 'color': AppColors.successGreen};
     }
   }
 
@@ -383,7 +384,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           title: Text(
-            isEdit ? 'Cập Nhật Người Dùng' : 'Tạo Người Dùng Mới',
+            isEdit ? AppLocalizations.of(context)!.updateUser : AppLocalizations.of(context)!.createNewUser,
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           content: SingleChildScrollView(
@@ -393,8 +394,8 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 if (!isEdit) ...[
                   TextField(
                     controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Email *',
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.email + ' *',
                       prefixIcon: Icon(Icons.email),
                     ),
                   ),
@@ -402,8 +403,8 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   TextField(
                     controller: passwordController,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Mật Khẩu *',
+                    decoration: InputDecoration(
+                      labelText: AppLocalizations.of(context)!.password + ' *',
                       prefixIcon: Icon(Icons.lock),
                     ),
                   ),
@@ -411,32 +412,32 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 ],
                 TextField(
                   controller: usernameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Tên Đăng Nhập *',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.username + ' *',
                     prefixIcon: Icon(Icons.person),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: fullNameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Họ Và Tên',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.fullName,
                     prefixIcon: Icon(Icons.badge),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: phoneController,
-                  decoration: const InputDecoration(
-                    labelText: 'Số Điện Thoại',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.phoneNumber,
                     prefixIcon: Icon(Icons.phone),
                   ),
                 ),
                 const SizedBox(height: 12),
                 TextField(
                   controller: genderController,
-                  decoration: const InputDecoration(
-                    labelText: 'Giới Tính',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.gender,
                     prefixIcon: Icon(Icons.wc),
                   ),
                 ),
@@ -445,7 +446,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   leading: const Icon(Icons.cake),
                   title: Text(
                     selectedDob == null
-                        ? 'Chọn Ngày Sinh'
+                        ? AppLocalizations.of(context)!.selectDateOfBirth
                         : DateFormat('MMM dd, yyyy').format(selectedDob!),
                   ),
                   trailing: const Icon(Icons.calendar_today),
@@ -464,7 +465,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 const SizedBox(height: 12),
                 // Role Selection
                 Text(
-                  'Role *',
+                  AppLocalizations.of(context)!.role + ' *',
                   style: GoogleFonts.inter(fontWeight: FontWeight.w600),
                 ),
                 // ignore: deprecated_member_use
@@ -486,7 +487,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           ),
                           toggleable: false,
                         ),
-                        title: const Text('Quản Trị Viên'),
+                        title: Text(AppLocalizations.of(context)!.administrator),
                         onTap: () => setDialogState(() => selectedRole = 0),
                       ),
                       ListTile(
@@ -501,7 +502,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           ),
                           toggleable: false,
                         ),
-                        title: const Text('Quản Lý'),
+                        title: Text(AppLocalizations.of(context)!.manager),
                         onTap: () => setDialogState(() => selectedRole = 1),
                       ),
                       ListTile(
@@ -516,7 +517,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           ),
                           toggleable: false,
                         ),
-                        title: const Text('Người Dùng'),
+                        title: Text(AppLocalizations.of(context)!.user),
                         onTap: () => setDialogState(() => selectedRole = 2),
                       ),
                     ],
@@ -528,7 +529,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Hủy'),
+              child: Text(AppLocalizations.of(context)!.cancel),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -557,7 +558,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 if (!context.mounted) return;
                 Navigator.pop(context);
               },
-              child: Text(isEdit ? 'Cập Nhật' : 'Tạo Mới'),
+              child: Text(isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.create),
             ),
           ],
         ),
@@ -589,13 +590,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       await _loadUsers();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Tạo người dùng thành công')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.userCreated)),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Không thể tạo người dùng: $e')));
+      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cannotCreateUser + ': $e')));
     }
   }
 
@@ -621,13 +622,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       await _loadUsers();
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Cập Nhật Người Dùng Thành Công')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.userUpdated)),
       );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Không thể cập nhật người dùng: $e')));
+      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cannotUpdateUser + ': $e')));
     }
   }
 
@@ -635,19 +636,19 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Xóa Người Dùng'),
-        content: Text('Bạn có chắc chắn muốn xóa ${user.userName}?'),
+        title: Text(AppLocalizations.of(context)!.confirmDeletion),
+        content: Text(AppLocalizations.of(context)!.areYouSureDeleteUser(user.userName)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorRed,
             ),
-            child: const Text('Xóa'),
+            child: Text(AppLocalizations.of(context)!.delete),
           ),
         ],
       ),
@@ -659,13 +660,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         await _loadUsers();
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Xóa người dùng thành công')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.userDeleted)),
         );
       } catch (e) {
         if (!mounted) return;
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Không thể xóa người dùng: $e')));
+        ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cannotDeleteUser + ': $e')));
       }
     }
   }

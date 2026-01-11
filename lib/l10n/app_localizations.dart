@@ -824,12 +824,6 @@ abstract class AppLocalizations {
   /// **'Parent Category'**
   String get parentCategory;
 
-  /// No description provided for @subcategories.
-  ///
-  /// In en, this message translates to:
-  /// **'Subcategories'**
-  String get subcategories;
-
   /// No description provided for @noSubcategories.
   ///
   /// In en, this message translates to:
@@ -1513,6 +1507,1404 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Agree'**
   String get agree;
+
+  /// No description provided for @createAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get createAccount;
+
+  /// No description provided for @signUpToUseSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up to use the system'**
+  String get signUpToUseSystem;
+
+  /// No description provided for @pleaseEnterEmailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter email address'**
+  String get pleaseEnterEmailAddress;
+
+  /// No description provided for @pleaseEnterValidEmailAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get pleaseEnterValidEmailAddress;
+
+  /// No description provided for @pleaseEnterUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter username'**
+  String get pleaseEnterUsername;
+
+  /// No description provided for @usernameMustBeAtLeast3Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Username must be at least 3 characters'**
+  String get usernameMustBeAtLeast3Characters;
+
+  /// No description provided for @usernameCanOnlyContainLettersNumbersAndUnderscores.
+  ///
+  /// In en, this message translates to:
+  /// **'Username can only contain letters, numbers and underscores'**
+  String get usernameCanOnlyContainLettersNumbersAndUnderscores;
+
+  /// No description provided for @pleaseEnterFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter full name'**
+  String get pleaseEnterFullName;
+
+  /// No description provided for @fullNameMustBeAtLeast2Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name must be at least 2 characters'**
+  String get fullNameMustBeAtLeast2Characters;
+
+  /// No description provided for @phoneNumberOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number (optional)'**
+  String get phoneNumberOptional;
+
+  /// No description provided for @pleaseEnterValidPhoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter valid phone number'**
+  String get pleaseEnterValidPhoneNumber;
+
+  /// No description provided for @pleaseConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm password'**
+  String get pleaseConfirmPassword;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// No description provided for @alreadyHaveAnAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get alreadyHaveAnAccount;
+
+  /// No description provided for @cannotCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot create account'**
+  String get cannotCreateAccount;
+
+  /// No description provided for @registrationSuccessful.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Successful'**
+  String get registrationSuccessful;
+
+  /// No description provided for @pleaseCheckEmailToVerifyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your email to verify your account'**
+  String get pleaseCheckEmailToVerifyAccount;
+
+  /// No description provided for @goToSignInPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Sign In Page'**
+  String get goToSignInPage;
+
+  /// No description provided for @registrationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration Error'**
+  String get registrationError;
+
+  /// No description provided for @failedToLoadUsers.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load users'**
+  String get failedToLoadUsers;
+
+  /// No description provided for @searchUsersorPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or phone'**
+  String get searchUsersorPhone;
+
+  /// No description provided for @addUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Add User'**
+  String get addUser;
+
+  /// No description provided for @noUsersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No users found'**
+  String get noUsersFound;
+
+  /// No description provided for @updateUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Update User'**
+  String get updateUser;
+
+  /// No description provided for @createNewUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New User'**
+  String get createNewUser;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @cannotCreateUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot create user'**
+  String get cannotCreateUser;
+
+  /// No description provided for @cannotUpdateUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot update user'**
+  String get cannotUpdateUser;
+
+  /// No description provided for @confirmDeletion.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Deletion'**
+  String get confirmDeletion;
+
+  /// No description provided for @areYouSureDeleteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete {userName}?'**
+  String areYouSureDeleteUser(Object userName);
+
+  /// No description provided for @cannotDeleteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot delete user'**
+  String get cannotDeleteUser;
+
+  /// No description provided for @searchCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Search categories'**
+  String get searchCategories;
+
+  /// No description provided for @noCategoriesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No categories found'**
+  String get noCategoriesFound;
+
+  /// No description provided for @enterCategoryName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter category name'**
+  String get enterCategoryName;
+
+  /// No description provided for @enterDescriptionOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter description (optional)'**
+  String get enterDescriptionOptional;
+
+  /// No description provided for @selectParentCategoryOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Select parent category (optional)'**
+  String get selectParentCategoryOptional;
+
+  /// No description provided for @noParentCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'No parent category'**
+  String get noParentCategory;
+
+  /// No description provided for @editCategorySuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Category updated successfully'**
+  String get editCategorySuccess;
+
+  /// No description provided for @addCategorySuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Category added successfully'**
+  String get addCategorySuccess;
+
+  /// No description provided for @saveCategoryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save category'**
+  String get saveCategoryFailed;
+
+  /// No description provided for @cannotDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot delete'**
+  String get cannotDelete;
+
+  /// No description provided for @categoryHasSubcategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Category has'**
+  String get categoryHasSubcategories;
+
+  /// No description provided for @subcategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Subcategories'**
+  String get subcategories;
+
+  /// No description provided for @deletingCategoryWillAlsoDeleteSubcategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting this category will also delete all its subcategories.'**
+  String get deletingCategoryWillAlsoDeleteSubcategories;
+
+  /// No description provided for @continueText.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueText;
+
+  /// No description provided for @areYouSureYouWantToDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete'**
+  String get areYouSureYouWantToDelete;
+
+  /// No description provided for @confirmDeleteCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Delete Category'**
+  String get confirmDeleteCategory;
+
+  /// No description provided for @categoryDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Category deleted successfully'**
+  String get categoryDeleted;
+
+  /// No description provided for @categoryAnd.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get categoryAnd;
+
+  /// No description provided for @subcategoriesDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'subcategories deleted'**
+  String get subcategoriesDeleted;
+
+  /// No description provided for @deleteCategoryFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete category'**
+  String get deleteCategoryFailed;
+
+  /// No description provided for @pleaseEnterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter email'**
+  String get pleaseEnterEmail;
+
+  /// No description provided for @pleaseEnterValidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get pleaseEnterValidEmail;
+
+  /// No description provided for @emailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Required'**
+  String get emailRequired;
+
+  /// No description provided for @enterEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter email'**
+  String get enterEmail;
+
+  /// No description provided for @select.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get select;
+
+  /// No description provided for @borrowDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrow date: {date}'**
+  String borrowDateLabel(Object date);
+
+  /// No description provided for @returnDateLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Return date: {date}'**
+  String returnDateLabel(Object date);
+
+  /// No description provided for @searchUserByNameOrPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Search user by name or phone'**
+  String get searchUserByNameOrPhone;
+
+  /// No description provided for @typeToSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Type to search...'**
+  String get typeToSearch;
+
+  /// No description provided for @pleaseSelectAnExistingUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select an existing user'**
+  String get pleaseSelectAnExistingUser;
+
+  /// No description provided for @emailIsRequiredToCreateBorrowRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required to create borrow request'**
+  String get emailIsRequiredToCreateBorrowRequest;
+
+  /// No description provided for @cannotSaveBorrowRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot save borrow request'**
+  String get cannotSaveBorrowRequest;
+
+  /// No description provided for @noAuthenticatedUser.
+  ///
+  /// In en, this message translates to:
+  /// **'No authenticated user'**
+  String get noAuthenticatedUser;
+
+  /// No description provided for @failedToCreateUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create user'**
+  String get failedToCreateUser;
+
+  /// No description provided for @pleaseScanQROrEnterValidSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Please scan QR code or enter valid serial number'**
+  String get pleaseScanQROrEnterValidSerial;
+
+  /// No description provided for @noEquipmentFoundWithQROrSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'No equipment found with QR code or serial number: {code}'**
+  String noEquipmentFoundWithQROrSerial(Object code);
+
+  /// No description provided for @errorLookingUpEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Error looking up equipment: {error}'**
+  String errorLookingUpEquipment(Object error);
+
+  /// No description provided for @errorScanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Error scanning: {error}'**
+  String errorScanning(Object error);
+
+  /// No description provided for @noEquipmentFoundCode.
+  ///
+  /// In en, this message translates to:
+  /// **'No equipment found: {code}'**
+  String noEquipmentFoundCode(Object code);
+
+  /// No description provided for @pleaseFillAllRequiredFields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill all required fields and scan equipment before saving request'**
+  String get pleaseFillAllRequiredFields;
+
+  /// No description provided for @equipmentNotAvailableForBorrowing.
+  ///
+  /// In en, this message translates to:
+  /// **'{equipment} is not available for borrowing'**
+  String equipmentNotAvailableForBorrowing(Object equipment);
+
+  /// No description provided for @borrowRequestCreatedAndAutoApproved.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrow request created and auto-approved! Request code: #{requestSerial}'**
+  String borrowRequestCreatedAndAutoApproved(Object requestSerial);
+
+  /// No description provided for @borrowRequestSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrow request saved successfully! Request code: #{requestSerial}'**
+  String borrowRequestSavedSuccessfully(Object requestSerial);
+
+  /// No description provided for @userDoesNotHaveEmailPleaseEnter.
+  ///
+  /// In en, this message translates to:
+  /// **'This user does not have an email. Please enter email to continue.'**
+  String get userDoesNotHaveEmailPleaseEnter;
+
+  /// No description provided for @equipmentUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment updated successfully'**
+  String get equipmentUpdatedSuccessfully;
+
+  /// No description provided for @newEquipmentCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'New equipment created successfully'**
+  String get newEquipmentCreatedSuccessfully;
+
+  /// No description provided for @errorSavingEquipmentPleaseTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving equipment. Please try again.'**
+  String get errorSavingEquipmentPleaseTryAgain;
+
+  /// No description provided for @errorDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Error Details'**
+  String get errorDetails;
+
+  /// No description provided for @pleaseEnterSerialNumberFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter serial number first'**
+  String get pleaseEnterSerialNumberFirst;
+
+  /// No description provided for @cannotGenerateQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot generate QR code'**
+  String get cannotGenerateQRCode;
+
+  /// No description provided for @qrCodeDownloadedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'QR code downloaded successfully'**
+  String get qrCodeDownloadedSuccessfully;
+
+  /// No description provided for @errorDownloadingQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Error downloading QR code: {error}'**
+  String errorDownloadingQRCode(Object error);
+
+  /// No description provided for @downloadPNG.
+  ///
+  /// In en, this message translates to:
+  /// **'Download PNG'**
+  String get downloadPNG;
+
+  /// No description provided for @addNewCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Add New Category'**
+  String get addNewCategory;
+
+  /// No description provided for @errorWithDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String errorWithDetails(Object error);
+
+  /// No description provided for @qrCodeDownloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'QR code downloaded'**
+  String get qrCodeDownloaded;
+
+  /// No description provided for @successfullyImported.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully imported {count} equipment'**
+  String successfullyImported(Object count);
+
+  /// No description provided for @importDataFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import data failed: {error}'**
+  String importDataFailed(Object error);
+
+  /// No description provided for @generateQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Generate QR Code'**
+  String get generateQRCode;
+
+  /// No description provided for @generating.
+  ///
+  /// In en, this message translates to:
+  /// **'Generating...'**
+  String get generating;
+
+  /// No description provided for @switchToListMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to list mode'**
+  String get switchToListMode;
+
+  /// No description provided for @switchToGridMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to grid mode'**
+  String get switchToGridMode;
+
+  /// No description provided for @confirmApproval.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Approval'**
+  String get confirmApproval;
+
+  /// No description provided for @approveRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Approve request {serial}?'**
+  String approveRequest(Object serial);
+
+  /// No description provided for @requestApprovedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Request approved successfully'**
+  String get requestApprovedSuccessfully;
+
+  /// No description provided for @errorApproving.
+  ///
+  /// In en, this message translates to:
+  /// **'Error approving: {error}'**
+  String errorApproving(Object error);
+
+  /// No description provided for @rejectRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Request'**
+  String get rejectRequest;
+
+  /// No description provided for @rejectRequestSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject request {serial}?'**
+  String rejectRequestSerial(Object serial);
+
+  /// No description provided for @reasonForRejection.
+  ///
+  /// In en, this message translates to:
+  /// **'Reason for Rejection'**
+  String get reasonForRejection;
+
+  /// No description provided for @pleaseEnterRejectionReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter rejection reason'**
+  String get pleaseEnterRejectionReason;
+
+  /// No description provided for @requestRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Request rejected'**
+  String get requestRejected;
+
+  /// No description provided for @errorRejecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Error rejecting: {error}'**
+  String errorRejecting(Object error);
+
+  /// No description provided for @logoutConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to log out?'**
+  String get logoutConfirmation;
+
+  /// No description provided for @logoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logoutTitle;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @errorLoadingCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading categories'**
+  String get errorLoadingCategories;
+
+  /// No description provided for @equipmentForm.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Form'**
+  String get equipmentForm;
+
+  /// No description provided for @editMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit mode'**
+  String get editMode;
+
+  /// No description provided for @equipmentId.
+  ///
+  /// In en, this message translates to:
+  /// **'equipment ID'**
+  String get equipmentId;
+
+  /// No description provided for @originalEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Original equipment'**
+  String get originalEquipment;
+
+  /// No description provided for @missingOrInvalidEquipmentId.
+  ///
+  /// In en, this message translates to:
+  /// **'Missing or invalid equipment ID'**
+  String get missingOrInvalidEquipmentId;
+
+  /// No description provided for @equipmentNotFoundInDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment not found in database'**
+  String get equipmentNotFoundInDatabase;
+
+  /// No description provided for @confirmedEquipmentExistsInDatabase.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed equipment exists in database'**
+  String get confirmedEquipmentExistsInDatabase;
+
+  /// No description provided for @callingSafeUpdateEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Calling safeUpdateEquipment'**
+  String get callingSafeUpdateEquipment;
+
+  /// No description provided for @errorSavingEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving equipment'**
+  String get errorSavingEquipment;
+
+  /// No description provided for @addNewEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Equipment'**
+  String get addNewEquipment;
+
+  /// No description provided for @saving.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving...'**
+  String get saving;
+
+  /// No description provided for @basicInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Information'**
+  String get basicInformation;
+
+  /// No description provided for @equipmentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Name'**
+  String get equipmentName;
+
+  /// No description provided for @enterEquipmentName.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter equipment name'**
+  String get enterEquipmentName;
+
+  /// No description provided for @isRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'is required'**
+  String get isRequired;
+
+  /// No description provided for @enterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter description'**
+  String get enterDescription;
+
+  /// No description provided for @enterQuantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter quantity'**
+  String get enterQuantity;
+
+  /// No description provided for @mustBeValidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be a valid number'**
+  String get mustBeValidNumber;
+
+  /// No description provided for @additionalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Additional Information'**
+  String get additionalInformation;
+
+  /// No description provided for @qrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Code'**
+  String get qrCode;
+
+  /// No description provided for @qrCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Generated automatically'**
+  String get qrCodeHint;
+
+  /// No description provided for @hideQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide QR Code'**
+  String get hideQRCode;
+
+  /// No description provided for @showQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Show QR Code'**
+  String get showQRCode;
+
+  /// No description provided for @manufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Manufacturer'**
+  String get manufacturer;
+
+  /// No description provided for @enterManufacturer.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter manufacturer'**
+  String get enterManufacturer;
+
+  /// No description provided for @enterModel.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter model'**
+  String get enterModel;
+
+  /// No description provided for @imageUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Image URL'**
+  String get imageUrl;
+
+  /// No description provided for @enterImageUrl.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter image URL'**
+  String get enterImageUrl;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// No description provided for @enterAdditionalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter additional notes'**
+  String get enterAdditionalNotes;
+
+  /// No description provided for @enterCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter category'**
+  String get enterCategory;
+
+  /// No description provided for @selectOrEnterCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select or enter category'**
+  String get selectOrEnterCategory;
+
+  /// No description provided for @enterNewCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter new category name'**
+  String get enterNewCategory;
+
+  /// No description provided for @noExcelTablesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Excel tables found'**
+  String get noExcelTablesFound;
+
+  /// No description provided for @emptyExcelTable.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty Excel table'**
+  String get emptyExcelTable;
+
+  /// No description provided for @cannotParseExcelFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot parse Excel file'**
+  String get cannotParseExcelFile;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully imported {count} {items}'**
+  String importSuccess(Object count, Object items);
+
+  /// No description provided for @items.
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get items;
+
+  /// No description provided for @importFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed'**
+  String get importFailed;
+
+  /// No description provided for @viewAndDownloadQrCodes.
+  ///
+  /// In en, this message translates to:
+  /// **'View & Download QR Codes'**
+  String get viewAndDownloadQrCodes;
+
+  /// No description provided for @itemsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items found'**
+  String itemsFound(Object count);
+
+  /// No description provided for @selectCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Select category'**
+  String get selectCategory;
+
+  /// No description provided for @creatingQrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating QR code...'**
+  String get creatingQrCode;
+
+  /// No description provided for @download.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get download;
+
+  /// No description provided for @createQrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Create QR Code'**
+  String get createQrCode;
+
+  /// No description provided for @saveAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Save All'**
+  String get saveAll;
+
+  /// No description provided for @failedToLoadSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load settings'**
+  String get failedToLoadSettings;
+
+  /// No description provided for @failedToUpdateLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update language'**
+  String get failedToUpdateLanguage;
+
+  /// No description provided for @failedToUpdateEmailNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update email notifications'**
+  String get failedToUpdateEmailNotifications;
+
+  /// No description provided for @noAccess.
+  ///
+  /// In en, this message translates to:
+  /// **'No Access'**
+  String get noAccess;
+
+  /// No description provided for @welcomeUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {userName}!'**
+  String welcomeUser(Object userName);
+
+  /// No description provided for @confirmSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get confirmSignOut;
+
+  /// No description provided for @failedToLoadReturnedRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load returned requests: {error}'**
+  String failedToLoadReturnedRequests(Object error);
+
+  /// No description provided for @failedToLoadEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load equipment: {error}'**
+  String failedToLoadEquipment(Object error);
+
+  /// No description provided for @failedToDeleteEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete equipment: {error}'**
+  String failedToDeleteEquipment(Object error);
+
+  /// No description provided for @serial.
+  ///
+  /// In en, this message translates to:
+  /// **'Serial'**
+  String get serial;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @filterByReturnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by return date'**
+  String get filterByReturnDate;
+
+  /// No description provided for @searchBySerialNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by serial number'**
+  String get searchBySerialNumber;
+
+  /// No description provided for @searchByUserName.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by user name'**
+  String get searchByUserName;
+
+  /// No description provided for @searchByReturnDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by return date'**
+  String get searchByReturnDate;
+
+  /// No description provided for @noReturnedRequestsMatchYourSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No returned requests match your search'**
+  String get noReturnedRequestsMatchYourSearch;
+
+  /// No description provided for @noReturnedRequestsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No returned requests yet'**
+  String get noReturnedRequestsYet;
+
+  /// No description provided for @failedToLoadBorrowRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load borrow requests: {error}'**
+  String failedToLoadBorrowRequests(Object error);
+
+  /// No description provided for @successfullyReturned.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully returned {count} equipment(s)'**
+  String successfullyReturned(Object count);
+
+  /// No description provided for @failedToReturnSomeEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to return some equipment. Please try again.'**
+  String get failedToReturnSomeEquipment;
+
+  /// No description provided for @filterByDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by date'**
+  String get filterByDate;
+
+  /// No description provided for @searchBySerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by serial number'**
+  String get searchBySerial;
+
+  /// No description provided for @searchByDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by date'**
+  String get searchByDate;
+
+  /// No description provided for @noRequestsMatchYourSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'No requests match your search'**
+  String get noRequestsMatchYourSearch;
+
+  /// No description provided for @noActiveBorrowRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'No active borrow requests'**
+  String get noActiveBorrowRequests;
+
+  /// No description provided for @confirmApprove.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Approval'**
+  String get confirmApprove;
+
+  /// No description provided for @confirmApproveWithSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to approve this request {serial}?'**
+  String confirmApproveWithSerial(Object serial);
+
+  /// No description provided for @equipmentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} equipment(s) will be allocated.'**
+  String equipmentCount(Object count);
+
+  /// No description provided for @errorWhenApproving.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when approving request. Please try again.'**
+  String get errorWhenApproving;
+
+  /// No description provided for @rejectRequestMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to reject this request?'**
+  String get rejectRequestMessage;
+
+  /// No description provided for @rejectReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject Reason'**
+  String get rejectReason;
+
+  /// No description provided for @enterRejectReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter reject reason'**
+  String get enterRejectReason;
+
+  /// No description provided for @pleaseEnterRejectReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a reject reason'**
+  String get pleaseEnterRejectReason;
+
+  /// No description provided for @requestRejectedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Request rejected successfully'**
+  String get requestRejectedSuccessfully;
+
+  /// No description provided for @errorWhenRejecting.
+  ///
+  /// In en, this message translates to:
+  /// **'Error when rejecting request. Please try again.'**
+  String get errorWhenRejecting;
+
+  /// No description provided for @returnCondition.
+  ///
+  /// In en, this message translates to:
+  /// **'Return Condition'**
+  String get returnCondition;
+
+  /// No description provided for @returnConditionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g., Good, Damaged, etc.'**
+  String get returnConditionHint;
+
+  /// No description provided for @notesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any additional notes'**
+  String get notesHint;
+
+  /// No description provided for @confirmReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Return'**
+  String get confirmReturn;
+
+  /// No description provided for @chartNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Chart not available'**
+  String get chartNotAvailable;
+
+  /// No description provided for @equipmentUsageOverTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Usage Over Time'**
+  String get equipmentUsageOverTime;
+
+  /// No description provided for @showEquipmentBorrowingTrendsOverSelectedPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows equipment borrowing trends over the selected period'**
+  String get showEquipmentBorrowingTrendsOverSelectedPeriod;
+
+  /// No description provided for @monday.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get monday;
+
+  /// No description provided for @tuesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Tue'**
+  String get tuesday;
+
+  /// No description provided for @wednesday.
+  ///
+  /// In en, this message translates to:
+  /// **'Wed'**
+  String get wednesday;
+
+  /// No description provided for @thursday.
+  ///
+  /// In en, this message translates to:
+  /// **'Thu'**
+  String get thursday;
+
+  /// No description provided for @friday.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get friday;
+
+  /// No description provided for @saturday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get saturday;
+
+  /// No description provided for @sunday.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get sunday;
+
+  /// No description provided for @equipmentUsageByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Usage by Category'**
+  String get equipmentUsageByCategory;
+
+  /// No description provided for @showsEquipmentDistributionAcrossCategories.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows equipment distribution across categories'**
+  String get showsEquipmentDistributionAcrossCategories;
+
+  /// No description provided for @categoryA.
+  ///
+  /// In en, this message translates to:
+  /// **'Category A'**
+  String get categoryA;
+
+  /// No description provided for @categoryB.
+  ///
+  /// In en, this message translates to:
+  /// **'Category B'**
+  String get categoryB;
+
+  /// No description provided for @categoryC.
+  ///
+  /// In en, this message translates to:
+  /// **'Category C'**
+  String get categoryC;
+
+  /// No description provided for @categoryD.
+  ///
+  /// In en, this message translates to:
+  /// **'Category D'**
+  String get categoryD;
+
+  /// No description provided for @categoryE.
+  ///
+  /// In en, this message translates to:
+  /// **'Category E'**
+  String get categoryE;
+
+  /// No description provided for @topBorrowedEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Top Borrowed Equipment'**
+  String get topBorrowedEquipment;
+
+  /// No description provided for @showsMostFrequentlyBorrowedEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows most frequently borrowed equipment'**
+  String get showsMostFrequentlyBorrowedEquipment;
+
+  /// No description provided for @equipment1.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment 1'**
+  String get equipment1;
+
+  /// No description provided for @equipment2.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment 2'**
+  String get equipment2;
+
+  /// No description provided for @equipment3.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment 3'**
+  String get equipment3;
+
+  /// No description provided for @equipment4.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment 4'**
+  String get equipment4;
+
+  /// No description provided for @equipment5.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment 5'**
+  String get equipment5;
+
+  /// No description provided for @returnRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Return Rate'**
+  String get returnRate;
+
+  /// No description provided for @showsPercentageOfOnTimeReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'Shows percentage of on-time returns'**
+  String get showsPercentageOfOnTimeReturns;
+
+  /// No description provided for @analyticsAndStatistics.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics & Statistics'**
+  String get analyticsAndStatistics;
+
+  /// No description provided for @borrowTrendsByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrow Trends by Category'**
+  String get borrowTrendsByCategory;
+
+  /// No description provided for @borrowRequestsGroupedByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Borrow requests grouped by category'**
+  String get borrowRequestsGroupedByCategory;
+
+  /// No description provided for @equipmentStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment Status'**
+  String get equipmentStatus;
+
+  /// No description provided for @distributionOfCurrentStatusOfAllEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Distribution of current status of all equipment'**
+  String get distributionOfCurrentStatusOfAllEquipment;
+
+  /// No description provided for @currentlyBorrowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Currently Borrowed'**
+  String get currentlyBorrowed;
+
+  /// No description provided for @broken.
+  ///
+  /// In en, this message translates to:
+  /// **'Broken'**
+  String get broken;
+
+  /// No description provided for @userActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'User Activity'**
+  String get userActivity;
+
+  /// No description provided for @numberOfActiveUsersPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of active users per day'**
+  String get numberOfActiveUsersPerDay;
+
+  /// No description provided for @day.
+  ///
+  /// In en, this message translates to:
+  /// **'Day'**
+  String get day;
+
+  /// No description provided for @mostBorrowedEquipment.
+  ///
+  /// In en, this message translates to:
+  /// **'Most borrowed equipment'**
+  String get mostBorrowedEquipment;
+
+  /// No description provided for @returnRateAnalysis.
+  ///
+  /// In en, this message translates to:
+  /// **'Return Rate Analysis'**
+  String get returnRateAnalysis;
+
+  /// No description provided for @onTimeAndLateReturns.
+  ///
+  /// In en, this message translates to:
+  /// **'On-time and late returns'**
+  String get onTimeAndLateReturns;
+
+  /// No description provided for @onTimeReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'On-time Return'**
+  String get onTimeReturn;
+
+  /// No description provided for @lateReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Late Return'**
+  String get lateReturn;
 }
 
 class _AppLocalizationsDelegate

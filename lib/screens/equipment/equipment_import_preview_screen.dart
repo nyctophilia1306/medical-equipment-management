@@ -102,13 +102,13 @@ class _EquipmentImportPreviewDialogState
       final excel = Excel.decodeBytes(widget.excelBytes);
 
       if (excel.tables.isEmpty) {
-        throw Exception('Không tìm thấy bảng trong tệp Excel');
+        throw Exception(AppLocalizations.of(context)!.noExcelTablesFound);
       }
 
       final table = excel.tables[excel.tables.keys.first];
 
       if (table == null || table.rows.isEmpty) {
-        throw Exception('Bảng Excel trống');
+        throw Exception(AppLocalizations.of(context)!.emptyExcelTable);
       }
 
       // New format: A=number, B=name, C=description, D=date_bought, E=quantity
@@ -148,7 +148,7 @@ class _EquipmentImportPreviewDialogState
 
       return rows;
     } catch (e) {
-      throw Exception('Không thể phân tích tệp Excel: $e');
+      throw Exception('${AppLocalizations.of(context)!.cannotParseExcelFile}: $e');
     }
   }
 
@@ -191,7 +191,7 @@ class _EquipmentImportPreviewDialogState
       setState(() => _generating = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Lỗi: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${AppLocalizations.of(context)!.error}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -214,7 +214,7 @@ class _EquipmentImportPreviewDialogState
         if (mounted) {
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(const SnackBar(content: Text('Mã QR đã được tải xuống')));
+          ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.qrCodeDownloaded)));
         }
       }
     } catch (e) {
@@ -258,7 +258,7 @@ class _EquipmentImportPreviewDialogState
         Navigator.of(context).pop(true); // Close dialog
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Đã nhập thành công $successCount thiết bị'),
+            content: Text('${AppLocalizations.of(context)!.importSuccess}: $successCount ${AppLocalizations.of(context)!.items}'),
             backgroundColor: Colors.green,
           ),
         );
@@ -267,7 +267,7 @@ class _EquipmentImportPreviewDialogState
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Nhập dữ liệu thất bại: $e'),
+            content: Text('${AppLocalizations.of(context)!.importFailed}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -320,8 +320,8 @@ class _EquipmentImportPreviewDialogState
             children: [
               Text(
                 _showQrCodes
-                    ? 'Xem & Tải xuống Mã QR'
-                    : 'Nhập Thiết bị',
+                    ? AppLocalizations.of(context)!.viewAndDownloadQrCodes
+                    : AppLocalizations.of(context)!.importEquipment,
                 style: GoogleFonts.inter(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -329,8 +329,8 @@ class _EquipmentImportPreviewDialogState
               ),
               Text(
                 _showQrCodes
-                    ? 'Xem các mã QR đã tạo và tải xuống nếu cần'
-                    : '${_equipmentRows.length} mục được tìm thấy - Chọn danh mục',
+                    ? AppLocalizations.of(context)!.viewAndDownloadQrCodes
+                    : '${_equipmentRows.length} ${AppLocalizations.of(context)!.itemsFound} - ${AppLocalizations.of(context)!.selectCategory}',
                 style: GoogleFonts.inter(fontSize: 14, color: Colors.grey[600]),
               ),
             ],
@@ -368,7 +368,7 @@ class _EquipmentImportPreviewDialogState
             const CircularProgressIndicator(),
             const SizedBox(height: 24),
             Text(
-              'Đang tạo mã QR...',
+              AppLocalizations.of(context)!.creatingQrCode,
               style: GoogleFonts.inter(fontSize: 16),
             ),
           ],
@@ -429,9 +429,9 @@ class _EquipmentImportPreviewDialogState
             if (!_showQrCodes)
               DropdownButtonFormField<int>(
                 initialValue: row.categoryId,
-                decoration: const InputDecoration(
-                  labelText: 'Danh Mục',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.category,
+                  border: const OutlineInputBorder(),
                   isDense: true,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 8,
@@ -484,9 +484,9 @@ class _EquipmentImportPreviewDialogState
                       child: ElevatedButton.icon(
                         onPressed: () => _downloadQrCode(row),
                         icon: const Icon(Icons.download, size: 16),
-                        label: const Text(
-                          'Tải Xuống',
-                          style: TextStyle(fontSize: 12),
+                        label: Text(
+                          AppLocalizations.of(context)!.download,
+                          style: const TextStyle(fontSize: 12),
                         ),
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
@@ -518,7 +518,7 @@ class _EquipmentImportPreviewDialogState
           ElevatedButton.icon(
             onPressed: _generating ? null : _generateQrCodes,
             icon: const Icon(Icons.qr_code),
-            label: const Text('Tạo Mã QR'),
+            label: Text(AppLocalizations.of(context)!.createQrCode),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryBlue,
               foregroundColor: Colors.white,
@@ -537,7 +537,7 @@ class _EquipmentImportPreviewDialogState
                     ),
                   )
                 : const Icon(Icons.save),
-            label: Text(_importing ? 'Đang Lưu...' : 'Lưu Tất Cả'),
+            label: Text(_importing ? AppLocalizations.of(context)!.saving : AppLocalizations.of(context)!.save),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,

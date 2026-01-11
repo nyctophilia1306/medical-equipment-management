@@ -277,7 +277,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     ),
                     Text(
                       isGuest
-                          ? 'Người dùng khách'
+                          ? AppLocalizations.of(context)!.guest
                           : _getRoleDisplayName(currentUser!.roleId),
                       style: GoogleFonts.inter(
                         fontSize: 12,
@@ -344,7 +344,7 @@ class _MainDashboardState extends State<MainDashboard> {
     final screens = _getScreens();
 
     if (_selectedIndex >= screens.length) {
-      return const Center(child: Text('Screen not found'));
+      return Center(child: Text(AppLocalizations.of(context)!.noAccess));
     }
     final isGuest = !_authService.isAuthenticated || currentUser == null;
 
@@ -384,7 +384,7 @@ class _MainDashboardState extends State<MainDashboard> {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      'Đã đăng nhập với tên ${currentUser!.userName} · ${_getRoleDisplayName(currentUser!.roleId)}',
+                      AppLocalizations.of(context)!.welcomeUser(currentUser!.userName),
                       style: GoogleFonts.inter(
                         fontSize: 12,
                         color: AppColors.primaryBlue,
@@ -470,11 +470,11 @@ class _MainDashboardState extends State<MainDashboard> {
   String _getRoleDisplayName(int roleId) {
     switch (roleId) {
       case 2: // User role
-        return 'Người Dùng';
+        return AppLocalizations.of(context)!.user;
       case 1: // Manager role
-        return 'Quản Lý';
+        return AppLocalizations.of(context)!.manager;
       case 0: // Admin role
-        return 'Quản Trị Viên';
+        return AppLocalizations.of(context)!.administrator;
       default:
         return 'Unknown Role ($roleId)';
     }
@@ -485,24 +485,24 @@ class _MainDashboardState extends State<MainDashboard> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Đăng Xuất',
+          AppLocalizations.of(context)!.signOut,
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Text(
-          'Bạn có chắc chắn muốn đăng xuất?',
+          AppLocalizations.of(context)!.confirmSignOut,
           style: GoogleFonts.inter(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.errorRed,
             ),
-            child: const Text('Đăng Xuất'),
+            child: Text(AppLocalizations.of(context)!.signOut),
           ),
         ],
       ),

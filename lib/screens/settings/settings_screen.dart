@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../constants/app_colors.dart';
@@ -38,7 +39,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       final currentUser = _authService.currentUser;
       if (currentUser == null) {
-        throw Exception('No authenticated user');
+        throw Exception(AppLocalizations.of(context)!.noAuthenticatedUser);
       }
 
       final settings = await _settingsService.getUserSettings(currentUser.id);
@@ -48,7 +49,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       });
     } catch (e) {
       setState(() {
-        _error = 'Failed to load settings: $e';
+        _error = '${AppLocalizations.of(context)!.failedToLoadSettings}: $e';
         _loading = false;
       });
     }
@@ -62,7 +63,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       final currentUser = _authService.currentUser;
       if (currentUser == null) {
-        throw Exception('No authenticated user');
+        throw Exception(AppLocalizations.of(context)!.noAuthenticatedUser);
       }
 
       // Update language in database
@@ -98,12 +99,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = 'Failed to update language: $e';
+        _error = '${AppLocalizations.of(context)!.failedToUpdateLanguage}: $e';
       });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error updating language: $e'),
+            content: Text('${AppLocalizations.of(context)!.failedToUpdateLanguage}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -119,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       final currentUser = _authService.currentUser;
       if (currentUser == null) {
-        throw Exception('No authenticated user');
+        throw Exception(AppLocalizations.of(context)!.noAuthenticatedUser);
       }
 
       await _settingsService.updateEmailNotifications(currentUser.id, enabled);
@@ -131,7 +132,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              enabled ? 'Đã bật thông báo email' : 'Đã tắt thông báo email',
+              enabled ? AppLocalizations.of(context)!.emailNotificationsEnabled : AppLocalizations.of(context)!.emailNotificationsDisabled,
             ),
             backgroundColor: Colors.green,
           ),
@@ -140,12 +141,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = 'Failed to update email notifications: $e';
+        _error = '${AppLocalizations.of(context)!.failedToUpdateEmailNotifications}: $e';
       });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error updating notifications: $e'),
+            content: Text('${AppLocalizations.of(context)!.failedToUpdateEmailNotifications}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -207,7 +208,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: _loadSettings,
-                          child: const Text('Retry'),
+                          child: Text(AppLocalizations.of(context)!.retry),
                         ),
                       ],
                     ),
@@ -229,17 +230,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           // Language Settings Card
           _buildSettingsCard(
-            title: 'Ngôn Ngữ',
+            title: AppLocalizations.of(context)!.language,
             icon: Icons.language,
             children: [
               _buildLanguageOption(
-                'Tiếng Việt',
+                AppLocalizations.of(context)!.vietnamese,
                 UserSettings.languageVietnamese,
                 _settings!.language == UserSettings.languageVietnamese,
               ),
               const Divider(height: 1),
               _buildLanguageOption(
-                'English',
+                AppLocalizations.of(context)!.english,
                 UserSettings.languageEnglish,
                 _settings!.language == UserSettings.languageEnglish,
               ),
@@ -250,7 +251,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Notification Settings Card
           _buildSettingsCard(
-            title: 'Thông Báo',
+            title: AppLocalizations.of(context)!.notifications,
             icon: Icons.notifications,
             children: [_buildNotificationToggle()],
           ),
@@ -335,7 +336,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildNotificationToggle() {
     return SwitchListTile(
       title: Text(
-        'Thông báo qua Email',
+        AppLocalizations.of(context)!.emailNotifications,
         style: GoogleFonts.inter(
           fontSize: 16,
           fontWeight: FontWeight.w400,
@@ -343,7 +344,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
       ),
       subtitle: Text(
-        'Nhận thông báo về yêu cầu mượn, duyệt, và nhắc nhở',
+        AppLocalizations.of(context)!.emailNotificationSubtitle,
         style: GoogleFonts.inter(fontSize: 13, color: AppColors.textSecondary),
       ),
       value: _settings?.emailNotifications ?? true,

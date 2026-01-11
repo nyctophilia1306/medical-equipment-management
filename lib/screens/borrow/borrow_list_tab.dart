@@ -6,6 +6,7 @@ import '../../services/auth_service.dart';
 import '../../widgets/grouped_borrow_request_card.dart';
 import '../../widgets/qr_scan_return_dialog.dart';
 import '../../constants/app_colors.dart';
+import '../../l10n/app_localizations.dart';
 
 class BorrowListTab extends StatefulWidget {
   const BorrowListTab({super.key});
@@ -99,7 +100,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
     } catch (e) {
       setState(() {
         _loading = false;
-        _error = 'Failed to load borrow requests: $e';
+        _error = AppLocalizations.of(context)!.failedToLoadBorrowRequests(e.toString());
       });
     }
   }
@@ -216,7 +217,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Successfully returned ${selectedRequestIds.length} equipment',
+              AppLocalizations.of(context)!.successfullyReturned(selectedRequestIds.length),
             ),
             backgroundColor: Colors.green,
           ),
@@ -226,8 +227,8 @@ class _BorrowListTabState extends State<BorrowListTab> {
         await _loadBorrowRequests();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to return some equipment'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.failedToReturnSomeEquipment),
             backgroundColor: Colors.orange,
           ),
         );
@@ -237,7 +238,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
       Navigator.of(context).pop(); // Close loading dialog
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red),
+        SnackBar(content: Text('${AppLocalizations.of(context)!.error}: $e'), backgroundColor: Colors.red),
       );
     }
   }
@@ -264,11 +265,11 @@ class _BorrowListTabState extends State<BorrowListTab> {
               // Search Mode Selector
               Row(
                 children: [
-                  _buildSearchModeChip('Serial', 'serial'),
+                  _buildSearchModeChip(AppLocalizations.of(context)!.serial, 'serial'),
                   const SizedBox(width: 8),
-                  _buildSearchModeChip('Người Dùng', 'user'),
+                  _buildSearchModeChip(AppLocalizations.of(context)!.user, 'user'),
                   const SizedBox(width: 8),
-                  _buildSearchModeChip('Ngày', 'date'),
+                  _buildSearchModeChip(AppLocalizations.of(context)!.date, 'date'),
                   const Spacer(),
 
                   // Date Filter Button
@@ -315,7 +316,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
                   IconButton(
                     icon: const Icon(Icons.date_range),
                     onPressed: _selectDate,
-                    tooltip: 'Filter by date',
+                    tooltip: AppLocalizations.of(context)!.filterByDate,
                     color: _selectedDate != null
                         ? AppColors.primaryBlue
                         : Colors.grey,
@@ -403,13 +404,13 @@ class _BorrowListTabState extends State<BorrowListTab> {
   String _getSearchHint() {
     switch (_searchMode) {
       case 'serial':
-        return 'Tìm theo số serial yêu cầu (ví dụ: 15012501)';
+        return AppLocalizations.of(context)!.searchBySerial;
       case 'user':
-        return 'Search by user name';
+        return AppLocalizations.of(context)!.searchByUserName;
       case 'date':
-        return 'Search by date (e.g., 15/01/2025)';
+        return AppLocalizations.of(context)!.searchByDate;
       default:
-        return 'Search...';
+        return AppLocalizations.of(context)!.search;
     }
   }
 
@@ -433,7 +434,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _loadBorrowRequests,
-              child: const Text('Retry'),
+              child: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -451,8 +452,8 @@ class _BorrowListTabState extends State<BorrowListTab> {
             const SizedBox(height: 16),
             Text(
               _searchController.text.isNotEmpty || _selectedDate != null
-                  ? 'No requests match your search'
-                  : 'Không có yêu cầu mượn hoạt động',
+                  ? AppLocalizations.of(context)!.noRequestsMatchYourSearch
+                  : AppLocalizations.of(context)!.noActiveBorrowRequests,
               style: TextStyle(fontSize: 16, color: Colors.grey[600]),
             ),
           ],
@@ -495,19 +496,19 @@ class _BorrowListTabState extends State<BorrowListTab> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Xác Nhận Duyệt'),
+        title: Text(AppLocalizations.of(context)!.confirmApprove),
         content: Text(
-          'Bạn có chắc muốn duyệt yêu cầu $requestSerial?\n\n${requests.length} thiết bị sẽ được cấp phát.',
+          '${AppLocalizations.of(context)!.confirmApproveWithSerial(requestSerial)}\n\n${AppLocalizations.of(context)!.equipmentCount(requests.length.toString())}',
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-            child: const Text('Duyệt'),
+            child: Text(AppLocalizations.of(context)!.approve),
           ),
         ],
       ),
@@ -526,7 +527,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
       // Get current user
       final currentUser = Supabase.instance.client.auth.currentUser;
       if (currentUser == null) {
-        throw Exception('No authenticated user');
+        throw Exception(AppLocalizations.of(context)!.noAuthenticatedUser);
       }
 
       // Approve each request in the batch
@@ -541,8 +542,8 @@ class _BorrowListTabState extends State<BorrowListTab> {
       Navigator.of(context).pop(); // Close loading
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Yêu cầu đã được duyệt thành công'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.requestApprovedSuccessfully),
           backgroundColor: Colors.green,
         ),
       );
@@ -554,7 +555,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Lỗi khi duyệt: $e'),
+          content: Text('${AppLocalizations.of(context)!.errorWhenApproving}: $e'),
           backgroundColor: Colors.red,
         ),
       );
@@ -571,19 +572,19 @@ class _BorrowListTabState extends State<BorrowListTab> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Từ Chối Yêu Cầu'),
+        title: Text(AppLocalizations.of(context)!.rejectRequest),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Từ chối yêu cầu $requestSerial?'),
+            Text('${AppLocalizations.of(context)!.rejectRequestMessage} $requestSerial?'),
             const SizedBox(height: 16),
             TextField(
               controller: reasonController,
-              decoration: const InputDecoration(
-                labelText: 'Lý do từ chối',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.rejectReason,
                 border: OutlineInputBorder(),
-                hintText: 'Nhập lý do...',
+                hintText: AppLocalizations.of(context)!.enterRejectReason,
               ),
               maxLines: 3,
             ),
@@ -592,12 +593,12 @@ class _BorrowListTabState extends State<BorrowListTab> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text('Từ Chối'),
+            child: Text(AppLocalizations.of(context)!.reject),
           ),
         ],
       ),
@@ -608,8 +609,8 @@ class _BorrowListTabState extends State<BorrowListTab> {
     final reason = reasonController.text.trim();
     if (reason.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Vui lòng nhập lý do từ chối'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.pleaseEnterRejectReason),
           backgroundColor: Colors.orange,
         ),
       );
@@ -633,8 +634,8 @@ class _BorrowListTabState extends State<BorrowListTab> {
       Navigator.of(context).pop(); // Close loading
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Yêu cầu đã bị từ chối'),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.requestRejectedSuccessfully),
           backgroundColor: Colors.orange,
         ),
       );
@@ -646,7 +647,7 @@ class _BorrowListTabState extends State<BorrowListTab> {
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Lỗi khi từ chối: $e'),
+          content: Text('${AppLocalizations.of(context)!.errorWhenRejecting}: $e'),
           backgroundColor: Colors.red,
         ),
       );

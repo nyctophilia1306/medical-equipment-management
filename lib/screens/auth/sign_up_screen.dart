@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/constants.dart';
@@ -91,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Column(
       children: [
         Text(
-          'Tạo Tài Khoản',
+          AppLocalizations.of(context)!.createAccount,
           style: GoogleFonts.inter(
             fontSize: 32,
             fontWeight: FontWeight.w700,
@@ -100,7 +101,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         const SizedBox(height: AppConstants.paddingSmall),
         Text(
-          'Đăng ký để sử dụng hệ thống',
+          AppLocalizations.of(context)!.signUpToUseSystem,
           style: GoogleFonts.inter(
             fontSize: 16,
             color: AppColors.textSecondary,
@@ -137,7 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Địa chỉ email *',
+                labelText: AppLocalizations.of(context)!.emailAddress,
                 prefixIcon: Icon(
                   Icons.email_outlined,
                   color: AppColors.textSecondary,
@@ -150,12 +151,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Hãy nhập email của bạn';
+                  return AppLocalizations.of(context)!.pleaseEnterEmailAddress;
                 }
                 if (!RegExp(
                   r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
                 ).hasMatch(value)) {
-                  return 'Hãy nhập địa chỉ email hợp lệ';
+                  return AppLocalizations.of(context)!.pleaseEnterValidEmailAddress;
                 }
                 return null;
               },
@@ -169,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Tên đăng nhập *',
+                labelText: AppLocalizations.of(context)!.username,
                 prefixIcon: Icon(
                   Icons.person_outlined,
                   color: AppColors.textSecondary,
@@ -182,13 +183,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Hãy nhập tên đăng nhập';
+                  return AppLocalizations.of(context)!.pleaseEnterUsername;
                 }
                 if (value.length < 3) {
-                  return 'Tên đăng nhập phải có ít nhất 3 ký tự';
+                  return AppLocalizations.of(context)!.usernameMustBeAtLeast3Characters;
                 }
                 if (!RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(value)) {
-                  return 'Tên đăng nhập chỉ được chứa chữ, số và dấu gạch dưới';
+                  return AppLocalizations.of(context)!.usernameCanOnlyContainLettersNumbersAndUnderscores;
                 }
                 return null;
               },
@@ -202,7 +203,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Họ và tên *',
+                labelText: AppLocalizations.of(context)!.fullName,
                 prefixIcon: Icon(
                   Icons.badge_outlined,
                   color: AppColors.textSecondary,
@@ -215,10 +216,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Hãy nhập họ và tên';
+                  return AppLocalizations.of(context)!.pleaseEnterFullName;
                 }
                 if (value.length < 2) {
-                  return 'Họ và tên phải có ít nhất 2 ký tự';
+                  return AppLocalizations.of(context)!.fullNameMustBeAtLeast2Characters;
                 }
                 return null;
               },
@@ -233,7 +234,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Số điện thoại (không bắt buộc)',
+                labelText: AppLocalizations.of(context)!.phoneNumberOptional,
                 prefixIcon: Icon(
                   Icons.phone_outlined,
                   color: AppColors.textSecondary,
@@ -247,7 +248,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               validator: (value) {
                 if (value != null && value.isNotEmpty) {
                   if (!RegExp(r'^\+?[0-9]{10,15}$').hasMatch(value)) {
-                    return 'Số điện thoại không hợp lệ';
+                    return AppLocalizations.of(context)!.pleaseEnterValidPhoneNumber;
                   }
                 }
                 return null;
@@ -263,7 +264,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Mật khẩu *',
+                labelText: AppLocalizations.of(context)!.password,
                 prefixIcon: Icon(
                   Icons.lock_outlined,
                   color: AppColors.textSecondary,
@@ -287,10 +288,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Vui lòng nhập mật khẩu';
+                  return AppLocalizations.of(context)!.pleaseEnterPassword;
                 }
                 if (value.length < AppConstants.minPasswordLength) {
-                  return 'Mật khẩu phải có ít nhất ${AppConstants.minPasswordLength} ký tự';
+                  return AppLocalizations.of(context)!.passwordMustBeAtLeast(AppConstants.minPasswordLength);
                 }
                 return null;
               },
@@ -305,7 +306,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
-                labelText: 'Xác nhận mật khẩu *',
+                labelText: AppLocalizations.of(context)!.confirmPassword,
                 prefixIcon: Icon(
                   Icons.lock_outlined,
                   color: AppColors.textSecondary,
@@ -331,10 +332,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Vui lòng xác nhận mật khẩu';
+                  return AppLocalizations.of(context)!.pleaseConfirmPassword;
                 }
                 if (value != _passwordController.text) {
-                  return 'Mật khẩu không khớp';
+                  return AppLocalizations.of(context)!.passwordsDoNotMatch;
                 }
                 return null;
               },
@@ -364,7 +365,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     )
                   : Text(
-                      'Đăng Ký',
+                      AppLocalizations.of(context)!.signUp,
                       style: GoogleFonts.inter(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -383,7 +384,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Đã có tài khoản? ',
+          AppLocalizations.of(context)!.alreadyHaveAnAccount,
           style: GoogleFonts.inter(
             fontSize: 14,
             color: AppColors.textSecondary,
@@ -396,7 +397,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             );
           },
           child: Text(
-            'Đăng Nhập',
+            AppLocalizations.of(context)!.signIn,
             style: GoogleFonts.inter(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -439,7 +440,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _showSuccessDialog();
         } else {
           Logger.warn('Sign up failed: ${result.errorMessage}');
-          _showErrorDialog(result.errorMessage ?? 'Không thể tạo tài khoản');
+          _showErrorDialog(result.errorMessage ?? AppLocalizations.of(context)!.cannotCreateAccount);
         }
       }
     } catch (e) {
@@ -463,13 +464,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Text(
-          'Đăng Ký Thành Công',
+          AppLocalizations.of(context)!.registrationSuccessful ,
           style: GoogleFonts.inter(fontWeight: FontWeight.w600),
         ),
         content: Text(
-          'Vui lòng kiểm tra email của bạn để xác thực tài khoản. '
-          'Sau khi xác thực, bạn có thể đăng nhập vào hệ thống.',
-          style: GoogleFonts.inter(fontSize: 14),
+          AppLocalizations.of(context)!.pleaseCheckEmailToVerifyAccount,
+          style: GoogleFonts.inter(fontSize: 14)
         ),
         actions: [
           TextButton(
@@ -480,7 +480,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               );
             },
             child: Text(
-              'Đến Trang Đăng Nhập',
+              AppLocalizations.of(context)!.goToSignInPage,
               style: GoogleFonts.inter(
                 fontWeight: FontWeight.w600,
                 color: AppColors.primaryBlue,
@@ -497,7 +497,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          'Lỗi Đăng Ký',
+          AppLocalizations.of(context)!.registrationError,
           style: GoogleFonts.inter(
             fontWeight: FontWeight.w600,
             color: AppColors.errorRed,

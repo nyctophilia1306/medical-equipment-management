@@ -166,7 +166,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                     size: 20,
                   ),
                   const SizedBox(width: 8),
-                  Expanded(child: Text('No equipment found: $scannedCode')),
+                  Expanded(child: Text(AppLocalizations.of(context)!.noEquipmentFoundCode(scannedCode))),
                 ],
               ),
               duration: const Duration(seconds: 2),
@@ -352,7 +352,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     final s = _serialController.text.trim();
     if (s.isEmpty) {
       setState(() {
-        _message = 'Hãy quét mã QR hoặc nhập số serial hợp lệ';
+        _message = AppLocalizations.of(context)!.pleaseScanQROrEnterValidSerial;
         _isMessageSuccess = false;
       });
       return;
@@ -369,7 +369,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
       if (equipment == null) {
         setState(() {
-          _message = 'No equipment found with QR code or serial number: $s';
+          _message = AppLocalizations.of(context)!.noEquipmentFoundWithQROrSerial(s);
           _isMessageSuccess = false;
         });
         return;
@@ -377,8 +377,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
       if (equipment.availableQty <= 0) {
         setState(() {
-          _message =
-              'Equipment ${equipment.getLocalizedName(context)} is not available for borrowing';
+          _message = AppLocalizations.of(context)!.equipmentNotAvailableForBorrowing(equipment.getLocalizedName(context));
           _isMessageSuccess = false;
         });
         return;
@@ -393,7 +392,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     } catch (e) {
       setState(() {
         _loading = false;
-        _message = 'Error looking up equipment: $e';
+        _message = AppLocalizations.of(context)!.errorLookingUpEquipment(e.toString());
         _isMessageSuccess = false;
       });
     }
@@ -408,8 +407,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         _borrowDate == null ||
         _returnDate == null) {
       setState(() {
-        _message =
-            'Hãy điền tất cả các trường bắt buộc và quét thiết bị trước khi lưu yêu cầu';
+        _message = AppLocalizations.of(context)!.pleaseFillAllRequiredFields;
         _isMessageSuccess = false;
       });
       return;
@@ -458,7 +456,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       if (newUserId == null) {
         setState(() {
           _loading = false;
-          _message = 'Failed to create user';
+          _message = AppLocalizations.of(context)!.failedToCreateUser;
           _isMessageSuccess = false;
         });
         return;
@@ -468,7 +466,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       if (_selectedExistingUserId == null) {
         setState(() {
           _loading = false;
-          _message = 'Hãy chọn một người dùng hiện có';
+          _message = AppLocalizations.of(context)!.pleaseSelectAnExistingUser;
           _isMessageSuccess = false;
         });
         return;
@@ -489,7 +487,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         if (email == null || email.isEmpty) {
           setState(() {
             _loading = false;
-            _message = 'Email là bắt buộc để tạo yêu cầu mượn';
+            _message = AppLocalizations.of(context)!.emailIsRequiredToCreateBorrowRequest;
             _isMessageSuccess = false;
           });
           return;
@@ -517,7 +515,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     if (currentUser == null) {
       setState(() {
         _loading = false;
-        _message = 'No authenticated user';
+        _message = AppLocalizations.of(context)!.noAuthenticatedUser;
         _isMessageSuccess = false;
       });
       return;
@@ -549,10 +547,10 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       if (success) {
         // Different message for admin (auto-approved) vs manager (pending)
         _message = isAdmin
-            ? 'Yêu cầu mượn đã được tạo và phê duyệt tự động! Mã yêu cầu: #$requestSerial'
-            : 'Yêu cầu mượn đã được lưu thành công! Mã yêu cầu: #$requestSerial';
+            ? AppLocalizations.of(context)!.borrowRequestCreatedAndAutoApproved(requestSerial.toString())
+            : AppLocalizations.of(context)!.borrowRequestSavedSuccessfully(requestSerial.toString());
       } else {
-        _message = 'Không thể lưu yêu cầu mượn';
+        _message = AppLocalizations.of(context)!.cannotSaveBorrowRequest;
       }
     });
 
@@ -592,11 +590,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         const SizedBox(height: 8),
         TextFormField(
           controller: _emailController,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             filled: true,
             fillColor: Colors.white,
-            labelText: 'Email *',
-            hintText: 'Nhập email',
+            labelText: '${AppLocalizations.of(context)!.email} *',
+            hintText: AppLocalizations.of(context)!.enterEmail,
           ),
           keyboardType: TextInputType.emailAddress,
         ),
@@ -678,8 +676,8 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             TextField(
               controller: _userSearchController,
               decoration: InputDecoration(
-                labelText: 'Search user by name or phone',
-                hintText: 'Type to search...',
+                labelText: AppLocalizations.of(context)!.searchUserByNameOrPhone,
+                hintText: AppLocalizations.of(context)!.typeToSearch,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _userSearchController.text.isNotEmpty
                     ? IconButton(
@@ -843,16 +841,16 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   Widget _buildDatePickers() {
     return Row(
       children: [
-        Expanded(child: Text('Ngày mượn: ${_formatDate(_borrowDate)}')),
+        Expanded(child: Text(AppLocalizations.of(context)!.borrowDateLabel(_formatDate(_borrowDate)))),
         TextButton(
           onPressed: () => _pickDate(context, true),
-          child: const Text('Chọn'),
+          child: Text(AppLocalizations.of(context)!.select),
         ),
         const SizedBox(width: 8),
-        Expanded(child: Text('Ngày trả: ${_formatDate(_returnDate)}')),
+        Expanded(child: Text(AppLocalizations.of(context)!.returnDateLabel(_formatDate(_returnDate)))),
         TextButton(
           onPressed: () => _pickDate(context, false),
-          child: const Text('Chọn'),
+          child: Text(AppLocalizations.of(context)!.select),
         ),
       ],
     );
@@ -1287,21 +1285,21 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        title: const Text('Email Bắt Buộc'),
+        title: Text(AppLocalizations.of(context)!.emailRequired),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Người dùng này chưa có email. Vui lòng nhập email để tiếp tục.',
+            Text(
+              AppLocalizations.of(context)!.userDoesNotHaveEmailPleaseEnter,
             ),
             const SizedBox(height: 16),
             TextField(
               controller: emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email *',
-                hintText: 'Nhập email',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: '${AppLocalizations.of(context)!.email} *',
+                hintText: AppLocalizations.of(context)!.enterEmail,
+                border: const OutlineInputBorder(),
               ),
               keyboardType: TextInputType.emailAddress,
               autofocus: true,
@@ -1311,14 +1309,14 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(null),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           ElevatedButton(
             onPressed: () {
               final email = emailController.text.trim();
               if (email.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Vui lòng nhập email')),
+                  SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterEmail)),
                 );
                 return;
               }
@@ -1326,13 +1324,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
               ).hasMatch(email)) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Email không hợp lệ')),
+                  SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterValidEmail)),
                 );
                 return;
               }
               Navigator.of(context).pop(email);
             },
-            child: const Text('Xác Nhận'),
+            child: Text(AppLocalizations.of(context)!.confirm),
           ),
         ],
       ),

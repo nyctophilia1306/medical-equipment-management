@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/l10n/app_localizations.dart';
 import '../../models/equipment.dart';
 
 class ReturnEquipmentDialog extends StatefulWidget {
@@ -29,29 +30,29 @@ class _ReturnEquipmentDialogState extends State<ReturnEquipmentDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Return Equipment'),
+      title: Text(AppLocalizations.of(context)!.returnEquipment),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Equipment: ${widget.equipment?.name ?? 'Unknown'}'),
-            Text('Quantity: ${widget.request['quantity']}'),
+            Text('${AppLocalizations.of(context)!.equipment}: ${widget.equipment?.name ?? AppLocalizations.of(context)!.unknown}'),
+            Text('${AppLocalizations.of(context)!.quantity}: ${widget.request['quantity']}'),
             const SizedBox(height: 16),
             TextField(
               controller: _conditionController,
-              decoration: const InputDecoration(
-                labelText: 'Return Condition',
-                hintText: 'e.g., Good, Damaged, etc.',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.returnCondition,
+                hintText: AppLocalizations.of(context)!.returnConditionHint,
               ),
             ),
             const SizedBox(height: 8),
             TextField(
               controller: _notesController,
               maxLines: 3,
-              decoration: const InputDecoration(
-                labelText: 'Ghi Chú',
-                hintText: 'Any additional notes about the return',
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.notes,
+                hintText: AppLocalizations.of(context)!.notesHint,
               ),
             ),
           ],
@@ -60,14 +61,14 @@ class _ReturnEquipmentDialogState extends State<ReturnEquipmentDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Hủy'),
+          child: Text(AppLocalizations.of(context)!.cancel),
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context).pop({
             'condition': _conditionController.text,
             'notes': _notesController.text,
           }),
-          child: const Text('Confirm Return'),
+          child: Text(AppLocalizations.of(context)!.confirmReturn),
         ),
       ],
     );

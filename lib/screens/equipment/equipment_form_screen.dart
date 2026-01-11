@@ -10,6 +10,7 @@ import '../../services/metadata_service.dart';
 import '../../services/qr_code_service.dart';
 import '../../utils/logger.dart';
 import '../../utils/serial_generator.dart';
+import '../../l10n/app_localizations.dart';
 
 class EquipmentFormScreen extends StatefulWidget {
   final Equipment? equipment; // Null for create, non-null for edit
@@ -152,7 +153,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       }
     } catch (e) {
       // Ignore errors, form will use text input if lists are empty
-      Logger.error('Lỗi khi tải danh mục: $e');
+      Logger.error('${AppLocalizations.of(context)!.errorLoadingCategories}: $e');
     }
   }
 
@@ -201,35 +202,35 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         // Add extra diagnostic logging
         Logger.debug(
-          'Equipment form - Chế độ chỉnh sửa - ID thiết bị: "$equipmentId"',
+          '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.editMode} - ${AppLocalizations.of(context)!.equipmentId}: "$equipmentId"',
         );
         Logger.debug(
-          'Equipment form - Thiết bị gốc: ${widget.equipment.toString()}',
+          '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.originalEquipment}: ${widget.equipment.toString()}',
         );
 
         if (equipmentId.isEmpty) {
-          Logger.error('Thông tin ID thiết bị bị thiếu hoặc không hợp lệ');
-          throw Exception('Thông tin ID thiết bị bị thiếu hoặc không hợp lệ');
+          Logger.error('${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.missingOrInvalidEquipmentId}');
+          throw Exception('${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.missingOrInvalidEquipmentId}');
         }
 
         // Verify the equipment exists in the database before updating
         final checkEquipment = await _dataService.getEquipmentById(equipmentId);
         if (checkEquipment == null) {
           Logger.error(
-            'Equipment form - Không tìm thấy thiết bị trong cơ sở dữ liệu: $equipmentId',
+            '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.equipmentNotFoundInDatabase} ID: $equipmentId',
           );
           throw Exception(
-            'Không tìm thấy thiết bị trong cơ sở dữ liệu với ID: $equipmentId',
+            '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.equipmentNotFoundInDatabase} ID: $equipmentId',
           );
         } else {
           Logger.debug(
-            'Equipment form - Đã xác nhận thiết bị tồn tại trong cơ sở dữ liệu: ${checkEquipment.id}',
+            '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.confirmedEquipmentExistsInDatabase}: ${checkEquipment.id}',
           );
         }
 
         // Use the safe update method to avoid schema issues
         Logger.debug(
-          'Equipment form - Gọi safeUpdateEquipment với ID: $equipmentId',
+          '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.callingSafeUpdateEquipment} ID: $equipmentId',
         );
         await _dataService.safeUpdateEquipment(
           equipmentId: equipmentId,
@@ -251,8 +252,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Thiết bị đã được cập nhật thành công'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.equipmentUpdatedSuccessfully),
             ),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
@@ -304,40 +305,40 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Thiết bị mới đã được tạo thành công'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.newEquipmentCreatedSuccessfully),
             ),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
         }
       }
     } catch (e) {
-      final errorMessage = 'Lỗi khi lưu thiết bị: $e';
+      final errorMessage = '${AppLocalizations.of(context)!.errorSavingEquipment}: $e';
       Logger.error(errorMessage);
 
       if (mounted) {
         setState(() {
-          _errorMessage = 'Lỗi: ${e.toString()}';
+          _errorMessage = '${AppLocalizations.of(context)!.error}: ${e.toString()}';
         });
 
         // Show a more user-friendly error message
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: const Text('Lỗi khi lưu thiết bị. Vui lòng thử lại.'),
+            content: Text(AppLocalizations.of(context)!.errorSavingEquipment),
             backgroundColor: Colors.red,
             duration: const Duration(seconds: 5),
             action: SnackBarAction(
-              label: 'CHI TIẾT',
+              label: AppLocalizations.of(context)!.errorDetails,
               textColor: Colors.white,
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (ctx) => AlertDialog(
-                    title: const Text('Chi Tiết Lỗi'),
+                    title: Text(AppLocalizations.of(context)!.errorDetails),
                     content: SingleChildScrollView(child: Text(errorMessage)),
                     actions: [
                       TextButton(
-                        child: const Text('Đồng Ý'),
+                        child: Text(AppLocalizations.of(context)!.agree),
                         onPressed: () => Navigator.of(ctx).pop(),
                       ),
                     ],
@@ -361,7 +362,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     final serialNumber = _serialNumberController.text.trim();
     if (serialNumber.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Vui lòng nhập số serial trước')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterSerialNumberFirst)),
       );
       return;
     }
@@ -373,8 +374,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       if (imageBytes == null) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Không thể tạo mã QR'),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.cannotGenerateQRCode),
               backgroundColor: Colors.red,
             ),
           );
@@ -387,8 +388,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Mã QR đã được tải xuống thành công'),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.qrCodeDownloadedSuccessfully),
             backgroundColor: Colors.green,
           ),
         );
@@ -397,7 +398,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Lỗi khi tải xuống mã QR: $e'),
+            content: Text(AppLocalizations.of(context)!.errorDownloadingQRCode(e.toString())),
             backgroundColor: Colors.red,
           ),
         );
@@ -409,12 +410,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEdit ? 'Sửa Thiết Bị' : 'Thêm Thiết Bị Mới'),
+        title: Text(_isEdit ? AppLocalizations.of(context)!.editEquipment : AppLocalizations.of(context)!.addNewEquipment),
         actions: [
           TextButton.icon(
             onPressed: _isLoading ? null : _saveEquipment,
             icon: const Icon(Icons.save),
-            label: Text(_isLoading ? 'Đang Lưu...' : 'Lưu'),
+            label: Text(_isLoading ? AppLocalizations.of(context)!.saving : AppLocalizations.of(context)!.save),
           ),
         ],
       ),
@@ -465,19 +466,19 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
             // Basic Information Card
             _buildSectionCard(
-              title: 'Thông Tin Cơ Bản',
+              title: AppLocalizations.of(context)!.basicInformation,
               children: [
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Tên Thiết Bị *',
-                    hintText: 'Nhập tên thiết bị',
+                    labelText: '${AppLocalizations.of(context)!.equipmentName} *',
+                    hintText: AppLocalizations.of(context)!.enterEquipmentName,
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Tên thiết bị là bắt buộc';
+                      return '${AppLocalizations.of(context)!.equipmentName} ${AppLocalizations.of(context)!.isRequired}';
                     }
                     return null;
                   },
@@ -486,16 +487,16 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
                 TextFormField(
                   controller: _descriptionController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Mô Tả *',
-                    hintText: 'Nhập mô tả thiết bị',
+                    labelText: '${AppLocalizations.of(context)!.description} *',
+                    hintText: AppLocalizations.of(context)!.enterDescription,
                   ),
                   maxLines: 3,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Mô tả là bắt buộc';
+                      return '${AppLocalizations.of(context)!.description} ${AppLocalizations.of(context)!.isRequired}';
                     }
                     return null;
                   },
@@ -507,20 +508,20 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
                 TextFormField(
                   controller: _quantityController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Số Lượng *',
-                    hintText: 'Nhập số lượng',
+                    labelText: '${AppLocalizations.of(context)!.quantity} *',
+                    hintText: AppLocalizations.of(context)!.enterQuantity,
                   ),
                   keyboardType: TextInputType.number,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Số lượng là bắt buộc';
+                      return '${AppLocalizations.of(context)!.quantity} ${AppLocalizations.of(context)!.isRequired}';
                     }
                     if (int.tryParse(value) == null) {
-                      return 'Phải là số hợp lệ';
+                      return AppLocalizations.of(context)!.mustBeValidNumber;
                     }
                     return null;
                   },
@@ -531,7 +532,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
                 DropdownButtonFormField<String>(
                   initialValue: _statusController.text,
-                  decoration: const InputDecoration(labelText: 'Trạng Thái *'),
+                  decoration: InputDecoration(labelText: '${AppLocalizations.of(context)!.status} *'),
                   items: _statuses
                       .map(
                         (status) => DropdownMenuItem<String>(
@@ -549,7 +550,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Trạng thái là bắt buộc';
+                      return '${AppLocalizations.of(context)!.status} ${AppLocalizations.of(context)!.isRequired}';
                     }
                     return null;
                   },
@@ -559,15 +560,15 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
             // Details Card
             _buildSectionCard(
-              title: 'Thông Tin Bổ Sung',
+              title: AppLocalizations.of(context)!.additionalInformation,
               children: [
                 TextFormField(
                   controller: _serialNumberController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Số Serial',
-                    hintText: 'Nhập số serial (tùy chọn)',
+                    labelText: AppLocalizations.of(context)!.serialNumber,
+                    hintText: AppLocalizations.of(context)!.enterSerialNumber,
                   ),
                   onChanged: (value) {
                     // Auto-sync QR code with serial number
@@ -578,11 +579,11 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
                 TextFormField(
                   controller: _qrCodeController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Mã QR/Barcode',
-                    hintText: 'Giống số serial (tự động điền)',
+                    labelText: AppLocalizations.of(context)!.qrCode,
+                    hintText: AppLocalizations.of(context)!.qrCodeHint,
                     enabled: false,
                   ),
                   enabled: false,
@@ -602,7 +603,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                         icon: Icon(
                           _showQrCode ? Icons.visibility_off : Icons.qr_code_2,
                         ),
-                        label: Text(_showQrCode ? 'Ẩn Mã QR' : 'Hiện Mã QR'),
+                        label: Text(_showQrCode ? AppLocalizations.of(context)!.hideQRCode : AppLocalizations.of(context)!.showQRCode),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryBlue,
                           foregroundColor: AppColors.textOnPrimary,
@@ -613,7 +614,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                         ElevatedButton.icon(
                           onPressed: _downloadQrCode,
                           icon: const Icon(Icons.download),
-                          label: const Text('Tải Xuống PNG'),
+                          label: Text(AppLocalizations.of(context)!.downloadPNG),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.successGreen,
                             foregroundColor: AppColors.textOnPrimary,
@@ -639,11 +640,11 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                     Expanded(
                       child: TextFormField(
                         controller: _manufacturerController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Nhà Sản Xuất',
-                          hintText: 'Nhập tên nhà sản xuất',
+                          labelText: AppLocalizations.of(context)!.manufacturer,
+                          hintText: AppLocalizations.of(context)!.enterManufacturer,
                         ),
                       ),
                     ),
@@ -651,11 +652,11 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                     Expanded(
                       child: TextFormField(
                         controller: _modelController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Mẫu Mã',
-                          hintText: 'Nhập mã mẫu',
+                          labelText: AppLocalizations.of(context)!.model,
+                          hintText: AppLocalizations.of(context)!.enterModel,
                         ),
                       ),
                     ),
@@ -665,22 +666,22 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
                 TextFormField(
                   controller: _imageUrlController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Đường Dẫn Hình Ảnh',
-                    hintText: 'Nhập URL hình ảnh thiết bị',
+                    labelText: AppLocalizations.of(context)!.imageUrl,
+                    hintText: AppLocalizations.of(context)!.enterImageUrl,
                   ),
                 ),
                 const SizedBox(height: AppConstants.paddingMedium),
 
                 TextFormField(
                   controller: _notesController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: 'Ghi Chú',
-                    hintText: 'Nhập ghi chú bổ sung',
+                    labelText: AppLocalizations.of(context)!.notes,
+                    hintText: AppLocalizations.of(context)!.enterAdditionalNotes,
                   ),
                   maxLines: 3,
                 ),
@@ -698,15 +699,15 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     if (_categoryList.isEmpty) {
       return TextFormField(
         controller: _categoryController,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
-          labelText: 'Danh mục *',
-          hintText: 'Nhập danh mục thiết bị',
+          labelText: '${AppLocalizations.of(context)!.category} *',
+          hintText: AppLocalizations.of(context)!.enterCategory,
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return 'Danh mục là bắt buộc';
+            return AppLocalizations.of(context)!.categoryNameRequired;
           }
           return null;
         },
@@ -717,10 +718,10 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     return DropdownButtonFormField<int>(
       initialValue: _selectedCategoryId,
       decoration: InputDecoration(
-        labelText: 'Danh mục *',
+        labelText: '${AppLocalizations.of(context)!.category} *',
         hintText: _categoryNames.isEmpty
-            ? 'Nhập danh mục'
-            : 'Chọn hoặc nhập danh mục',
+            ? AppLocalizations.of(context)!.enterCategory
+            : AppLocalizations.of(context)!.selectOrEnterCategory,
         suffixIcon: IconButton(
           icon: const Icon(Icons.clear),
           onPressed: () {
@@ -735,9 +736,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         ..._categoryList.map(
           (cat) => DropdownMenuItem<int>(value: cat.id, child: Text(cat.name)),
         ),
-        const DropdownMenuItem<int>(
+        DropdownMenuItem<int>(
           value: -1, // Special value for "Add new category"
-          child: Text('+ Thêm danh mục mới'),
+          child: Text(AppLocalizations.of(context)!.addNewCategory),
         ),
       ],
       onChanged: (value) {
@@ -745,8 +746,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           // Show dialog to enter new category
           _showAddNewDialog(
             context: context,
-            title: 'Thêm Danh Mục Mới',
-            label: 'Tên Danh Mục',
+            title: AppLocalizations.of(context)!.addNewCategory,
+            label: AppLocalizations.of(context)!.categoryName,
             controller: _categoryController,
             onComplete: (String categoryName) async {
               // Create new category
@@ -776,7 +777,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       validator: (value) {
         final text = _categoryController.text;
         if (text.isEmpty) {
-          return 'Danh mục là bắt buộc';
+          return AppLocalizations.of(context)!.categoryNameRequired;
         }
         return null;
       },
@@ -800,7 +801,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
           controller: textController,
           decoration: InputDecoration(
             labelText: label,
-            hintText: 'Nhập $label mới',
+            hintText: AppLocalizations.of(context)!.enterNewCategory,
           ),
           autofocus: true,
           textCapitalization: TextCapitalization.words,
@@ -808,7 +809,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Hủy'),
+            child: Text(AppLocalizations.of(context)!.cancel),
           ),
           TextButton(
             onPressed: () {
@@ -825,7 +826,7 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                 }
               }
             },
-            child: const Text('Thêm'),
+            child: Text(AppLocalizations.of(context)!.add),
           ),
         ],
       ),
