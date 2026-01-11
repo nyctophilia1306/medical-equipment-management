@@ -64,11 +64,37 @@ class AuthService {
     required String password,
   }) async {
     try {
-      Logger.info('Signing in with email: $email');
+      Logger.info('Signing in with: $email');
+
+      String? actualEmail = email;
+
+      // Check if input is an email or username
+      if (!email.contains('@')) {
+        // It's a username, look up the actual email
+        Logger.info('Input appears to be a username, looking up email');
+        try {
+          final userLookup = await _supabase
+              .from('users')
+              .select('email')
+              .eq('user_name', email)
+              .maybeSingle();
+
+          if (userLookup != null && userLookup['email'] != null) {
+            actualEmail = userLookup['email'] as String;
+            Logger.info('Found email for username: $email');
+          } else {
+            Logger.warn('No user found with username: $email');
+            return AuthResult.error('Tên đăng nhập không tồn tại');
+          }
+        } catch (e) {
+          Logger.error('Error looking up username: $e');
+          return AuthResult.error('Lỗi khi tra cứu tên đăng nhập');
+        }
+      }
 
       // First, attempt to authenticate with Supabase
       final response = await _supabase.auth.signInWithPassword(
-        email: email,
+        email: actualEmail,
         password: password,
       );
 
@@ -180,6 +206,7 @@ class AuthService {
     required String email,
     required String password,
     required String name,
+    String? userName, // Add userName parameter
     String role = AppConstants.roleUser,
     String? phoneNumber,
     String? department,
@@ -206,6 +233,7 @@ class AuthService {
           userId: response.user!.id,
           email: email,
           name: name,
+          userName: userName, // Pass userName
           role: role,
           phoneNumber: phoneNumber,
           department: department,
@@ -316,11 +344,44 @@ class AuthService {
     }
   }
 
+  Future<void> updatePassword(String newPassword) async {
+    try {
+      await _supabase.auth.updateUser(UserAttributes(password: newPassword));
+      Logger.info('Password updated successfully');
+    } catch (e) {
+      Logger.error('Failed to update password: $e');
+      throw Exception('Failed to update password: $e');
+    }
+  }
+
+  Future<void> updateNeedsPasswordChange(bool needsChange) async {
+    if (_currentUser == null) {
+      throw Exception('User not authenticated');
+    }
+
+    try {
+      await _supabase
+          .from('users')
+          .update({'needs_password_change': needsChange})
+          .eq('user_id', _currentUser!.id);
+
+      // Update the current user object
+      _currentUser = _currentUser!.copyWith(needsPasswordChange: needsChange);
+      await _saveUserToLocal(_currentUser!);
+
+      Logger.info('Updated needs_password_change to $needsChange');
+    } catch (e) {
+      Logger.error('Failed to update needs_password_change: $e');
+      throw Exception('Failed to update password change flag: $e');
+    }
+  }
+
   Future<void> _createUserProfile({
     required String userId,
     required String email,
     required String name,
     required String role,
+    String? userName, // Add userName parameter
     String? phoneNumber,
     String? department,
   }) async {
@@ -332,10 +393,13 @@ class AuthService {
     int roleId = _roleStringToId(role);
     Logger.debug('Role $role maps to roleId: $roleId');
 
+    // Use provided userName or default to email prefix
+    final effectiveUserName = userName ?? email.split('@')[0];
+
     try {
       final userData = {
         'user_id': userId,
-        'user_name': email.split('@')[0], // Default username from email
+        'user_name': effectiveUserName,
         'email': email,
         'full_name': name,
         'role_id': roleId,
@@ -354,7 +418,7 @@ class AuthService {
       try {
         final userData = {
           'id': userId,
-          'user_name': email.split('@')[0],
+          'user_name': effectiveUserName,
           'email': email,
           'full_name': name,
           'role_id': roleId,

@@ -7,6 +7,7 @@ import 'constants/app_theme.dart';
 import 'constants/constants.dart';
 import 'services/auth_service.dart';
 import 'providers/theme_provider.dart';
+import 'screens/auth/sign_in_screen.dart';
 import 'screens/dashboard/main_dashboard.dart';
 import 'screens/admin/category_management_screen.dart';
 
@@ -97,8 +98,13 @@ class _AuthGateState extends State<AuthGate> {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    // Always show MainDashboard. It will adapt based on auth state
-    // (guest users see only public features; signed-in users see more).
+    // If not authenticated, redirect to sign in screen
+    // Sign in screen will have a Guest button to access the app without login
+    if (!_authService.isAuthenticated) {
+      return const SignInScreen();
+    }
+
+    // If authenticated, show the main dashboard
     return const MainDashboard();
   }
 }

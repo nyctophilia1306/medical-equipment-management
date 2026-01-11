@@ -8,6 +8,7 @@ import '../../models/user.dart' as app_user;
 import '../equipment/equipment_catalog_screen.dart';
 import '../borrow/borrow_management_screen.dart';
 import '../admin/admin_dashboard_screen.dart';
+import '../settings/settings_screen.dart';
 import '../auth/sign_in_screen.dart';
 
 class MainDashboard extends StatefulWidget {
@@ -82,10 +83,7 @@ class _MainDashboardState extends State<MainDashboard> {
       child: Row(
         children: [
           Container(
-            constraints: const BoxConstraints(
-              maxWidth: 48,
-              maxHeight: 56,
-            ),
+            constraints: const BoxConstraints(maxWidth: 48, maxHeight: 56),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(
@@ -435,6 +433,13 @@ class _MainDashboardState extends State<MainDashboard> {
       );
     }
 
+    // Settings (only for authenticated users)
+    if (currentUser != null) {
+      items.add(
+        NavigationItem(icon: Icons.settings_outlined, title: 'Cài Đặt'),
+      );
+    }
+
     return items;
   }
 
@@ -452,6 +457,11 @@ class _MainDashboardState extends State<MainDashboard> {
     // Admin-only features (only when authenticated)
     if (currentUser?.canManageUsers == true) {
       screens.add(const AdminDashboardScreen());
+    }
+
+    // Settings (only for authenticated users)
+    if (currentUser != null) {
+      screens.add(const SettingsScreen());
     }
 
     return screens;

@@ -10,6 +10,7 @@ class User {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final String? avatarUrl;
+  final bool needsPasswordChange;
 
   const User({
     required this.id,
@@ -23,6 +24,7 @@ class User {
     required this.createdAt,
     this.updatedAt,
     this.avatarUrl,
+    this.needsPasswordChange = false,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -44,6 +46,7 @@ class User {
           ? DateTime.parse(json['updated_at'].toString())
           : null,
       avatarUrl: json['avatar_url']?.toString(),
+      needsPasswordChange: json['needs_password_change'] == true,
     );
   }
 
@@ -53,6 +56,7 @@ class User {
       'user_name': userName,
       'role_id': roleId,
       'created_at': createdAt.toIso8601String(),
+      'needs_password_change': needsPasswordChange,
     };
 
     // Add optional fields only if they have values
@@ -79,6 +83,7 @@ class User {
     DateTime? createdAt,
     DateTime? updatedAt,
     String? avatarUrl,
+    bool? needsPasswordChange,
   }) {
     return User(
       id: id ?? this.id,
@@ -92,6 +97,7 @@ class User {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       avatarUrl: avatarUrl ?? this.avatarUrl,
+      needsPasswordChange: needsPasswordChange ?? this.needsPasswordChange,
     );
   }
 

@@ -6,7 +6,7 @@ import '../../services/auth_service.dart';
 import '../../utils/logger.dart';
 // Removed safe_context import as it's no longer used
 import '../dashboard/main_dashboard.dart';
-// Sign up is disabled. Admins create accounts.
+import 'sign_up_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -56,6 +56,16 @@ class _SignInScreenState extends State<SignInScreen> {
                         // Sign In Form
                         _buildSignInForm(),
 
+                        const SizedBox(height: AppConstants.paddingMedium),
+
+                        // Guest Access Button
+                        _buildGuestAccessButton(),
+
+                        const SizedBox(height: AppConstants.paddingMedium),
+
+                        // Sign Up Link
+                        _buildSignUpLink(),
+
                         const SizedBox(height: AppConstants.paddingLarge),
 
                         // Demo Accounts Info
@@ -77,10 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
       children: [
         // App Logo
         Container(
-          constraints: const BoxConstraints(
-            maxWidth: 120,
-            maxHeight: 140,
-          ),
+          constraints: const BoxConstraints(maxWidth: 120, maxHeight: 140),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppConstants.borderRadiusLarge),
@@ -168,14 +175,14 @@ class _SignInScreenState extends State<SignInScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Email Field
+            // Email or Username Field
             TextFormField(
               controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                labelText: 'Địa chỉ email',
+                labelText: 'Email hoặc Tên đăng nhập',
                 prefixIcon: Icon(
-                  Icons.email_outlined,
+                  Icons.person_outlined,
                   color: AppColors.textSecondary,
                 ),
                 border: OutlineInputBorder(
@@ -186,12 +193,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Hãy nhập email của bạn';
-                }
-                if (!RegExp(
-                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                ).hasMatch(value)) {
-                  return 'Hãy nhập địa chỉ email hợp lệ';
+                  return 'Hãy nhập email hoặc tên đăng nhập';
                 }
                 return null;
               },
@@ -296,6 +298,67 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   // Sign up flow removed
+
+  Widget _buildGuestAccessButton() {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 400),
+      child: OutlinedButton.icon(
+        onPressed: _continueAsGuest,
+        icon: const Icon(Icons.visibility_outlined, size: 20),
+        label: Text(
+          'Tiếp tục với tư cách Khách',
+          style: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+        ),
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primaryBlue,
+          side: BorderSide(color: AppColors.primaryBlue, width: 2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(
+              AppConstants.borderRadiusMedium,
+            ),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+      ),
+    );
+  }
+
+  void _continueAsGuest() {
+    // Navigate to main dashboard in guest mode (no authentication)
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const MainDashboard()),
+    );
+  }
+
+  Widget _buildSignUpLink() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Chưa có tài khoản? ',
+          style: GoogleFonts.inter(
+            fontSize: 14,
+            color: AppColors.textSecondary,
+          ),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const SignUpScreen()),
+            );
+          },
+          child: Text(
+            'Đăng Ký Ngay',
+            style: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: AppColors.primaryBlue,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _buildDemoAccountsInfo() {
     return Container(
@@ -421,9 +484,16 @@ class _SignInScreenState extends State<SignInScreen> {
       if (mounted) {
         if (result.isSuccess) {
           Logger.info('Sign in successful, navigating to dashboard');
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const MainDashboard()),
-          );
+
+          // Check if user needs to change password
+          if (result.user?.needsPasswordChange == true) {
+            Logger.info('User needs to change password');
+            _showChangePasswordDialog();
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const MainDashboard()),
+            );
+          }
         } else {
           Logger.warn('Sign in failed: ${result.errorMessage}');
           _showErrorDialog(result.errorMessage ?? AppConstants.errorAuth);
@@ -445,6 +515,183 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   // No sign-up navigation; accounts are admin-provisioned.
+
+  void _showChangePasswordDialog() {
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+    bool obscureNewPassword = true;
+    bool obscureConfirmPassword = true;
+    bool isChangingPassword = false;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false, // User must change password
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(
+            'Đổi Mật Khẩu',
+            style: GoogleFonts.inter(fontWeight: FontWeight.w600),
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Bạn cần thay đổi mật khẩu mặc định trước khi tiếp tục.',
+                  style: GoogleFonts.inter(fontSize: 14),
+                ),
+                const SizedBox(height: AppConstants.paddingMedium),
+                TextFormField(
+                  controller: newPasswordController,
+                  obscureText: obscureNewPassword,
+                  decoration: InputDecoration(
+                    labelText: 'Mật khẩu mới',
+                    prefixIcon: Icon(
+                      Icons.lock_outlined,
+                      color: AppColors.textSecondary,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscureNewPassword = !obscureNewPassword;
+                        });
+                      },
+                      icon: Icon(
+                        obscureNewPassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppConstants.borderRadiusMedium,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppConstants.paddingMedium),
+                TextFormField(
+                  controller: confirmPasswordController,
+                  obscureText: obscureConfirmPassword,
+                  decoration: InputDecoration(
+                    labelText: 'Xác nhận mật khẩu',
+                    prefixIcon: Icon(
+                      Icons.lock_outlined,
+                      color: AppColors.textSecondary,
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscureConfirmPassword = !obscureConfirmPassword;
+                        });
+                      },
+                      icon: Icon(
+                        obscureConfirmPassword
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppConstants.borderRadiusMedium,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: isChangingPassword
+                  ? null
+                  : () async {
+                      // Validate passwords
+                      if (newPasswordController.text.isEmpty) {
+                        ScaffoldMessenger.of(dialogContext).showSnackBar(
+                          SnackBar(content: Text('Vui lòng nhập mật khẩu mới')),
+                        );
+                        return;
+                      }
+                      if (newPasswordController.text.length <
+                          AppConstants.minPasswordLength) {
+                        ScaffoldMessenger.of(dialogContext).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Mật khẩu phải có ít nhất ${AppConstants.minPasswordLength} ký tự',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
+                      if (newPasswordController.text !=
+                          confirmPasswordController.text) {
+                        ScaffoldMessenger.of(dialogContext).showSnackBar(
+                          SnackBar(content: Text('Mật khẩu không khớp')),
+                        );
+                        return;
+                      }
+
+                      setState(() {
+                        isChangingPassword = true;
+                      });
+
+                      try {
+                        // Update password in Supabase
+                        await _authService.updatePassword(
+                          newPasswordController.text,
+                        );
+
+                        // Update needs_password_change flag in database
+                        final currentUser = _authService.currentUser;
+                        if (currentUser != null) {
+                          await _authService.updateNeedsPasswordChange(false);
+                        }
+
+                        // ignore: use_build_context_synchronously
+                        if (!context.mounted) return;
+                        Navigator.of(dialogContext).pop();
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const MainDashboard(),
+                          ),
+                        );
+                      } catch (e) {
+                        Logger.error('Failed to change password: $e');
+                        // ignore: use_build_context_synchronously
+                        if (!context.mounted) return;
+                        ScaffoldMessenger.of(
+                          dialogContext,
+                        ).showSnackBar(SnackBar(content: Text('Lỗi: $e')));
+                      } finally {
+                        if (mounted) {
+                          setState(() {
+                            isChangingPassword = false;
+                          });
+                        }
+                      }
+                    },
+              child: isChangingPassword
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : Text(
+                      'Xác Nhận',
+                      style: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.primaryBlue,
+                      ),
+                    ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _showForgotPasswordDialog() {
     final emailController = TextEditingController();

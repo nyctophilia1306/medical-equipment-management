@@ -30,6 +30,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   late final TabController _tabController;
   final _serialController = TextEditingController();
   final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _userSearchController = TextEditingController();
 
@@ -66,6 +67,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   void dispose() {
     _tabController.dispose();
     _fullNameController.dispose();
+    _emailController.dispose();
     _phoneController.dispose();
     _serialController.dispose();
     _userSearchController.dispose();
@@ -433,9 +435,20 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
     late String userId;
     if (_isNewUser) {
+      // Validate email is provided
+      if (_emailController.text.trim().isEmpty) {
+        setState(() {
+          _loading = false;
+          _message = 'Vui lòng nhập email';
+          _isMessageSuccess = false;
+        });
+        return;
+      }
+
       final newUserId = await _borrowService.createUser(
         userName: DateTime.now().millisecondsSinceEpoch.toString(),
         fullName: _fullNameController.text.trim(),
+        email: _emailController.text.trim(),
         phone: _phoneController.text.trim().isEmpty
             ? null
             : _phoneController.text.trim(),
@@ -460,6 +473,35 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         });
         return;
       }
+
+      // Check if existing user has email
+      final userData = await _supabase
+          .from('users')
+          .select('email')
+          .eq('user_id', _selectedExistingUserId!)
+          .maybeSingle();
+
+      if (userData != null &&
+          (userData['email'] == null ||
+              (userData['email'] as String).isEmpty)) {
+        // User doesn't have email, prompt for it
+        final email = await _promptForEmail();
+        if (email == null || email.isEmpty) {
+          setState(() {
+            _loading = false;
+            _message = 'Email là bắt buộc để tạo yêu cầu mượn';
+            _isMessageSuccess = false;
+          });
+          return;
+        }
+
+        // Update user with email
+        await _supabase
+            .from('users')
+            .update({'email': email})
+            .eq('user_id', _selectedExistingUserId!);
+      }
+
       userId = _selectedExistingUserId!;
     }
 
@@ -519,6 +561,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         _scannedEquipment.clear();
         _borrowQuantities.clear();
         _fullNameController.clear();
+        _emailController.clear();
         _phoneController.clear();
         _userSearchController.clear();
         _borrowDate = null;
@@ -543,6 +586,15 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             labelText: AppLocalizations.of(context)!.fullNameRequired,
             hintText: AppLocalizations.of(context)!.enterFullName,
           ),
+        ),
+        const SizedBox(height: 8),
+        TextFormField(
+          controller: _emailController,
+          decoration: const InputDecoration(
+            labelText: 'Email *',
+            hintText: 'Nhập email',
+          ),
+          keyboardType: TextInputType.emailAddress,
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -1220,6 +1272,68 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         ),
       ),
     );
+  }
+
+  Future<String?> _promptForEmail() async {
+    final emailController = TextEditingController();
+
+    return showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        title: const Text('Email Bắt Buộc'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Người dùng này chưa có email. Vui lòng nhập email để tiếp tục.',
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: emailController,
+              decoration: const InputDecoration(
+                labelText: 'Email *',
+                hintText: 'Nhập email',
+                border: OutlineInputBorder(),
+              ),
+              keyboardType: TextInputType.emailAddress,
+              autofocus: true,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(null),
+            child: const Text('Hủy'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final email = emailController.text.trim();
+              if (email.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Vui lòng nhập email')),
+                );
+                return;
+              }
+              if (!RegExp(
+                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+              ).hasMatch(email)) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Email không hợp lệ')),
+                );
+                return;
+              }
+              Navigator.of(context).pop(email);
+            },
+            child: const Text('Xác Nhận'),
+          ),
+        ],
+      ),
+    ).then((value) {
+      emailController.dispose();
+      return value;
+    });
   }
 
   @override
