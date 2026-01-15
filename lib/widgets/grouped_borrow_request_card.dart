@@ -69,9 +69,13 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
   bool get _isRejected =>
       widget.requests.every((r) => r.status.toLowerCase() == 'rejected');
 
-  // Check if all requests are approved
-  bool get _isApproved =>
-      widget.requests.every((r) => r.status.toLowerCase() == 'approved');
+  // Check if all requests are approved or active (borrowed)
+  bool get _isApproved => widget.requests.every(
+    (r) =>
+        r.status.toLowerCase() == 'approved' ||
+        r.status.toLowerCase() == 'active' ||
+        r.status.toLowerCase() == 'borrowed',
+  );
 
   // Check if any equipment is overdue
   bool get _isOverdue =>
