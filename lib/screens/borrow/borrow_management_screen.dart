@@ -166,7 +166,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                     size: 20,
                   ),
                   const SizedBox(width: 8),
-                  Expanded(child: Text(AppLocalizations.of(context)!.noEquipmentFoundCode(scannedCode))),
+                  Expanded(
+                    child: Text(
+                      AppLocalizations.of(
+                        context,
+                      )!.noEquipmentFoundCode(scannedCode),
+                    ),
+                  ),
                 ],
               ),
               duration: const Duration(seconds: 2),
@@ -369,7 +375,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
       if (equipment == null) {
         setState(() {
-          _message = AppLocalizations.of(context)!.noEquipmentFoundWithQROrSerial(s);
+          _message = AppLocalizations.of(
+            context,
+          )!.noEquipmentFoundWithQROrSerial(s);
           _isMessageSuccess = false;
         });
         return;
@@ -377,7 +385,10 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
 
       if (equipment.availableQty <= 0) {
         setState(() {
-          _message = AppLocalizations.of(context)!.equipmentNotAvailableForBorrowing(equipment.getLocalizedName(context));
+          _message = AppLocalizations.of(context)!
+              .equipmentNotAvailableForBorrowing(
+                equipment.getLocalizedName(context),
+              );
           _isMessageSuccess = false;
         });
         return;
@@ -392,7 +403,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
     } catch (e) {
       setState(() {
         _loading = false;
-        _message = AppLocalizations.of(context)!.errorLookingUpEquipment(e.toString());
+        _message = AppLocalizations.of(
+          context,
+        )!.errorLookingUpEquipment(e.toString());
         _isMessageSuccess = false;
       });
     }
@@ -443,25 +456,34 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         return;
       }
 
-      final newUserId = await _borrowService.createUser(
-        userName: DateTime.now().millisecondsSinceEpoch.toString(),
-        fullName: _fullNameController.text.trim(),
-        email: _emailController.text.trim(),
-        phone: _phoneController.text.trim().isEmpty
-            ? null
-            : _phoneController.text.trim(),
-        dob: _userDob!,
-        gender: _selectedGender!,
-      );
-      if (newUserId == null) {
+      try {
+        final newUserId = await _borrowService.createUser(
+          userName: DateTime.now().millisecondsSinceEpoch.toString(),
+          fullName: _fullNameController.text.trim(),
+          email: _emailController.text.trim(),
+          phone: _phoneController.text.trim().isEmpty
+              ? null
+              : _phoneController.text.trim(),
+          dob: _userDob!,
+          gender: _selectedGender!,
+        );
+        if (newUserId == null) {
+          setState(() {
+            _loading = false;
+            _message = AppLocalizations.of(context)!.failedToCreateUser;
+            _isMessageSuccess = false;
+          });
+          return;
+        }
+        userId = newUserId;
+      } catch (e) {
         setState(() {
           _loading = false;
-          _message = AppLocalizations.of(context)!.failedToCreateUser;
+          _message = 'Lỗi tạo người dùng: ${e.toString()}';
           _isMessageSuccess = false;
         });
         return;
       }
-      userId = newUserId;
     } else {
       if (_selectedExistingUserId == null) {
         setState(() {
@@ -487,7 +509,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
         if (email == null || email.isEmpty) {
           setState(() {
             _loading = false;
-            _message = AppLocalizations.of(context)!.emailIsRequiredToCreateBorrowRequest;
+            _message = AppLocalizations.of(
+              context,
+            )!.emailIsRequiredToCreateBorrowRequest;
             _isMessageSuccess = false;
           });
           return;
@@ -547,8 +571,12 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
       if (success) {
         // Different message for admin (auto-approved) vs manager (pending)
         _message = isAdmin
-            ? AppLocalizations.of(context)!.borrowRequestCreatedAndAutoApproved(requestSerial.toString())
-            : AppLocalizations.of(context)!.borrowRequestSavedSuccessfully(requestSerial.toString());
+            ? AppLocalizations.of(
+                context,
+              )!.borrowRequestCreatedAndAutoApproved(requestSerial.toString())
+            : AppLocalizations.of(
+                context,
+              )!.borrowRequestSavedSuccessfully(requestSerial.toString());
       } else {
         _message = AppLocalizations.of(context)!.cannotSaveBorrowRequest;
       }
@@ -676,7 +704,9 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
             TextField(
               controller: _userSearchController,
               decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.searchUserByNameOrPhone,
+                labelText: AppLocalizations.of(
+                  context,
+                )!.searchUserByNameOrPhone,
                 hintText: AppLocalizations.of(context)!.typeToSearch,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _userSearchController.text.isNotEmpty
@@ -841,13 +871,25 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
   Widget _buildDatePickers() {
     return Row(
       children: [
-        Expanded(child: Text(AppLocalizations.of(context)!.borrowDateLabel(_formatDate(_borrowDate)))),
+        Expanded(
+          child: Text(
+            AppLocalizations.of(
+              context,
+            )!.borrowDateLabel(_formatDate(_borrowDate)),
+          ),
+        ),
         TextButton(
           onPressed: () => _pickDate(context, true),
           child: Text(AppLocalizations.of(context)!.select),
         ),
         const SizedBox(width: 8),
-        Expanded(child: Text(AppLocalizations.of(context)!.returnDateLabel(_formatDate(_returnDate)))),
+        Expanded(
+          child: Text(
+            AppLocalizations.of(
+              context,
+            )!.returnDateLabel(_formatDate(_returnDate)),
+          ),
+        ),
         TextButton(
           onPressed: () => _pickDate(context, false),
           child: Text(AppLocalizations.of(context)!.select),
@@ -1290,9 +1332,7 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppLocalizations.of(context)!.userDoesNotHaveEmailPleaseEnter,
-            ),
+            Text(AppLocalizations.of(context)!.userDoesNotHaveEmailPleaseEnter),
             const SizedBox(height: 16),
             TextField(
               controller: emailController,
@@ -1316,7 +1356,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
               final email = emailController.text.trim();
               if (email.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterEmail)),
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.pleaseEnterEmail,
+                    ),
+                  ),
                 );
                 return;
               }
@@ -1324,7 +1368,11 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                 r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
               ).hasMatch(email)) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterValidEmail)),
+                  SnackBar(
+                    content: Text(
+                      AppLocalizations.of(context)!.pleaseEnterValidEmail,
+                    ),
+                  ),
                 );
                 return;
               }

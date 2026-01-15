@@ -567,16 +567,18 @@ class BorrowService {
         'dob': dob.toIso8601String().split('T')[0],
         'gender': gender,
         'role_id': 2, // Normal user role
-        'needs_password_change': false,
+        'created_at': DateTime.now().toIso8601String(),
       };
       Logger.debug('Inserting user data: $data');
 
-      await _supabase.from('users').insert(data);
-      Logger.info('User created successfully: $userId');
+      final response = await _supabase.from('users').insert(data).select();
+      Logger.info('User created successfully: $userId, response: $response');
       return userId;
-    } catch (e) {
+    } catch (e, stackTrace) {
       Logger.error('Failed to create user: $e');
-      return null;
+      Logger.error('Stack trace: $stackTrace');
+      // Re-throw with more context
+      throw Exception('Database error creating user: $e');
     }
   }
 }
