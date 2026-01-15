@@ -178,7 +178,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Icon(Icons.settings, size: 32, color: AppColors.primaryBlue),
                 const SizedBox(width: 16),
                 Text(
-                  'Cài Đặt',
+                  AppLocalizations.of(context)!.settings,
                   style: GoogleFonts.inter(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

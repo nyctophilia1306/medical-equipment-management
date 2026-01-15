@@ -126,6 +126,13 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                 });
                 widget.onTap?.call();
               },
+        onLongPress:
+            !_allReturned &&
+                _isApproved &&
+                !_isRejected &&
+                widget.onReturn != null
+            ? widget.onReturn
+            : null,
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -245,7 +252,7 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
               ),
               const SizedBox(height: 12),
 
-              // Status Badge
+              // Status Badge and Actions
               Row(
                 children: [
                   Container(
@@ -268,67 +275,79 @@ class _GroupedBorrowRequestCardState extends State<GroupedBorrowRequestCard> {
                   ),
                   const Spacer(),
 
-                  // Admin Actions for Pending Requests (hide for rejected/approved)
-                  if (_isPending &&
-                      !_isRejected &&
-                      !_isApproved &&
-                      (widget.onApprove != null ||
-                          widget.onReject != null)) ...[
-                    if (widget.onApprove != null)
-                      ElevatedButton.icon(
-                        onPressed: widget.onApprove,
-                        icon: const Icon(Icons.check_circle, size: 16),
-                        label: Text(
-                          AppLocalizations.of(context)!.approve,
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                        ),
-                      ),
-                    const SizedBox(width: 8),
-                    if (widget.onReject != null)
-                      OutlinedButton.icon(
-                        onPressed: widget.onReject,
-                        icon: const Icon(Icons.cancel, size: 16),
-                        label: Text(
-                          AppLocalizations.of(context)!.reject,
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red,
-                          side: const BorderSide(color: Colors.red),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                        ),
-                      ),
-                  ],
-
-                  // Mark as Return Button (only if approved and not all returned and not rejected)
+                  // Return Button (prominent for approved, not-returned requests)
                   if (!_allReturned &&
                       _isApproved &&
                       !_isRejected &&
                       widget.onReturn != null)
-                    TextButton.icon(
+                    ElevatedButton.icon(
                       onPressed: widget.onReturn,
                       icon: const Icon(Icons.assignment_return, size: 16),
                       label: Text(
                         AppLocalizations.of(context)!.returnEquipment,
                         style: const TextStyle(fontSize: 12),
                       ),
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColors.primaryBlue,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryBlue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
                       ),
                     ),
                 ],
               ),
+
+              // Admin Actions for Pending Requests (separate row)
+              if (_isPending &&
+                  !_isRejected &&
+                  !_isApproved &&
+                  (widget.onApprove != null || widget.onReject != null))
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    children: [
+                      const Spacer(),
+                      if (widget.onApprove != null)
+                        ElevatedButton.icon(
+                          onPressed: widget.onApprove,
+                          icon: const Icon(Icons.check_circle, size: 16),
+                          label: Text(
+                            AppLocalizations.of(context)!.approve,
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                          ),
+                        ),
+                      if (widget.onApprove != null && widget.onReject != null)
+                        const SizedBox(width: 8),
+                      if (widget.onReject != null)
+                        OutlinedButton.icon(
+                          onPressed: widget.onReject,
+                          icon: const Icon(Icons.cancel, size: 16),
+                          label: Text(
+                            AppLocalizations.of(context)!.reject,
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                            side: const BorderSide(color: Colors.red),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
 
               // Expandable Equipment List
               if (_isExpanded) ...[
