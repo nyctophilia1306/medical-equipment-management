@@ -513,8 +513,8 @@ class BorrowService {
     try {
       final resp = await _supabase
           .from('users')
-          .select('user_id, full_name, phone, dob, gender')
-          .ilike('full_name', '%$q%')
+          .select('user_id, user_name, full_name, phone, dob, gender, email')
+          .or('full_name.ilike.%$q%,user_name.ilike.%$q%,phone.ilike.%$q%')
           .limit(20);
       return List<Map<String, dynamic>>.from(resp);
     } catch (e) {

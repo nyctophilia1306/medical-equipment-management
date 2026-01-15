@@ -773,20 +773,26 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       itemCount: _userSearchResults.length,
                       itemBuilder: (context, index) {
                         final user = _userSearchResults[index];
+                        final displayName =
+                            user['full_name'] ?? user['user_name'] ?? 'Unknown';
+                        final userInitial = displayName.isNotEmpty
+                            ? displayName[0].toUpperCase()
+                            : 'U';
+
                         return ListTile(
                           leading: CircleAvatar(
                             backgroundColor: Colors.blue.shade100,
                             child: Text(
-                              (user['full_name'] ?? 'U')[0].toUpperCase(),
+                              userInitial,
                               style: const TextStyle(color: Colors.blue),
                             ),
                           ),
                           title: Text(
-                            user['full_name'] ?? 'Unknown',
+                            displayName,
                             style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                           subtitle: Text(
-                            user['phone'] ?? 'No phone',
+                            user['phone'] ?? user['email'] ?? 'No contact info',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey.shade600,
@@ -794,13 +800,13 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                           ),
                           onTap: () {
                             setState(() {
-                              _selectedExistingUserName = user['full_name'];
+                              _selectedExistingUserName = displayName;
                               _selectedExistingUserId = user['user_id'];
-                              _userSearchController.text =
-                                  user['full_name'] ?? '';
+                              _userSearchController.text = displayName;
                               _fullNameController.text =
                                   user['full_name'] ?? '';
                               _phoneController.text = user['phone'] ?? '';
+                              _emailController.text = user['email'] ?? '';
                               if (user['dob'] != null) {
                                 _userDob = DateTime.parse(user['dob']);
                               }

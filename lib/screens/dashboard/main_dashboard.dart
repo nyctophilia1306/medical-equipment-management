@@ -436,7 +436,7 @@ class _MainDashboardState extends State<MainDashboard> {
     // Settings (only for authenticated users)
     if (currentUser != null) {
       items.add(
-        NavigationItem(icon: Icons.settings_outlined, title: 'Cài Đặt'),
+        NavigationItem(icon: Icons.settings_outlined, title: AppLocalizations.of(context)!.settings),
       );
     }
 
