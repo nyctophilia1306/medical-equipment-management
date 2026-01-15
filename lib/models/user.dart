@@ -1,7 +1,7 @@
 class User {
   final String id;
   final String userName;
-  final String? email;
+  final String email; // Now required, not optional
   final String? fullName;
   final DateTime? dob;
   final String? gender;
@@ -15,7 +15,7 @@ class User {
   const User({
     required this.id,
     required this.userName,
-    this.email,
+    required this.email, // Now required
     this.fullName,
     this.dob,
     this.gender,
@@ -31,7 +31,7 @@ class User {
     return User(
       id: json['user_id']?.toString() ?? '',
       userName: json['user_name']?.toString() ?? '',
-      email: json['email']?.toString(),
+      email: json['email']?.toString() ?? '', // Email is required now
       fullName: json['full_name']?.toString(),
       dob: json['dob'] != null ? DateTime.parse(json['dob'].toString()) : null,
       gender: json['gender']?.toString(),
@@ -54,13 +54,13 @@ class User {
     final Map<String, dynamic> data = {
       'user_id': id,
       'user_name': userName,
+      'email': email, // Always include email since it's required
       'role_id': roleId,
       'created_at': createdAt.toIso8601String(),
       'needs_password_change': needsPasswordChange,
     };
 
     // Add optional fields only if they have values
-    if (email != null) data['email'] = email;
     if (fullName != null) data['full_name'] = fullName;
     if (dob != null) data['dob'] = dob!.toIso8601String();
     if (gender != null) data['gender'] = gender;

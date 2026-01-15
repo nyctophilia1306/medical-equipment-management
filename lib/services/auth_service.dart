@@ -35,7 +35,7 @@ class AuthService {
         _currentUser = app_user.User(
           id: session.user.id,
           userName: session.user.email!.split('@')[0],
-          email: session.user.email,
+          email: session.user.email!, // User model now requires non-null email
           roleId: roleId,
           createdAt: DateTime.now(),
         );

@@ -41,9 +41,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('${AppLocalizations.of(context)!.failedToLoadUsers}: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              '${AppLocalizations.of(context)!.failedToLoadUsers}: $e',
+            ),
+          ),
+        );
       }
     }
   }
@@ -66,7 +70,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
             (u) =>
                 u.userName.toLowerCase().contains(query) ||
                 (u.fullName?.toLowerCase().contains(query) ?? false) ||
-                (u.email?.toLowerCase().contains(query) ?? false) ||
+                u.email.toLowerCase().contains(query) ||
                 (u.phone?.toLowerCase().contains(query) ?? false),
           )
           .toList();
@@ -130,8 +134,14 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                   child: Row(
                     children: [
                       _buildFilterChip(AppLocalizations.of(context)!.all, null),
-                      _buildFilterChip(AppLocalizations.of(context)!.administrator, 0),
-                      _buildFilterChip(AppLocalizations.of(context)!.manager, 1),
+                      _buildFilterChip(
+                        AppLocalizations.of(context)!.administrator,
+                        0,
+                      ),
+                      _buildFilterChip(
+                        AppLocalizations.of(context)!.manager,
+                        1,
+                      ),
                       _buildFilterChip(AppLocalizations.of(context)!.user, 2),
                     ],
                   ),
@@ -241,8 +251,7 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
             const SizedBox(height: AppConstants.paddingSmall),
 
             // User Details
-            if (user.email != null)
-              _buildDetailRow(Icons.email_outlined, user.email!),
+            _buildDetailRow(Icons.email_outlined, user.email),
             if (user.phone != null)
               _buildDetailRow(Icons.phone_outlined, user.phone!),
             if (user.dob != null)
@@ -357,12 +366,21 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
   Map<String, dynamic> _getRoleData(int roleId) {
     switch (roleId) {
       case 0:
-        return {'name': AppLocalizations.of(context)!.administrator, 'color': AppColors.errorRed};
+        return {
+          'name': AppLocalizations.of(context)!.administrator,
+          'color': AppColors.errorRed,
+        };
       case 1:
-        return {'name': AppLocalizations.of(context)!.manager, 'color': AppColors.warningYellow};
+        return {
+          'name': AppLocalizations.of(context)!.manager,
+          'color': AppColors.warningYellow,
+        };
       case 2:
       default:
-        return {'name': AppLocalizations.of(context)!.user, 'color': AppColors.successGreen};
+        return {
+          'name': AppLocalizations.of(context)!.user,
+          'color': AppColors.successGreen,
+        };
     }
   }
 
@@ -384,7 +402,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
           title: Text(
-            isEdit ? AppLocalizations.of(context)!.updateUser : AppLocalizations.of(context)!.createNewUser,
+            isEdit
+                ? AppLocalizations.of(context)!.updateUser
+                : AppLocalizations.of(context)!.createNewUser,
             style: GoogleFonts.inter(fontWeight: FontWeight.w600),
           ),
           content: SingleChildScrollView(
@@ -482,12 +502,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           // ignore: deprecated_member_use
                           groupValue: selectedRole,
                           // ignore: deprecated_member_use
-                          onChanged: (val) => setDialogState(
-                            () => selectedRole = val ?? 0,
-                          ),
+                          onChanged: (val) =>
+                              setDialogState(() => selectedRole = val ?? 0),
                           toggleable: false,
                         ),
-                        title: Text(AppLocalizations.of(context)!.administrator),
+                        title: Text(
+                          AppLocalizations.of(context)!.administrator,
+                        ),
                         onTap: () => setDialogState(() => selectedRole = 0),
                       ),
                       ListTile(
@@ -497,9 +518,8 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           // ignore: deprecated_member_use
                           groupValue: selectedRole,
                           // ignore: deprecated_member_use
-                          onChanged: (val) => setDialogState(
-                            () => selectedRole = val ?? 1,
-                          ),
+                          onChanged: (val) =>
+                              setDialogState(() => selectedRole = val ?? 1),
                           toggleable: false,
                         ),
                         title: Text(AppLocalizations.of(context)!.manager),
@@ -512,9 +532,8 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                           // ignore: deprecated_member_use
                           groupValue: selectedRole,
                           // ignore: deprecated_member_use
-                          onChanged: (val) => setDialogState(
-                            () => selectedRole = val ?? 2,
-                          ),
+                          onChanged: (val) =>
+                              setDialogState(() => selectedRole = val ?? 2),
                           toggleable: false,
                         ),
                         title: Text(AppLocalizations.of(context)!.user),
@@ -558,7 +577,11 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
                 if (!context.mounted) return;
                 Navigator.pop(context);
               },
-              child: Text(isEdit ? AppLocalizations.of(context)!.update : AppLocalizations.of(context)!.create),
+              child: Text(
+                isEdit
+                    ? AppLocalizations.of(context)!.update
+                    : AppLocalizations.of(context)!.create,
+              ),
             ),
           ],
         ),
@@ -594,9 +617,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cannotCreateUser + ': $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.cannotCreateUser + ': $e',
+          ),
+        ),
+      );
     }
   }
 
@@ -626,9 +653,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cannotUpdateUser + ': $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.cannotUpdateUser + ': $e',
+          ),
+        ),
+      );
     }
   }
 
@@ -637,7 +668,9 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(AppLocalizations.of(context)!.confirmDeletion),
-        content: Text(AppLocalizations.of(context)!.areYouSureDeleteUser(user.userName)),
+        content: Text(
+          AppLocalizations.of(context)!.areYouSureDeleteUser(user.userName),
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -664,9 +697,13 @@ class _UserManagementScreenState extends State<UserManagementScreen> {
         );
       } catch (e) {
         if (!mounted) return;
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.cannotDeleteUser + ': $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              AppLocalizations.of(context)!.cannotDeleteUser + ': $e',
+            ),
+          ),
+        );
       }
     }
   }
