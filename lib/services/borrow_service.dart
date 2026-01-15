@@ -552,10 +552,25 @@ class BorrowService {
     required String gender,
   }) async {
     try {
+      Logger.info('Attempting to create user with email: $email');
+
+      // First, check if a user with this email already exists
+      final existingUser = await _supabase
+          .from('users')
+          .select('user_id')
+          .eq('email', email)
+          .maybeSingle();
+
+      if (existingUser != null) {
+        Logger.info(
+          'User with email $email already exists, returning existing user ID',
+        );
+        return existingUser['user_id'] as String;
+      }
+
       // Generate a UUID v4 for the user_id
       final userId = const Uuid().v4();
-      Logger.debug('Creating user with generated UUID: $userId');
-      Logger.info('Creating user without auth account: $email');
+      Logger.debug('Creating new user with generated UUID: $userId');
 
       // Create user record directly (no auth account for borrow users)
       final data = {
