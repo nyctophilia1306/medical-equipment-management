@@ -55,6 +55,7 @@ class UserService {
       final userData = {
         'user_id': authResponse.user!.id,
         'user_name': username,
+        'email': email,
         'full_name': fullName,
         'dob': dob?.toIso8601String(),
         'gender': gender,
