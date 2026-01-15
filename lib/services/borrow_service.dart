@@ -555,58 +555,9 @@ class BorrowService {
       // Generate a UUID v4 for the user_id
       final userId = const Uuid().v4();
       Logger.debug('Creating user with generated UUID: $userId');
+      Logger.info('Creating user without auth account: $email');
 
-      // First, create the Supabase auth account with default password
-      const defaultPassword = '12345678';
-      try {
-        Logger.info('Creating Supabase auth account for: $email');
-        final authResponse = await _supabase.auth.admin.createUser(
-          AdminUserAttributes(
-            email: email,
-            password: defaultPassword,
-            emailConfirm: true, // Auto-confirm email for admin-created accounts
-            userMetadata: {
-              'created_by_admin': true,
-              'needs_password_change': true,
-              'full_name': fullName,
-              'user_name': userName,
-            },
-          ),
-        );
-
-        if (authResponse.user != null) {
-          Logger.info(
-            'Auth account created successfully with ID: ${authResponse.user!.id}',
-          );
-          // Use the Supabase-generated user ID instead of our generated UUID
-          final authUserId = authResponse.user!.id;
-
-          final data = {
-            'user_id': authUserId,
-            'user_name': userName,
-            'full_name': fullName,
-            'email': email,
-            if (phone != null && phone.isNotEmpty) 'phone': phone,
-            'dob': dob.toIso8601String().split('T')[0],
-            'gender': gender,
-            'role_id': 2, // Normal user role
-            'needs_password_change':
-                true, // Flag for first-time password change
-          };
-          Logger.debug('Inserting user data: $data');
-
-          await _supabase.from('users').insert(data);
-          return authUserId;
-        }
-      } catch (authError) {
-        Logger.error('Failed to create auth account: $authError');
-        // Fall back to creating user without auth account
-        Logger.warn(
-          'Falling back to creating user record only (no auth account)',
-        );
-      }
-
-      // Fallback: Create user record only if auth creation failed
+      // Create user record directly (no auth account for borrow users)
       final data = {
         'user_id': userId,
         'user_name': userName,
@@ -616,12 +567,12 @@ class BorrowService {
         'dob': dob.toIso8601String().split('T')[0],
         'gender': gender,
         'role_id': 2, // Normal user role
-        'needs_password_change':
-            false, // No password to change if no auth account
+        'needs_password_change': false,
       };
-      Logger.debug('Inserting user data (no auth): $data');
+      Logger.debug('Inserting user data: $data');
 
       await _supabase.from('users').insert(data);
+      Logger.info('User created successfully: $userId');
       return userId;
     } catch (e) {
       Logger.error('Failed to create user: $e');
