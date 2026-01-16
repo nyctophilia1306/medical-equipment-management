@@ -2,86 +2,24 @@ import 'dart:math';
 import '../models/category.dart';
 
 /// Utility class for generating serial numbers and QR codes
-/// Format: XXYYYY where XX = category code and YYYY = 4 random digits
+/// Format: XXYYYY where XX = category ID (padded to 2 digits) and YYYY = 4 random digits
 class SerialGenerator {
   SerialGenerator._();
 
-  // Category code mapping
-  // Maps category names to 2-letter codes
-  static const Map<String, String> _categoryCodeMap = {
-    'Diagnostic Equipment': 'DI',
-    'Laboratory Instruments': 'LA',
-    'Laboratory Equipment': 'LA',
-    'Surgical Tools': 'SU',
-    'Surgical Equipment': 'SU',
-    'Monitoring Devices': 'MO',
-    'Monitoring Equipment': 'MO',
-    'Imaging Equipment': 'IM',
-    'Therapeutic Equipment': 'TH',
-    'Life Support Systems': 'LS',
-    'Life Support Equipment': 'LS',
-    'Safety Equipment': 'SA',
-    'Consumables': 'CO',
-    'Other': 'OT',
-    'General': 'GE',
-  };
-
-  // Reverse mapping: category code to category name
-  static const Map<String, String> _codeToCategory = {
-    'DI': 'Diagnostic Equipment',
-    'LA': 'Laboratory Equipment',
-    'SU': 'Surgical Equipment',
-    'MO': 'Monitoring Equipment',
-    'IM': 'Imaging Equipment',
-    'TH': 'Therapeutic Equipment',
-    'LS': 'Life Support Equipment',
-    'SA': 'Safety Equipment',
-    'CO': 'Consumables',
-    'OT': 'Other',
-    'GE': 'General',
-  };
-
-  /// Get category code from category name
-  /// Returns 'GE' (General) if category not found
-  static String getCategoryCode(String? categoryName) {
-    if (categoryName == null || categoryName.isEmpty) {
-      return 'GE';
+  /// Get category code from category ID
+  /// Returns '00' (General) if category ID is null or invalid
+  static String getCategoryCode(int? categoryId) {
+    if (categoryId == null || categoryId < 0) {
+      return '00';
     }
-
-    // Try exact match first
-    if (_categoryCodeMap.containsKey(categoryName)) {
-      return _categoryCodeMap[categoryName]!;
-    }
-
-    // Try case-insensitive match
-    final lowerCaseName = categoryName.toLowerCase();
-    for (final entry in _categoryCodeMap.entries) {
-      if (entry.key.toLowerCase() == lowerCaseName) {
-        return entry.value;
-      }
-    }
-
-    // Try partial match
-    for (final entry in _categoryCodeMap.entries) {
-      if (entry.key.toLowerCase().contains(lowerCaseName) ||
-          lowerCaseName.contains(entry.key.toLowerCase())) {
-        return entry.value;
-      }
-    }
-
-    // Default to GE (General)
-    return 'GE';
+    // Pad category ID to 2 digits (01, 02, 03, etc.)
+    return categoryId.toString().padLeft(2, '0');
   }
 
   /// Get category code from Category object
   static String getCategoryCodeFromCategory(Category? category) {
-    if (category == null) return 'GE';
-    return getCategoryCode(category.name);
-  }
-
-  /// Get category name from code
-  static String? getCategoryNameFromCode(String code) {
-    return _codeToCategory[code.toUpperCase()];
+    if (category == null) return '00';
+    return getCategoryCode(category.id);
   }
 
   /// Generate a random 4-digit number as string
@@ -93,9 +31,9 @@ class SerialGenerator {
   }
 
   /// Generate serial number in format XXYYYY
-  /// Example: DI5678 for Diagnostic Equipment
-  static String generateSerialNumber(String? categoryName) {
-    final categoryCode = getCategoryCode(categoryName);
+  /// Example: 015678 for category ID 1
+  static String generateSerialNumber(int? categoryId) {
+    final categoryCode = getCategoryCode(categoryId);
     final randomDigits = _generateRandomDigits();
     return '$categoryCode$randomDigits';
   }
@@ -108,22 +46,17 @@ class SerialGenerator {
   }
 
   /// Since serial number and QR code are the same, this is an alias
-  static String generateQRCode(String? categoryName) {
-    return generateSerialNumber(categoryName);
+  static String generateQRCode(int? categoryId) {
+    return generateSerialNumber(categoryId);
   }
 
   /// Validate serial number format
-  /// Must be XXYYYY where XX is 2 letters and YYYY is 4 digits
+  /// Must be XXYYYY where XX is 2 digits and YYYY is 4 digits
   static bool isValidSerialFormat(String serial) {
     if (serial.length != 6) return false;
 
-    // First 2 characters should be uppercase letters
-    final code = serial.substring(0, 2);
-    if (!RegExp(r'^[A-Z]{2}$').hasMatch(code)) return false;
-
-    // Last 4 characters should be digits
-    final digits = serial.substring(2);
-    if (!RegExp(r'^\d{4}$').hasMatch(digits)) return false;
+    // All 6 characters should be digits
+    if (!RegExp(r'^\d{6}$').hasMatch(serial)) return false;
 
     return true;
   }
@@ -134,21 +67,11 @@ class SerialGenerator {
     return serial.substring(0, 2);
   }
 
-  /// Get category name from serial number
-  static String? getCategoryFromSerial(String serial) {
+  /// Get category ID from serial number
+  static int? getCategoryIdFromSerial(String serial) {
     final code = extractCategoryCode(serial);
     if (code == null) return null;
-    return getCategoryNameFromCode(code);
-  }
-
-  /// Get all category codes
-  static List<String> getAllCategoryCodes() {
-    return _categoryCodeMap.values.toSet().toList()..sort();
-  }
-
-  /// Get all category code mappings
-  static Map<String, String> getCategoryCodeMap() {
-    return Map.from(_categoryCodeMap);
+    return int.tryParse(code);
   }
 
   /// Format serial number for display (adds hyphen: XX-YYYY)

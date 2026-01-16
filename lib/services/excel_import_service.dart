@@ -10,6 +10,7 @@ class ImportResult {
   final int totalRows;
   final int successCount;
   final int errorCount;
+  final int updatedCount; // Count of existing equipment updated
   final List<String> errors;
   final List<Equipment> importedEquipment;
 
@@ -17,6 +18,7 @@ class ImportResult {
     required this.totalRows,
     required this.successCount,
     required this.errorCount,
+    required this.updatedCount,
     required this.errors,
     required this.importedEquipment,
   });
@@ -24,7 +26,7 @@ class ImportResult {
   bool get hasErrors => errorCount > 0;
   bool get isSuccess => errorCount == 0 && successCount > 0;
   String get summary =>
-      'Total: $totalRows | Success: $successCount | Errors: $errorCount';
+      'Total: $totalRows | New: $successCount | Updated: $updatedCount | Errors: $errorCount';
 }
 
 /// Validates an Excel row
@@ -36,6 +38,14 @@ class RowValidation {
   RowValidation.valid(this.data) : isValid = true, error = null;
 
   RowValidation.invalid(this.error) : isValid = false, data = null;
+}
+
+/// Result of create or update operation
+class _CreateUpdateResult {
+  final Equipment equipment;
+  final bool isUpdate;
+
+  _CreateUpdateResult(this.equipment, this.isUpdate);
 }
 
 /// Service for importing equipment data from Excel files
@@ -52,6 +62,7 @@ class ExcelImportService {
     final errors = <String>[];
     final importedEquipment = <Equipment>[];
     int successCount = 0;
+    int updatedCount = 0;
     int errorCount = 0;
 
     try {
@@ -63,6 +74,7 @@ class ExcelImportService {
         return ImportResult(
           totalRows: 0,
           successCount: 0,
+          updatedCount: 0,
           errorCount: 1,
           errors: errors,
           importedEquipment: [],
@@ -78,6 +90,7 @@ class ExcelImportService {
         return ImportResult(
           totalRows: 0,
           successCount: 0,
+          updatedCount: 0,
           errorCount: 1,
           errors: errors,
           importedEquipment: [],
@@ -92,6 +105,7 @@ class ExcelImportService {
         return ImportResult(
           totalRows: 0,
           successCount: 0,
+          updatedCount: 0,
           errorCount: 1,
           errors: errors,
           importedEquipment: [],
@@ -117,19 +131,23 @@ class ExcelImportService {
           continue;
         }
 
-        // Try to create equipment
+        // Try to create or update equipment
         try {
-          final equipment = await _createEquipmentFromData(
+          final result = await _createOrUpdateEquipment(
             validation.data!,
             rowIndex,
             defaultCategoryId,
           );
 
-          if (equipment != null) {
-            importedEquipment.add(equipment);
-            successCount++;
+          if (result != null) {
+            importedEquipment.add(result.equipment);
+            if (result.isUpdate) {
+              updatedCount++;
+            } else {
+              successCount++;
+            }
           } else {
-            errors.add('Row $rowIndex: Failed to create equipment');
+            errors.add('Row $rowIndex: Failed to process equipment');
             errorCount++;
           }
         } catch (e) {
@@ -142,6 +160,7 @@ class ExcelImportService {
       return ImportResult(
         totalRows: dataRows.length,
         successCount: successCount,
+        updatedCount: updatedCount,
         errorCount: errorCount,
         errors: errors,
         importedEquipment: importedEquipment,
@@ -152,6 +171,7 @@ class ExcelImportService {
       return ImportResult(
         totalRows: 0,
         successCount: successCount,
+        updatedCount: updatedCount,
         errorCount: errorCount + 1,
         errors: errors,
         importedEquipment: importedEquipment,
@@ -232,7 +252,7 @@ class ExcelImportService {
       String? serialNumber = data['serial_number'];
       if (serialNumber == null || serialNumber.isEmpty) {
         // Generate new serial number based on category
-        serialNumber = SerialGenerator.generateSerialNumber(null);
+        serialNumber = SerialGenerator.generateSerialNumber(defaultCategoryId);
       }
 
       // Prepare equipment data
@@ -263,6 +283,75 @@ class ExcelImportService {
       return Equipment.fromJson(response);
     } catch (e) {
       Logger.error('Error creating equipment from row $rowIndex: $e', e);
+      rethrow;
+    }
+  }
+
+  /// Create new equipment or update existing one based on equipment name and category
+  Future<_CreateUpdateResult?> _createOrUpdateEquipment(
+    Map<String, dynamic> data,
+    int rowIndex,
+    int? defaultCategoryId,
+  ) async {
+    try {
+      final equipmentName = data['name'] as String;
+      final quantity = data['quantity'] as int;
+
+      // Check if equipment with same name and category already exists
+      var query = _supabase
+          .from('equipment')
+          .select()
+          .eq('equipment_name', equipmentName);
+
+      if (defaultCategoryId != null) {
+        query = query.eq('category_id', defaultCategoryId);
+      }
+
+      final existingResponse = await query.maybeSingle();
+
+      if (existingResponse != null) {
+        // Equipment exists - update quantity
+        final existingEquipment = Equipment.fromJson(existingResponse);
+        final newQty = existingEquipment.quantity + quantity;
+        final newAvailableQty = existingEquipment.availableQty + quantity;
+
+        final updateData = {
+          'qty': newQty,
+          'available_qty': newAvailableQty,
+          'updated_at': DateTime.now().toIso8601String(),
+        };
+
+        final updatedResponse = await _supabase
+            .from('equipment')
+            .update(updateData)
+            .eq('equipment_id', existingEquipment.id)
+            .select()
+            .single();
+
+        Logger.info(
+          'Updated equipment ${existingEquipment.name}: qty $quantity added (total: $newQty)',
+        );
+
+        return _CreateUpdateResult(
+          Equipment.fromJson(updatedResponse),
+          true, // isUpdate
+        );
+      } else {
+        // Equipment doesn't exist - create new one
+        final newEquipment = await _createEquipmentFromData(
+          data,
+          rowIndex,
+          defaultCategoryId,
+        );
+
+        if (newEquipment != null) {
+          Logger.info('Created new equipment: ${newEquipment.name}');
+          return _CreateUpdateResult(newEquipment, false); // isNew
+        }
+        return null;
+      }
+    } catch (e) {
+      Logger.error('Error in createOrUpdateEquipment for row $rowIndex: $e', e);
       rethrow;
     }
   }

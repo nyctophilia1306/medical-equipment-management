@@ -153,7 +153,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       }
     } catch (e) {
       // Ignore errors, form will use text input if lists are empty
-      Logger.error('${AppLocalizations.of(context)!.errorLoadingCategories}: $e');
+      Logger.error(
+        '${AppLocalizations.of(context)!.errorLoadingCategories}: $e',
+      );
     }
   }
 
@@ -209,8 +211,12 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         );
 
         if (equipmentId.isEmpty) {
-          Logger.error('${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.missingOrInvalidEquipmentId}');
-          throw Exception('${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.missingOrInvalidEquipmentId}');
+          Logger.error(
+            '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.missingOrInvalidEquipmentId}',
+          );
+          throw Exception(
+            '${AppLocalizations.of(context)!.equipmentForm} - ${AppLocalizations.of(context)!.missingOrInvalidEquipmentId}',
+          );
         }
 
         // Verify the equipment exists in the database before updating
@@ -253,7 +259,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppLocalizations.of(context)!.equipmentUpdatedSuccessfully),
+              content: Text(
+                AppLocalizations.of(context)!.equipmentUpdatedSuccessfully,
+              ),
             ),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
@@ -264,15 +272,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
         // Auto-generate serial number if empty and category is selected
         if (finalSerialNumber.isEmpty && _selectedCategoryId != null) {
-          final categoryName = _categoryList
-              .firstWhere(
-                (cat) => cat.id == _selectedCategoryId,
-                orElse: () => _categoryList.first,
-              )
-              .name;
-
           finalSerialNumber = SerialGenerator.generateSerialNumber(
-            categoryName,
+            _selectedCategoryId,
           );
 
           // Update the UI to show the generated serial number
@@ -306,19 +307,23 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(AppLocalizations.of(context)!.newEquipmentCreatedSuccessfully),
+              content: Text(
+                AppLocalizations.of(context)!.newEquipmentCreatedSuccessfully,
+              ),
             ),
           );
           Navigator.of(context).pop(true); // Return true to indicate success
         }
       }
     } catch (e) {
-      final errorMessage = '${AppLocalizations.of(context)!.errorSavingEquipment}: $e';
+      final errorMessage =
+          '${AppLocalizations.of(context)!.errorSavingEquipment}: $e';
       Logger.error(errorMessage);
 
       if (mounted) {
         setState(() {
-          _errorMessage = '${AppLocalizations.of(context)!.error}: ${e.toString()}';
+          _errorMessage =
+              '${AppLocalizations.of(context)!.error}: ${e.toString()}';
         });
 
         // Show a more user-friendly error message
@@ -362,7 +367,11 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
     final serialNumber = _serialNumberController.text.trim();
     if (serialNumber.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context)!.pleaseEnterSerialNumberFirst)),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.pleaseEnterSerialNumberFirst,
+          ),
+        ),
       );
       return;
     }
@@ -389,7 +398,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.qrCodeDownloadedSuccessfully),
+            content: Text(
+              AppLocalizations.of(context)!.qrCodeDownloadedSuccessfully,
+            ),
             backgroundColor: Colors.green,
           ),
         );
@@ -398,7 +409,11 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.errorDownloadingQRCode(e.toString())),
+            content: Text(
+              AppLocalizations.of(
+                context,
+              )!.errorDownloadingQRCode(e.toString()),
+            ),
             backgroundColor: Colors.red,
           ),
         );
@@ -410,12 +425,20 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isEdit ? AppLocalizations.of(context)!.editEquipment : AppLocalizations.of(context)!.addNewEquipment),
+        title: Text(
+          _isEdit
+              ? AppLocalizations.of(context)!.editEquipment
+              : AppLocalizations.of(context)!.addNewEquipment,
+        ),
         actions: [
           TextButton.icon(
             onPressed: _isLoading ? null : _saveEquipment,
             icon: const Icon(Icons.save),
-            label: Text(_isLoading ? AppLocalizations.of(context)!.saving : AppLocalizations.of(context)!.save),
+            label: Text(
+              _isLoading
+                  ? AppLocalizations.of(context)!.saving
+                  : AppLocalizations.of(context)!.save,
+            ),
           ),
         ],
       ),
@@ -473,7 +496,8 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
-                    labelText: '${AppLocalizations.of(context)!.equipmentName} *',
+                    labelText:
+                        '${AppLocalizations.of(context)!.equipmentName} *',
                     hintText: AppLocalizations.of(context)!.enterEquipmentName,
                   ),
                   validator: (value) {
@@ -532,7 +556,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
 
                 DropdownButtonFormField<String>(
                   initialValue: _statusController.text,
-                  decoration: InputDecoration(labelText: '${AppLocalizations.of(context)!.status} *'),
+                  decoration: InputDecoration(
+                    labelText: '${AppLocalizations.of(context)!.status} *',
+                  ),
                   items: _statuses
                       .map(
                         (status) => DropdownMenuItem<String>(
@@ -603,7 +629,11 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                         icon: Icon(
                           _showQrCode ? Icons.visibility_off : Icons.qr_code_2,
                         ),
-                        label: Text(_showQrCode ? AppLocalizations.of(context)!.hideQRCode : AppLocalizations.of(context)!.showQRCode),
+                        label: Text(
+                          _showQrCode
+                              ? AppLocalizations.of(context)!.hideQRCode
+                              : AppLocalizations.of(context)!.showQRCode,
+                        ),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryBlue,
                           foregroundColor: AppColors.textOnPrimary,
@@ -614,7 +644,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                         ElevatedButton.icon(
                           onPressed: _downloadQrCode,
                           icon: const Icon(Icons.download),
-                          label: Text(AppLocalizations.of(context)!.downloadPNG),
+                          label: Text(
+                            AppLocalizations.of(context)!.downloadPNG,
+                          ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.successGreen,
                             foregroundColor: AppColors.textOnPrimary,
@@ -644,7 +676,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                           filled: true,
                           fillColor: Colors.white,
                           labelText: AppLocalizations.of(context)!.manufacturer,
-                          hintText: AppLocalizations.of(context)!.enterManufacturer,
+                          hintText: AppLocalizations.of(
+                            context,
+                          )!.enterManufacturer,
                         ),
                       ),
                     ),
@@ -681,7 +715,9 @@ class _EquipmentFormScreenState extends State<EquipmentFormScreen> {
                     filled: true,
                     fillColor: Colors.white,
                     labelText: AppLocalizations.of(context)!.notes,
-                    hintText: AppLocalizations.of(context)!.enterAdditionalNotes,
+                    hintText: AppLocalizations.of(
+                      context,
+                    )!.enterAdditionalNotes,
                   ),
                   maxLines: 3,
                 ),

@@ -18,6 +18,9 @@ class ParsedEquipmentRow {
   int? categoryId;
   String? categoryName;
   String? serialNumber;
+  bool isExisting; // Whether equipment already exists
+  int? existingQty; // Current qty if equipment exists
+  String? existingEquipmentId; // ID if equipment exists
 
   ParsedEquipmentRow({
     required this.rowNumber,
@@ -27,6 +30,9 @@ class ParsedEquipmentRow {
     this.categoryId,
     this.categoryName,
     this.serialNumber,
+    this.isExisting = false,
+    this.existingQty,
+    this.existingEquipmentId,
   });
 }
 
@@ -133,12 +139,22 @@ class _EquipmentImportPreviewDialogState
 
           final quantity = int.tryParse(quantityStr) ?? 1;
 
+          // Check if equipment already exists in database
+          final existingEquipment = await _checkExistingEquipment(name);
+
           rows.add(
             ParsedEquipmentRow(
               rowNumber: rowNum,
               name: name,
               description: description,
               quantity: quantity,
+              isExisting: existingEquipment != null,
+              existingQty: existingEquipment?['qty'],
+              existingEquipmentId: existingEquipment?['equipment_id'],
+              categoryId: existingEquipment?['category_id'],
+              categoryName: existingEquipment != null
+                  ? await _getCategoryName(existingEquipment['category_id'])
+                  : null,
             ),
           );
         } catch (e) {
@@ -148,13 +164,47 @@ class _EquipmentImportPreviewDialogState
 
       return rows;
     } catch (e) {
-      throw Exception('${AppLocalizations.of(context)!.cannotParseExcelFile}: $e');
+      throw Exception(
+        '${AppLocalizations.of(context)!.cannotParseExcelFile}: $e',
+      );
+    }
+  }
+
+  /// Check if equipment with this name already exists
+  Future<Map<String, dynamic>?> _checkExistingEquipment(String name) async {
+    try {
+      final response = await _supabase
+          .from('equipment')
+          .select(
+            'equipment_id, equipment_name, qty, available_qty, category_id',
+          )
+          .eq('equipment_name', name)
+          .maybeSingle();
+
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Get category name from category ID
+  Future<String?> _getCategoryName(int? categoryId) async {
+    if (categoryId == null) return null;
+
+    try {
+      final category = _categories.firstWhere(
+        (c) => c.id == categoryId,
+        orElse: () => throw Exception('Category not found'),
+      );
+      return category.name;
+    } catch (e) {
+      return null;
     }
   }
 
   Future<void> _generateQrCodes() async {
     // Check if all rows have categories
-    final missingCategory = _equipmentRows.where((r) => r.categoryName == null);
+    final missingCategory = _equipmentRows.where((r) => r.categoryId == null);
     if (missingCategory.isNotEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -174,9 +224,10 @@ class _EquipmentImportPreviewDialogState
       await Future.delayed(const Duration(milliseconds: 500));
 
       for (var row in _equipmentRows) {
-        if (row.categoryName != null && row.categoryName!.isNotEmpty) {
+        // Only generate serial numbers for new equipment (not existing)
+        if (!row.isExisting && row.categoryId != null) {
           row.serialNumber = SerialGenerator.generateSerialNumber(
-            row.categoryName!,
+            row.categoryId,
           );
         }
         // Small delay for loading effect
@@ -191,7 +242,10 @@ class _EquipmentImportPreviewDialogState
       setState(() => _generating = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${AppLocalizations.of(context)!.error}: $e'), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text('${AppLocalizations.of(context)!.error}: $e'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -212,9 +266,11 @@ class _EquipmentImportPreviewDialogState
         );
 
         if (mounted) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.qrCodeDownloaded)));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.qrCodeDownloaded),
+            ),
+          );
         }
       }
     } catch (e) {
@@ -230,25 +286,43 @@ class _EquipmentImportPreviewDialogState
     setState(() => _importing = true);
 
     try {
-      int successCount = 0;
+      int newCount = 0;
+      int updatedCount = 0;
       final errors = <String>[];
 
       for (var row in _equipmentRows) {
         try {
-          final equipmentData = {
-            'equipment_name': row.name,
-            'description': row.description,
-            'qty': row.quantity,
-            'available_qty': row.quantity,
-            'status': 'available',
-            'serial_number': row.serialNumber,
-            'qr_code': row.serialNumber,
-            'category_id': row.categoryId,
-            'created_at': DateTime.now().toIso8601String(),
-          };
+          if (row.isExisting && row.existingEquipmentId != null) {
+            // Update existing equipment - add to quantity
+            final newQty = (row.existingQty ?? 0) + row.quantity;
 
-          await _supabase.from('equipment').insert(equipmentData);
-          successCount++;
+            await _supabase
+                .from('equipment')
+                .update({
+                  'qty': newQty,
+                  'available_qty': newQty,
+                  'updated_at': DateTime.now().toIso8601String(),
+                })
+                .eq('equipment_id', row.existingEquipmentId!);
+
+            updatedCount++;
+          } else {
+            // Create new equipment
+            final equipmentData = {
+              'equipment_name': row.name,
+              'description': row.description,
+              'qty': row.quantity,
+              'available_qty': row.quantity,
+              'status': 'available',
+              'serial_number': row.serialNumber,
+              'qr_code': row.serialNumber,
+              'category_id': row.categoryId,
+              'created_at': DateTime.now().toIso8601String(),
+            };
+
+            await _supabase.from('equipment').insert(equipmentData);
+            newCount++;
+          }
         } catch (e) {
           errors.add('Row ${row.rowNumber}: $e');
         }
@@ -256,11 +330,20 @@ class _EquipmentImportPreviewDialogState
 
       if (mounted) {
         Navigator.of(context).pop(true); // Close dialog
+
+        String message;
+        if (updatedCount > 0 && newCount > 0) {
+          message = 'Created: $newCount, Updated: $updatedCount';
+        } else if (updatedCount > 0) {
+          message =
+              'Updated: $updatedCount ${AppLocalizations.of(context)!.items}';
+        } else {
+          message =
+              '${AppLocalizations.of(context)!.importSuccess}: $newCount ${AppLocalizations.of(context)!.items}';
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${AppLocalizations.of(context)!.importSuccess}: $successCount ${AppLocalizations.of(context)!.items}'),
-            backgroundColor: Colors.green,
-          ),
+          SnackBar(content: Text(message), backgroundColor: Colors.green),
         );
       }
     } catch (e) {
@@ -396,11 +479,30 @@ class _EquipmentImportPreviewDialogState
   Widget _buildEquipmentCard(ParsedEquipmentRow row, int index) {
     return Card(
       elevation: 2,
+      color: row.isExisting ? Colors.blue.shade50 : null,
       child: Padding(
         padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Existing badge
+            if (row.isExisting)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'EXISTS (Qty: ${row.existingQty ?? 0})',
+                  style: GoogleFonts.inter(
+                    fontSize: 9,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            const SizedBox(height: 4),
             // Equipment info
             Text(
               row.name,
@@ -420,23 +522,33 @@ class _EquipmentImportPreviewDialogState
             ),
             const SizedBox(height: 3),
             Text(
-              'Qty: ${row.quantity}',
-              style: GoogleFonts.inter(fontSize: 10),
+              row.isExisting
+                  ? 'Add Qty: ${row.quantity} (Total: ${(row.existingQty ?? 0) + row.quantity})'
+                  : 'Qty: ${row.quantity}',
+              style: GoogleFonts.inter(
+                fontSize: 10,
+                fontWeight: row.isExisting
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+                color: row.isExisting ? Colors.blue.shade700 : null,
+              ),
             ),
             const SizedBox(height: 6),
 
             // Category dropdown or QR code
             if (!_showQrCodes)
               DropdownButtonFormField<int>(
-                initialValue: row.categoryId,
+                value: row.categoryId,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context)!.category,
                   border: const OutlineInputBorder(),
                   isDense: true,
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 8,
                     vertical: 8,
                   ),
+                  filled: row.isExisting,
+                  fillColor: row.isExisting ? Colors.blue.shade100 : null,
                 ),
                 style: GoogleFonts.inter(fontSize: 12),
                 items: _categories.map((cat) {
@@ -448,16 +560,18 @@ class _EquipmentImportPreviewDialogState
                     ),
                   );
                 }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    row.categoryId = value;
-                    row.categoryName = _categories
-                        .firstWhere((c) => c.id == value)
-                        .name;
-                  });
-                },
+                onChanged: row.isExisting
+                    ? null // Disable for existing equipment
+                    : (value) {
+                        setState(() {
+                          row.categoryId = value;
+                          row.categoryName = _categories
+                              .firstWhere((c) => c.id == value)
+                              .name;
+                        });
+                      },
               )
-            else
+            else if (!row.isExisting)
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -498,6 +612,19 @@ class _EquipmentImportPreviewDialogState
                     ),
                   ],
                 ),
+              )
+            else
+              // For existing equipment in QR view
+              Center(
+                child: Text(
+                  'Will update quantity only',
+                  style: GoogleFonts.inter(
+                    fontSize: 11,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.blue.shade700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
           ],
         ),
@@ -537,7 +664,11 @@ class _EquipmentImportPreviewDialogState
                     ),
                   )
                 : const Icon(Icons.save),
-            label: Text(_importing ? AppLocalizations.of(context)!.saving : AppLocalizations.of(context)!.save),
+            label: Text(
+              _importing
+                  ? AppLocalizations.of(context)!.saving
+                  : AppLocalizations.of(context)!.save,
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
