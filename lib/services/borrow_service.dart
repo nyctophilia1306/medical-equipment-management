@@ -511,11 +511,15 @@ class BorrowService {
   // Simple user search
   Future<List<Map<String, dynamic>>> findUsers(String q) async {
     try {
+      Logger.info('Searching users with query: $q');
       final resp = await _supabase
           .from('users')
           .select('user_id, user_name, full_name, phone, dob, gender, email')
-          .or('full_name.ilike.%$q%,user_name.ilike.%$q%,phone.ilike.%$q%')
+          .or(
+            'full_name.ilike.%$q%,user_name.ilike.%$q%,phone.ilike.%$q%,email.ilike.%$q%',
+          )
           .limit(20);
+      Logger.info('Found ${resp.length} users');
       return List<Map<String, dynamic>>.from(resp);
     } catch (e) {
       Logger.error('User search failed: $e');

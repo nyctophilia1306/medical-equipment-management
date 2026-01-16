@@ -8,6 +8,7 @@ import '../../constants/constants.dart';
 import '../../models/equipment.dart';
 import '../../services/borrow_service.dart';
 import '../../services/data_service.dart';
+import '../../utils/logger.dart';
 import '../../widgets/equipment_card.dart';
 import '../../widgets/continuous_scan_popup.dart';
 import '../../l10n/app_localizations.dart';
@@ -734,25 +735,35 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                   return;
                 }
 
+                // Show dropdown immediately while searching
+                setState(() {
+                  _showUserDropdown = true;
+                });
+
                 // Search users in real-time
                 try {
                   final results = await _borrowService.findUsers(value);
-                  setState(() {
-                    _userSearchResults = results;
-                    _showUserDropdown = results.isNotEmpty;
-                  });
+                  if (mounted) {
+                    setState(() {
+                      _userSearchResults = results;
+                      // Keep dropdown visible even if no results (to show "no results" message)
+                      _showUserDropdown = true;
+                    });
+                  }
                 } catch (e) {
-                  // Handle error silently or show a message
-                  setState(() {
-                    _userSearchResults.clear();
-                    _showUserDropdown = false;
-                  });
+                  Logger.error('User search error: $e');
+                  if (mounted) {
+                    setState(() {
+                      _userSearchResults.clear();
+                      _showUserDropdown = false;
+                    });
+                  }
                 }
               },
             ),
 
             // Dropdown results
-            if (_showUserDropdown && _userSearchResults.isNotEmpty)
+            if (_showUserDropdown)
               Positioned(
                 top: 60,
                 left: 0,
@@ -767,56 +778,71 @@ class _BorrowManagementScreenState extends State<BorrowManagementScreen>
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(color: Colors.grey.shade300),
                     ),
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      itemCount: _userSearchResults.length,
-                      itemBuilder: (context, index) {
-                        final user = _userSearchResults[index];
-                        final displayName =
-                            user['full_name'] ?? user['user_name'] ?? 'Unknown';
-                        final userInitial = displayName.isNotEmpty
-                            ? displayName[0].toUpperCase()
-                            : 'U';
-
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.blue.shade100,
+                    child: _userSearchResults.isEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(16),
                             child: Text(
-                              userInitial,
-                              style: const TextStyle(color: Colors.blue),
+                              'No users found',
+                              style: TextStyle(color: Colors.grey.shade600),
+                              textAlign: TextAlign.center,
                             ),
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            itemCount: _userSearchResults.length,
+                            itemBuilder: (context, index) {
+                              final user = _userSearchResults[index];
+                              final displayName =
+                                  user['full_name'] ??
+                                  user['user_name'] ??
+                                  'Unknown';
+                              final userInitial = displayName.isNotEmpty
+                                  ? displayName[0].toUpperCase()
+                                  : 'U';
+
+                              return ListTile(
+                                leading: CircleAvatar(
+                                  backgroundColor: Colors.blue.shade100,
+                                  child: Text(
+                                    userInitial,
+                                    style: const TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                                title: Text(
+                                  displayName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  user['phone'] ??
+                                      user['email'] ??
+                                      'No contact info',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    _selectedExistingUserName = displayName;
+                                    _selectedExistingUserId = user['user_id'];
+                                    _userSearchController.text = displayName;
+                                    _fullNameController.text =
+                                        user['full_name'] ?? '';
+                                    _phoneController.text = user['phone'] ?? '';
+                                    _emailController.text = user['email'] ?? '';
+                                    if (user['dob'] != null) {
+                                      _userDob = DateTime.parse(user['dob']);
+                                    }
+                                    _selectedGender = user['gender'];
+                                    _showUserDropdown = false;
+                                  });
+                                },
+                              );
+                            },
                           ),
-                          title: Text(
-                            displayName,
-                            style: const TextStyle(fontWeight: FontWeight.w600),
-                          ),
-                          subtitle: Text(
-                            user['phone'] ?? user['email'] ?? 'No contact info',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade600,
-                            ),
-                          ),
-                          onTap: () {
-                            setState(() {
-                              _selectedExistingUserName = displayName;
-                              _selectedExistingUserId = user['user_id'];
-                              _userSearchController.text = displayName;
-                              _fullNameController.text =
-                                  user['full_name'] ?? '';
-                              _phoneController.text = user['phone'] ?? '';
-                              _emailController.text = user['email'] ?? '';
-                              if (user['dob'] != null) {
-                                _userDob = DateTime.parse(user['dob']);
-                              }
-                              _selectedGender = user['gender'];
-                              _showUserDropdown = false;
-                            });
-                          },
-                        );
-                      },
-                    ),
                   ),
                 ),
               ),
